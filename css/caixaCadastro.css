@@ -1,0 +1,113 @@
+:root {
+    --input: #E5E8EB;
+    --AzulCarinho: #E6F2FF;     
+    --Botões: #5A799A;
+    --Verde: #4CAF50;
+    --Cinza: #6c6b6b;
+    --CinzaClarinho: #ab9c9c;
+    --Laranja: #FF9800;
+    --LaranjaHover: #ec9108;
+    --LinksHover: #40005C;
+    --Links: #40005ca8;
+    --gradiente: linear-gradient(#CFE2F8, #5A799A);
+    --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
+    --background: rgba(51, 51, 190, 0.846);
+    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+}
+
+/* TODO: estilização do formulário de cadastro */
+.cadastrar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    height: 600px;
+    align-items: center;
+}
+
+.cadastrar p {
+    text-align: start;
+    font-size: 1em;
+    color: #454343;
+    width: 100%;
+}
+
+.cadastro {
+    background-color: var(--EfeitoVidro);
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.cadastro .colunas,.animais{
+    display: flex;
+    gap: 2rem;
+}
+
+.coluna {
+    display: flex;
+    flex-direction: column;
+}
+
+/* TODO: estilizando os input */
+input, select{
+    width: 250px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 2rem;
+    color: #000;
+}
+
+select, input:focus {
+    outline: none;
+}
+
+/* TODO: estilizando o tipo */
+.AnimalTipo {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 20px;
+    gap: 5px;
+    margin-top: .6rem;
+}
+
+.AnimalTipo label {
+    margin-bottom: 1.5rem;
+    color: var(--Cinza);
+}
+
+.tipo {
+    width: 18px;
+    height: 18px;
+}
+
+/* .peso {
+    margin-top: 1.8rem;
+}
+ */
+/* TODO: estilização dos botôes */
+.botoes {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    background-color: var(--Laranja);
+    font-size: 1em;
+    width: 100px;
+    height: 50px;
+}
+
+button:hover {
+    background-color: var(--LaranjaHover);
+}
+
+.voltar {
+    background-color: var(--CinzaClarinho);
+}
+
+.voltar:hover {
+    background-color: var(--Cinza);
+}

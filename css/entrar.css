@@ -1,0 +1,63 @@
+:root {
+    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+    --Laranja: #e09e3a;
+    --LaranjaHover: #ec9108;
+}
+
+.entrar {
+    display: flex;
+    justify-content: space-around;
+    width: 100vw;
+}
+
+.instrucoes {
+    font-size: .8rem;
+    width: 550px;
+}
+
+.instrucoes p {
+    text-align: justify;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--EfeitoVidro);
+    border-radius: 20px;
+    width: 400px;
+}
+
+.form p {
+    display: none;
+}
+
+.form .alert {
+    display: flex;
+    font-size: .8em;
+    color: red;
+    margin-left: 4.2rem;
+}
+
+input {
+    width: 250px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 2rem;
+    color: #000;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+    background-color: var(--Laranja);
+    font-size: 1.2em;
+}
+
+button:hover {
+    background-color: var(--LaranjaHover);
+}

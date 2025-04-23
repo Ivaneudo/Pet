@@ -1,0 +1,143 @@
+:root {
+    --input: #E5E8EB;
+    --AzulCarinho: #E6F2FF;     
+    --Botões: #5A799A;
+    --Verde: #4CAF50;
+    --Cinza: #6c6b6b;
+    --CinzaClarinho: #cecece;
+    --Laranja: #FF9800;
+    --LaranjaHover: #ec9108;
+    --LinksHover: #40005C;
+    --gradiente: linear-gradient(#CFE2F8, #5A799A);
+    --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
+    --background: rgba(51, 51, 190, 0.846);
+    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+}
+
+.produtos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+/* TODO: estilização do campo de pesquisa */
+.bloco {
+    padding: 2rem;
+    width: 600px;
+    background-color: var(--EfeitoVidro);
+    border-radius: 20px;
+}
+
+.campo {
+    background-color: #fff;
+    align-items: center;
+    width: 230px;
+    height: 25px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.Escondido {
+    background-color: #fff;
+    align-items: center;
+    width: 230px;
+    height: 25px;
+    border-radius: 20px;
+    position: relative;
+    display: none;
+}
+
+.Aparece {
+    background-color: #fff;
+    align-items: center;
+    width: 230px;
+    height: 25px;
+    border-radius: 20px;
+    position: relative;
+    display: block;
+}
+
+
+#Cpf {
+    margin-top: 1rem;
+    margin-left: 23rem;
+}
+
+.campo img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 2px;
+}
+
+.Aparece input, .campo input {
+    background-color: transparent;
+    border: none;
+    margin-top: 5px;
+    margin-left: -20px;
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+.Aparece input,.campo input:focus {
+    outline: none;
+}
+
+/* TODO: estilizando a tabela */
+table {
+    padding: 4rem;
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+.excluir {
+    color: red;
+    cursor: pointer;
+}
+
+table .final {
+    /* margin-top: 0; */
+    border-top: none;
+}
+
+.valor {
+    flex: 1;
+}
+
+/* TODO: CPF */
+
+
+/* TODO: estilização dos botôes */
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+button {
+    background-color: var(--Laranja);
+    font-size: 1em;
+    width: 100px;
+    height: 50px;
+}
+
+button:hover {
+    background-color: var(--LaranjaHover);
+}
+
+.voltar {
+    background-color: var(--CinzaClarinho);
+    width: 150px;
+}
+
+.voltar:hover {
+    background-color: var(--Cinza);
+}

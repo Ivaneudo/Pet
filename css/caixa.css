@@ -1,0 +1,80 @@
+:root {
+    --input: #E5E8EB;
+    --AzulCarinho: #E6F2FF;     
+    --Botões: #5A799A;
+    --Verde: #4CAF50;
+    --Cinza: #6c6b6b;
+    --CinzaClarinho: #cecece;
+    --Laranja: #FF9800;
+    --LinksHover: #40005C;
+    --Links: #40005ca8;
+    --gradiente: linear-gradient(#CFE2F8, #5A799A);
+    --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
+    --background: rgba(51, 51, 190, 0.846);
+}
+
+.container {
+    display: block;
+}
+
+/* TODO: estilização da borra de apresentação */
+.funcionario {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100vw;
+    font-size: .5em;
+    gap: 55rem;
+    border-bottom: 1px solid #000;
+}
+
+.funcionario .funci {
+    display: flex;
+}
+
+.funci img {
+    width: 50px;
+    height: 50px;
+    margin: 0 1rem .2rem 0;
+}
+
+#colaborador {
+    font-weight: bold;
+}
+
+/* TODO: estilizando a navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+.navbar nav {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul {
+    display: flex;
+    gap: 4rem;
+    list-style: none;
+}
+
+ul {
+    padding-inline-start: 0;
+}
+
+.navbar ul a {
+    text-decoration: none;
+    color: #fff;
+    transition: .5s;
+}
+
+.navbar ul a:hover {
+    color: var(--LinksHover);
+}
+
+.navbar ul a #selecionado {
+    color: var(--LinksHover);
+}

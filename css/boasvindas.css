@@ -1,0 +1,29 @@
+:root {
+    --Laranja: #e09e3a;
+    --LaranjaHover: #ec9108;
+}
+
+.bemvindo {
+    width: 450px;
+}
+
+img {
+    margin: 0;
+    width: 200px;
+    height: 200px;
+}
+
+.bemvindo h1 {
+    margin: 1rem;
+    font-size: 1.6em;
+    text-align: ju  ;
+}
+
+button {
+    background-color: var(--Laranja);
+    font-size: 1.2em;
+}
+
+button:hover {
+    background-color: var(--LaranjaHover);
+}
