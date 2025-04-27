@@ -1,0 +1,241 @@
+:root {
+    --input: #E5E8EB;
+    --AzulCarinho: #E6F2FF;     
+    --Botões: #5A799A;
+    --Verde: #4CAF50;
+    --Cinza: #6c6b6b;
+    --CinzaClarinho: #ab9c9c;
+    --Laranja: #FF9800;
+    --LaranjaHover: #ec9108;
+    --LinksHover: #40005C;
+    --Links: #40005ca8;
+    --gradiente: linear-gradient(#CFE2F8, #5A799A);
+    --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
+    --background: rgba(51, 51, 190, 0.846);
+    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+}
+
+.container {
+    display: block;
+}
+
+/* TODO: estilização da borra de apresentação */
+.funcionario {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100vw;
+    font-size: .5em;
+    gap: 55rem;
+    border-bottom: 1px solid #000;
+}
+
+.funcionario .funci {
+    display: flex;
+}
+
+.funci img {
+    width: 50px;
+    height: 50px;
+    margin: 0 1rem .2rem 0;
+}
+
+#colaborador {
+    font-weight: bold;
+}
+
+/* TODO: estilizando a navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+.navbar nav {
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul {
+    display: flex;
+    gap: 4rem;
+    list-style: none;
+}
+
+ul {
+    padding-inline-start: 0;
+}
+
+.navbar ul a {
+    text-decoration: none;
+    color: #fff;
+    transition: .5s;
+}
+
+.navbar ul a:hover {
+    color: var(--LinksHover);
+}
+
+.navbar ul a #selecionado {
+    color: var(--LinksHover);
+}
+
+/* TODO: estilo do estoque */
+.estoque {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    align-items: center;
+}
+
+.esto {
+    background-color: var(--EfeitoVidro);
+    width: 550px;
+    padding: 1rem;
+    border-radius: 13px;
+}
+
+.campo {
+    background-color: #fff;
+    align-items: center;
+    width: 230px;
+    height: 25px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.campo img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 2px;
+    left: 12.5rem;
+}
+
+.campo input {
+    background-color: transparent;
+    border: none;
+    width: 200px;
+    height: 20px;
+    margin-top: 5px;
+    margin-left: 8px;
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+.campo input:focus {
+    outline: none;
+}
+
+table {
+    margin-top: 1rem;
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%;
+}
+
+table td, th{
+    border: 1px solid black;
+}
+
+/* TODO: estilização do formulário de cadastro */
+.cadastrar {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 600px;
+    align-items: center;
+}
+
+.cadastrar p {
+    text-align: start;
+    font-size: 1em;
+    color: #454343;
+    width: 100%;
+}
+
+.cadastro {
+    background-color: var(--EfeitoVidro);
+    padding: 2rem;
+    border-radius: 20px;
+}
+
+.cadastro .colunas,.animais{
+    display: flex;
+    gap: 2rem;
+}
+
+.coluna {
+    display: flex;
+    flex-direction: column;
+}
+
+/* TODO: estilizando os input */
+input, select{
+    width: 250px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-bottom: 2rem;
+    color: #000;
+}
+
+select, input:focus {
+    outline: none;
+}
+
+/* TODO: estilizando o tipo */
+.AnimalTipo {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 20px;
+    gap: 5px;
+    margin-top: .6rem;
+}
+
+.AnimalTipo label {
+    margin-bottom: 1.5rem;
+    color: var(--Cinza);
+}
+
+.tipo {
+    width: 18px;
+    height: 18px;
+}
+
+/* .peso {
+    margin-top: 1.8rem;
+}
+ */
+/* TODO: estilização dos botôes */
+.botoes {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    background-color: var(--Laranja);
+    font-size: 1em;
+    width: 100px;
+    height: 50px;
+}
+
+button img {
+    width: 25px;
+    width: 25px;
+}
+
+button:hover {
+    background-color: var(--LaranjaHover);
+}
+
+.voltar {
+    background-color: var(--CinzaClarinho);
+}
+
+.voltar:hover {
+    background-color: var(--Cinza);
+}

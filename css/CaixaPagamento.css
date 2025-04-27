@@ -73,6 +73,10 @@ input:focus, select:focus {
     outline: none;
 }
 
+input::placeholder {
+    color: black;
+}
+
 .PrimLin, .SecundLin {
     width: 250px;
 }

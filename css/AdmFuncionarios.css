@@ -1,0 +1,16 @@
+table td img {
+    width: 20px;
+    height: 20px;
+}
+
+.demitir {
+    cursor: pointer;
+}
+
+.ver {
+    cursor: pointer;
+}
+
+#novo {
+    width: 120px;
+}

@@ -78,3 +78,7 @@ ul {
 .navbar ul a #selecionado {
     color: var(--LinksHover);
 }
+
+input::placeholder {
+    color: black;
+}

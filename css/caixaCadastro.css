@@ -83,10 +83,6 @@ select, input:focus {
     height: 18px;
 }
 
-/* .peso {
-    margin-top: 1.8rem;
-}
- */
 /* TODO: estilização dos botôes */
 .botoes {
     display: flex;
