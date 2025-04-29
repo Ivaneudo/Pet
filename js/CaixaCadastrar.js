@@ -1,6 +1,7 @@
 const voltar = document.querySelector('#volt');
 const novo = document.querySelector('#novo');
 const cadastrar = document.querySelector('#cade');
+const voltarAdm = document.querySelector('#voltarAdm');
 
 voltar.addEventListener('click', (e) => {
     e.preventDefault();
@@ -18,4 +19,10 @@ novo.addEventListener('click', (e) => {
     e.preventDefault();
 
     // ! não sei o que fazer, coloquei só para evitar o envio do fomr mesmo. Acho que esse trabalho é com o back 
+});
+
+voltarAdm.addEventListener("click", () => {
+    // e.preventDefault()
+    console.log('voltar adm')
+    window.location.href = 'Adm.php'
 });
