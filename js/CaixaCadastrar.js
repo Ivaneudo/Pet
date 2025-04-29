@@ -11,7 +11,7 @@ voltar.addEventListener('click', (e) => {
 cadastrar.addEventListener('click', (e) => {
     e.preventDefault();
 
-    location.href = 'Caixa.html';
+    location.href = 'Caixa.php';
 });
 
 novo.addEventListener('click', (e) => {

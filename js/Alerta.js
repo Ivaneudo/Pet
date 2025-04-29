@@ -14,6 +14,6 @@ enviar.addEventListener('click', (e) => {
         p.classList.add('alert')
         p.textContent = 'CPF ou SENHA incorretos.'
     } else {
-        location.href = '../caixa/Caixa.html'
+        location.href = '../caixa/Caixa.php'
     }
 })

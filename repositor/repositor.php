@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+// Verifica se o usuário é um administrador
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+    exit();
+}
+
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -15,18 +28,18 @@
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador">[nome do funcionário]</span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <p>sair</p>
+                <a href="../entrada/logout.php"><p>sair</p></a> <!-- logout -->
             </div>
         </div>
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="repositorEstoque.html">Estoque</a></li>
-                    <li><a href="repositorCadastrar.html">Cadastrar Produto</a></li>
-                    <li><a href="repositorExcluir.html">Excluir Produto</a></li>
+                    <li><a href="repositorEstoque.php">Estoque</a></li>
+                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
+                    <li><a href="repositorExcluir.php">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>

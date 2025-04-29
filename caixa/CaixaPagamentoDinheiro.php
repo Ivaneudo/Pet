@@ -25,9 +25,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="CaixaCadastrar.html">Cadastrar</a></li>
-                    <li><a href="CaixaProdutos.html">Produtos</a></li>
-                    <li><a href="CaixaServiços.html">Serviço</a></li>
+                    <li><a href="CaixaCadastrar.php">Cadastrar</a></li>
+                    <li><a href="CaixaProdutos.php">Produtos</a></li>
+                    <li><a href="CaixaServiços.php">Serviço</a></li>
                 </ul>
             </nav>
         </div>
@@ -35,7 +35,7 @@
             <div class="pag">
                 <div class="CardDin">
                     <nav>
-                        <a href="CaixaPagamento.html">Cartão</a>
+                        <a href="CaixaPagamento.php">Cartão</a>
                         <a href="#" id="selec">Dinheiro</a>
                     </nav>
                 </div>

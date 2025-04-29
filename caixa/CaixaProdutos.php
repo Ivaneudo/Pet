@@ -29,9 +29,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="CaixaCadastrar.html">Cadastrar</a></li>
-                    <li><a href="CaixaProdutos.html" id="selecionado">Produtos</a></li>
-                    <li><a href="CaixaServiços.html">Serviço</a></li>
+                    <li><a href="CaixaCadastrar.php">Cadastrar</a></li>
+                    <li><a href="CaixaProdutos.php" id="selecionado">Produtos</a></li>
+                    <li><a href="CaixaServiços.php">Serviço</a></li>
                 </ul>
             </nav>
         </div>

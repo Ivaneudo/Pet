@@ -91,3 +91,20 @@ ADD FOREIGN KEY (id_produto) REFERENCES produto(id_produto);
 
 ALTER TABLE pet
 CHANGE especie especie ENUM('gato', 'cachorro') NOT NULL;
+
+ALTER TABLE admnistrador RENAME TO adm;
+
+INSERT INTO adm(nome, cpf, telefone, email, senha) VALUES
+('Maria', '123.456.789-10', '(85) 4002-8922', 'maria@gmail.com', '123');
+
+INSERT INTO repositor(nome, cpf, telefone, email, senha) VALUES
+('Joao', '111.222.333-44', '(85) 1111-2222', 'joao@gmail.com', '1234');
+
+INSERT INTO caixa(nome, cpf, telefone, email, senha) VALUES
+('Pedro', '555.666.777-88', '(85) 3333-4444', 'pedro@gmail.com', '12345');
+
+INSERT INTO cliente(nome, cpf, senha) VALUES
+('Ivaneudo', '123.321.132-12', '789');
+
+INSERT INTO cliente(nome, cpf, senha) VALUES
+('Ananda', '124.421.142-12', '987');

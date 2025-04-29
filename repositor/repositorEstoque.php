@@ -25,8 +25,8 @@
             <nav>
                 <ul>
                     <li><a href="#">Estoque</a></li>
-                    <li><a href="repositorCadastrar.html">Cadastrar Produto</a></li>
-                    <li><a href="repositorExcluir.html">Excluir Produto</a></li>
+                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
+                    <li><a href="repositorExcluir.php">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>

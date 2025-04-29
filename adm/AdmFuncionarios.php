@@ -25,9 +25,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmNovoFuncionario.html">Novo funcionario</a></li>
-                    <li><a href="AdmFuncionarios.html">Funcionarios</a></li>
-                    <li><a href="AdmClientes.html">Clientes</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Novo funcionario</a></li>
+                    <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
+                    <li><a href="AdmClientes.php">Clientes</a></li>
                 </ul>
             </nav>
         </div>
@@ -47,13 +47,15 @@
                             <tr>
                                 <th>CPF</th>
                                 <th>Nome</th>
-                                <th>Remover</th>
+                                <th>Cargo</th>
+                                <th>Demitir</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>000.000.000-00</td>
-                                <td class="ver">Ivaneudo Carvalho Rocha</td>
+                                <td>Ivaneudo Carvalho Rocha</td>
+                                <td>Desenvolvedor Front-end</td>
                                 <td class="demitir"><img src="../img/lata-de-lixo.png" alt=""></td>
                             </tr>
                         </tbody>

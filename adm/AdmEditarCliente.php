@@ -10,10 +10,9 @@
      <link rel="stylesheet" href="../css/principal.css">
      <link rel="stylesheet" href="../css/caixa.css">
      <link rel="stylesheet" href="../css/caixaCadastro.css">
+     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
     <!-- TODO: link da mascara -->
      <script src="../js/mascara.js" defer></script>
-    <!-- TODO: link do js -->
-     <script src="../js/CaixaCadastrar.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -30,9 +29,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="CaixaCadastrar.html" id="selecionado">Cadastrar</a></li>
-                    <li><a href="CaixaProdutos.html">Produtos</a></li>
-                    <li><a href="CaixaServiços.html">Serviço</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Novo funcionario</a></li>
+                    <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
+                    <li><a href="AdmClientes.php">Clientes</a></li>
                 </ul>
             </nav>
         </div>
@@ -185,8 +184,8 @@
                             <button class="voltar" id="volt">Voltar</button>
                         </div>
                         <div>
-                            <button id="novo">Novo Pet</button>
-                            <button id="cade">Cadastrar</button>
+                            <button id="novo">Proxímo Pet</button>
+                            <button id="cade">Modificar</button>
                         </div>
                     </div>
 

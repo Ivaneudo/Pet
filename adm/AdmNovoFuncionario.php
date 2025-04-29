@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caixa</title>
-    <!-- TODO: link do ico -->
+    <title>Caixa Cadastro de Clientes</title>
+    <!-- TODO: link do icon -->
      <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <!-- TODO: link do css -->
      <link rel="stylesheet" href="../css/principal.css">
-     <link rel="stylesheet" href="../css/repositor.css">
+     <link rel="stylesheet" href="../css/caixa.css">
+     <link rel="stylesheet" href="../css/caixaCadastro.css">
+    <!-- TODO: link da mascara -->
+     <script src="../js/mascara.js" defer></script>
+    <!-- TODO: link do js -->
+     <script src="../js/CaixaCadastrar.js" defer></script>
 </head>
 <body>
     <div class="container">
+
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
@@ -24,12 +30,13 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="repositorEstoque.html" id="selecionado">Estoque</a></li>
-                    <li><a href="#">Cadastrar Produto</a></li>
-                    <li><a href="repositorExcluir.html">Excluir Produto</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Novo funcionario</a></li>
+                    <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
+                    <li><a href="#">Clientes</a></li>
                 </ul>
             </nav>
         </div>
+
         <div class="cadastrar">
             <div class="cadastro">
 
@@ -37,18 +44,23 @@
                 <form action="">
 
                     <div class="cliente">
-                        <p>Cadastrar Produtos:</p>
+                        <p>Novo Funcionário:</p>
                         <div class="colunas">
                             <div class="coluna">
                                 <input
                                 type="text"
-                                name="codigo"
+                                name="nome"
                                 class="NomeCliente"
-                                placeholder="Codigo: ">
+                                placeholder="Digite o nome do Funcinário: ">
                                 <input
                                 type="text"
                                 id="cpf"
-                                placeholder="Preço">
+                                maxlength="14"
+                                placeholder="Digite o cpf do Funcionário: ">
+                                <input
+                                type="password"
+                                id="senha"
+                                placeholder="Digite a senha do Funcionário: ">
                             </div>
                         
                             <div class="coluna">
@@ -56,12 +68,20 @@
                                 type="text"
                                 name="Telefone"
                                 class="Telefone"
-                                placeholder="Nome do produto">
+                                maxlength="14"
+                                placeholder="Digite o telefone do Funcionário">
                                 <input
-                                type="text"
-                                name="estoque"
+                                type="email"
+                                name="email"
                                 class="Email"
-                                placeholder="Estoque">
+                                placeholder="Digite o e-mail do Funcinário: ">
+
+                                <select name="" id="">
+                                    <option value="" disabled selected>Cargo do Funcinário</option>
+                                    <option value="caixa" >Caixa</option>
+                                    <option value="repositor" >Repositor</option>
+                                    <option value="adm" >Administrador</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -71,13 +91,14 @@
                             <button class="voltar" id="volt">Voltar</button>
                         </div>
                         <div>
-                            <button id="cade">Modificar</button>
                             <button id="cade">Cadastrar</button>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
+
     </div>
 </body>
 </html>

@@ -24,9 +24,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="repositorEstoque.html" id="selecionado">Estoque</a></li>
-                    <li><a href="repositorCadastrar.html">Cadastrar Produto</a></li>
-                    <li><a href="#">Excluir Produto</a></li>
+                    <li><a href="repositorEstoque.php" id="selecionado">Estoque</a></li>
+                    <li><a href="#">Cadastrar Produto</a></li>
+                    <li><a href="repositorExcluir.php">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>
@@ -37,7 +37,7 @@
                 <form action="">
 
                     <div class="cliente">
-                        <p>Excluir Produtos:</p>
+                        <p>Cadastrar Produtos:</p>
                         <div class="colunas">
                             <div class="coluna">
                                 <input
@@ -71,9 +71,8 @@
                             <button class="voltar" id="volt">Voltar</button>
                         </div>
                         <div>
-                            <button id="cade">
-                                <img src="../img/lata-de-lixo.png" alt="">
-                            </button>
+                            <button id="cade">Modificar</button>
+                            <button id="cade">Cadastrar</button>
                         </div>
                     </div>
                 </form>

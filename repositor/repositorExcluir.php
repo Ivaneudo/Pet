@@ -3,21 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caixa Cadastro de Clientes</title>
-    <!-- TODO: link do icon -->
+    <title>Caixa</title>
+    <!-- TODO: link do ico -->
      <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <!-- TODO: link do css -->
      <link rel="stylesheet" href="../css/principal.css">
-     <link rel="stylesheet" href="../css/caixa.css">
-     <link rel="stylesheet" href="../css/caixaCadastro.css">
-    <!-- TODO: link da mascara -->
-     <script src="../js/mascara.js" defer></script>
-    <!-- TODO: link do js -->
-     <script src="../js/CaixaCadastrar.js" defer></script>
+     <link rel="stylesheet" href="../css/repositor.css">
 </head>
 <body>
     <div class="container">
-
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
@@ -30,13 +24,12 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmNovoFuncionario.html">Novo funcionario</a></li>
-                    <li><a href="AdmFuncionarios.html">Funcionarios</a></li>
-                    <li><a href="#">Clientes</a></li>
+                    <li><a href="repositorEstoque.php" id="selecionado">Estoque</a></li>
+                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
+                    <li><a href="#">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>
-
         <div class="cadastrar">
             <div class="cadastro">
 
@@ -44,23 +37,18 @@
                 <form action="">
 
                     <div class="cliente">
-                        <p>Novo Funcionário:</p>
+                        <p>Excluir Produtos:</p>
                         <div class="colunas">
                             <div class="coluna">
                                 <input
                                 type="text"
-                                name="nome"
+                                name="codigo"
                                 class="NomeCliente"
-                                placeholder="Digite o nome do Funcinário: ">
+                                placeholder="Codigo: ">
                                 <input
                                 type="text"
                                 id="cpf"
-                                maxlength="14"
-                                placeholder="Digite o cpf do Funcionário: ">
-                                <input
-                                type="password"
-                                id="senha"
-                                placeholder="Digite a senha do Funcionário: ">
+                                placeholder="Preço">
                             </div>
                         
                             <div class="coluna">
@@ -68,20 +56,12 @@
                                 type="text"
                                 name="Telefone"
                                 class="Telefone"
-                                maxlength="14"
-                                placeholder="Digite o telefone do Funcionário">
+                                placeholder="Nome do produto">
                                 <input
-                                type="email"
-                                name="email"
+                                type="text"
+                                name="estoque"
                                 class="Email"
-                                placeholder="Digite o e-mail do Funcinário: ">
-
-                                <select name="" id="">
-                                    <option value="" disabled selected>Cargo do Funcinário</option>
-                                    <option value="caixa" >Caixa</option>
-                                    <option value="repositor" >Repositor</option>
-                                    <option value="adm" >Administrador</option>
-                                </select>
+                                placeholder="Estoque">
                             </div>
                         </div>
                     </div>
@@ -91,14 +71,14 @@
                             <button class="voltar" id="volt">Voltar</button>
                         </div>
                         <div>
-                            <button id="cade">Cadastrar</button>
+                            <button id="cade">
+                                <img src="../img/lata-de-lixo.png" alt="">
+                            </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
-
     </div>
 </body>
 </html>
