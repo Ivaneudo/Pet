@@ -11,9 +11,24 @@ if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') 
 // Captura o nome do funcionário da sessão
 $nomeFuncionario = $_SESSION['usuario'];
 
-// Consulta para Obter Clientes
-$sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
-$result = $conn->query($sql);
+// Inicializa a variável para armazenar o CPF pesquisado
+$cpfPesquisado = '';
+
+// Verifica se o CPF foi passado via POST
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
+    $cpfPesquisado = trim($_POST['cpf']); // Captura o CPF do formulário
+
+    // Prepara a consulta para buscar o cliente pelo CPF
+    $sql = "SELECT cpf, nome FROM cliente WHERE cpf = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $cpfPesquisado); // "s" indica que o parâmetro é uma string
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // Consulta para obter todos os clientes se não houver pesquisa
+    $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
+    $result = $conn->query($sql);
+}
 
 // Verifica se a consulta foi bem-sucedida
 if ($result === false) {
@@ -27,10 +42,11 @@ if ($result === false) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caixa</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
+    <script src="../js/mascara.js" defer></script>
     <script src="../js/confirmExclusao.js" defer></script>
 </head>
 <body>
@@ -55,14 +71,21 @@ if ($result === false) {
         </div>
         <div class="estoque">
             <div class="esto">
-                <div class="pesquisa">
-                    <div class="campo">
-                        <input
-                        type="text"
-                        placeholder="Digite o cpf do cliente: ">
-                        <img src="../img/search-svgrepo-com.svg" alt="">
+                <form method="POST" action="">
+                    <div class="pesquisa">
+                        <div class="campo">
+                            <input
+                            type="text"
+                            name="cpf"
+                            id="cpf"
+                            placeholder="Digite o cpf do cliente: "
+                            value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                            <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                <img src="../img/search-svgrepo-com.svg" alt="">
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="produtos">
                     <table>
                         <thead>
@@ -79,7 +102,7 @@ if ($result === false) {
                                         <td><?php echo htmlspecialchars($row['cpf']); ?></td>
                                         <td class="ver"><?php echo htmlspecialchars($row['nome']); ?></td>
                                         <td class="demitir">
-                                            <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>')">
+                                        <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>')">
                                                 <img src="../img/lata-de-lixo.png" alt="Remover">
                                             </a>
                                         </td>
@@ -87,7 +110,7 @@ if ($result === false) {
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="3">Nenhum cliente cadastrado.</td>
+                                    <td colspan="3">Nenhum cliente encontrado.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
