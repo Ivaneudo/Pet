@@ -1,14 +1,14 @@
 <?php
-session_start();
+    session_start();
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'caixa') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for caixa
-    exit();
-}
+    // Verifica se o usuário é um caixa
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'caixa') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +29,7 @@ $nomeFuncionario = $_SESSION['usuario'];
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../entrada/logout.php"><p>sair</p></a> <!-- logout -->
+                <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
         <div class="navbar">

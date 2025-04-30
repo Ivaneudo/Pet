@@ -16,8 +16,9 @@
         <div>
             <div class="bemvindo">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <h1>Tenha um bom dia de trabalho, a Paw Patrol
-                    agradece pelos seus serviços</h1>
+                <h1>Tenha um bom dia de trabalho, agradecemos 
+                    pelos seus serviços
+                </h1>
             </div>
             <div class="logar">
                 <button id="entrar">Entrar</button>

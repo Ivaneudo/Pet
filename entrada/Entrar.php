@@ -1,5 +1,5 @@
 <?php 
-require_once('conexao.php'); // Inclui o arquivo de conexão
+require_once('../funcoes/conexao.php'); // Inclui o arquivo de conexão
 session_start();
 
 error_reporting(E_ALL);
@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/entrar.css">
     <script src="../js/mascara.js" defer></script>
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
 </head>
 <body>
     <div class="container">

@@ -1,9 +1,22 @@
+<?php
+    session_start();
+
+    // Verifica se o usuário é um repositor
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+        exit();
+    }
+
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caixa</title>
+    <title>Produtos</title>
     <!-- TODO: link do ico -->
      <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <!-- TODO: link do css -->
@@ -15,10 +28,10 @@
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador">[nome do funcionário]</span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <p>sair</p>
+                <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
         <div class="navbar">

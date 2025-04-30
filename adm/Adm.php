@@ -18,7 +18,7 @@ $nomeFuncionario = $_SESSION['usuario'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
     <!-- TODO: link do ico -->
-     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <!-- TODO: link do css -->
      <link rel="stylesheet" href="../css/principal.css">
      <link rel="stylesheet" href="../css/caixa.css">
@@ -31,7 +31,7 @@ $nomeFuncionario = $_SESSION['usuario'];
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../entrada/logout.php"><p>sair</p></a> <!-- logout -->
+                <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
         <div class="navbar">

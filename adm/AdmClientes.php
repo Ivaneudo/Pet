@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../entrada/conexao.php');
+include('../funcoes/conexao.php');
 
 // Verifica se o usuário é um administrador
 if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
@@ -12,7 +12,7 @@ if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') 
 $nomeFuncionario = $_SESSION['usuario'];
 
 // Consulta para Obter Clientes
-$sql = "SELECT cpf, nome FROM cliente";
+$sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
 $result = $conn->query($sql);
 
 // Verifica se a consulta foi bem-sucedida
@@ -27,13 +27,11 @@ if ($result === false) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caixa</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
     <script src="../js/confirmExclusao.js" defer></script>
-    <script src="../js/buscarClientes.js"></script>
-    <script src="../js/mascara.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -43,14 +41,14 @@ if ($result === false) {
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../entrada/logout.php"><p>sair</p></a>
+                <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
-                    <li><a href="AdmFuncionarios.php">Funcionários</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Novo funcionario</a></li>
+                    <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
                 </ul>
             </nav>
@@ -61,12 +59,9 @@ if ($result === false) {
                     <div class="campo">
                         <input
                         type="text"
-                        id="cpf"
-                        placeholder="Digite o CPF do cliente: "
-                        onkeyup="buscarCliente()">
+                        placeholder="Digite o cpf do cliente: ">
                         <img src="../img/search-svgrepo-com.svg" alt="">
                     </div>
-                    <div id="resultado-nome"></div> <!-- Exibe o nome do cliente encontrado -->
                 </div>
                 <div class="produtos">
                     <table>
@@ -92,7 +87,7 @@ if ($result === false) {
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="3">Nenhum cliente encontrado.</td>
+                                    <td colspan="3">Nenhum cliente cadastrado.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

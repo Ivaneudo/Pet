@@ -1,52 +1,51 @@
 <?php
-session_start();
-include('../entrada/conexao.php');
+    session_start();
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
-    exit();
-}
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Verifica se o formulário foi enviado
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Captura os dados do formulário
-    $nome = $_POST['nome'];
-    $cpf = $_POST['cpf'];
-    $telefone = $_POST['telefone'];
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-    $cargo = $_POST['cargo'];
-
-    // Prepara a consulta SQL com base no cargo
-    if ($cargo === 'caixa') {
-        $sql = "INSERT INTO caixa (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-    } elseif ($cargo === 'repositor') {
-        $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-    } elseif ($cargo === 'adm') {
-        $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-    } else {
-        // Cargo inválido
-        echo "Cargo inválido.";
+    // Verifica se o usuário é um administrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
         exit();
     }
 
-    // Prepara e executa a consulta
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-    if ($stmt->execute()) {
-        echo "Funcionário cadastrado com sucesso!";
-    } else {
-        echo "Erro ao cadastrar funcionário: " . $stmt->error;
+    // Verifica se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Captura os dados do formulário
+        $nome = $_POST['nome'];
+        $cpf = $_POST['cpf'];
+        $telefone = $_POST['telefone'];
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
+        $cargo = $_POST['cargo'];
+
+        // Prepara a consulta SQL com base no cargo
+        if ($cargo === 'caixa') {
+            $sql = "INSERT INTO caixa (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+        } elseif ($cargo === 'repositor') {
+            $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+        } elseif ($cargo === 'adm') {
+            $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+        } else {
+            // Cargo inválido
+            echo "Cargo inválido.";
+            exit();
+        }
+
+        // Prepara e executa a consulta
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+
+        if ($stmt->execute()) {
+            echo "Funcionário cadastrado com sucesso!";
+        } else {
+            echo "Erro ao cadastrar funcionário: " . $stmt->error;
+        }
+
+        $stmt->close();
+        $conn->close();
     }
-
-    $stmt->close();
-    $conn->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Funcionários</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/caixa.css">
     <link rel="stylesheet" href="../css/caixaCadastro.css">
@@ -69,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../entrada/logout.php"><p>sair</p></a>
+                <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
         <div class="navbar">
