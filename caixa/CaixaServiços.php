@@ -40,9 +40,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="CaixaCadastrar.html" id="selecionado">Cadastrar</a></li>
-                    <li><a href="CaixaProdutos.html">Produtos</a></li>
-                    <li><a href="CaixaServiços.html">Serviço</a></li>
+                    <li><a href="CaixaCadastrar.php" id="selecionado">Cadastrar</a></li>
+                    <li><a href="CaixaProdutos.php">Produtos</a></li>
+                    <li><a href="CaixaServiços.php">Serviço</a></li>
                 </ul>
             </nav>
         </div>

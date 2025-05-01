@@ -92,6 +92,15 @@ ADD FOREIGN KEY (id_produto) REFERENCES produto(id_produto);
 ALTER TABLE pet
 CHANGE especie especie ENUM('gato', 'cachorro') NOT NULL;
 
+ALTER TABLE pet
+ADD id_pet INT PRIMARY KEY AUTO_INCREMENT;
+
+ALTER TABLE pet
+ADD raca VARCHAR(100);
+
+ALTER TABLE pet
+ADD peso DECIMAL(10, 2);
+
 ALTER TABLE admnistrador RENAME TO adm;
 
 INSERT INTO adm(nome, cpf, telefone, email, senha) VALUES
@@ -103,8 +112,23 @@ INSERT INTO repositor(nome, cpf, telefone, email, senha) VALUES
 INSERT INTO caixa(nome, cpf, telefone, email, senha) VALUES
 ('Pedro', '555.666.777-88', '(85) 3333-4444', 'pedro@gmail.com', '12345');
 
+INSERT INTO caixa(nome, cpf, telefone, email, senha) VALUES
+('Antonia', '999.888.777-66', '(85) 5555-6666', 'antonia@gmail.com', '123456');
+
 INSERT INTO cliente(nome, cpf, senha) VALUES
 ('Ivaneudo', '123.321.132-12', '789');
 
 INSERT INTO cliente(nome, cpf, senha) VALUES
 ('Ananda', '124.421.142-12', '987');
+
+UPDATE cliente
+SET email = "ananda@gmail.com"
+WHERE id_cliente = 6;
+
+INSERT INTO pet(nome_pet, idade, especie, cpf_dono) VALUES
+("feioso", 3, "gato", "124.421.142-12");
+
+INSERT INTO pet(nome_pet, idade, especie, cpf_dono) VALUES
+("kelly", 2, "cachorro", "124.421.142-12");
+
+-- select * from pet;

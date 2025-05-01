@@ -1,26 +1,35 @@
 <?php
-    session_start();
+session_start();
+include('../funcoes/conexao.php'); // Inclui a conexão com o banco de dados
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
-        exit();
-    }
+// Verifica se o usuário é um administrador
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+    exit();
+}
 
-    // Captura o nome do funcionário da sessão
-    $nomeFuncionario = $_SESSION['usuario'];
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
 
-    // Verifica se o formulário foi enviado
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Captura os dados do formulário
-        $nome = $_POST['nome'];
-        $cpf = $_POST['cpf'];
-        $telefone = $_POST['telefone'];
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
-        $cargo = $_POST['cargo'];
+// Inicializa variáveis para mensagens
+$mensagemSucesso = '';
+$mensagemErro = '';
 
-        // Prepara a consulta SQL com base no cargo
+// Verifica se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Captura os dados do formulário
+    $nome = trim($_POST['nome']);
+    $cpf = trim($_POST['cpf']);
+    $telefone = trim($_POST['telefone']);
+    $email = trim($_POST['email']);
+    $senha = trim($_POST['senha']);
+    $cargo = $_POST['cargo'];
+
+    // Validações básicas
+    if (empty($nome) || empty($cpf) || empty($telefone) || empty($email) || empty($senha) || empty($cargo)) {
+        $mensagemErro = "Por favor, preencha todos os campos.";
+    } else {
+        // Prepara a consulta de inserção com base no cargo selecionado
         if ($cargo === 'caixa') {
             $sql = "INSERT INTO caixa (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
         } elseif ($cargo === 'repositor') {
@@ -28,94 +37,102 @@
         } elseif ($cargo === 'adm') {
             $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
         } else {
-            // Cargo inválido
-            echo "Cargo inválido.";
-            exit();
+            $mensagemErro = "Cargo inválido.";
         }
 
-        // Prepara e executa a consulta
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
-
-        if ($stmt->execute()) {
-            echo "Funcionário cadastrado com sucesso!";
-        } else {
-            echo "Erro ao cadastrar funcionário: " . $stmt->error;
+        if (empty($mensagemErro)) {
+            // Prepara e executa a consulta
+            $stmt = $conn->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+                if ($stmt->execute()) {
+                    $mensagemSucesso = "Funcionário cadastrado com sucesso.";
+                } else {
+                    $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
+                }
+                $stmt->close();
+            } else {
+                $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+            }
         }
-
-        $stmt->close();
-        $conn->close();
     }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cadastro de Funcionários</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
-    <link rel="stylesheet" href="../css/principal.css">
-    <link rel="stylesheet" href="../css/caixa.css">
-    <link rel="stylesheet" href="../css/caixaCadastro.css">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/principal.css" />
+    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="funcionario">
-            <div class="funci">
-                <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
-            </div>
-            <div class="sair">
-                <a href="../funcoes/logout.php"><p>sair</p></a>
-            </div>
+<div class="container">
+    <div class="funcionario">
+        <div class="funci">
+            <img src="../img/Logo-Pethop-250px.png" alt="" />
+            <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
         </div>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
-                    <li><a href="AdmFuncionarios.php">Funcionários</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
-                </ul>
-            </nav>
-        </div>
-
-        <div class="cadastrar">
-            <div class="cadastro">
-                <form action="" method="POST">
-                    <div class="cliente">
-                        <p>Novo Funcionário:</p>
-                        <div class="colunas">
-                            <div class="coluna">
-                                <input type="text" name="nome" class="NomeCliente" placeholder="Digite o nome do funcionário: " required>
-                                <input type="text" name="cpf" id="cpf" maxlength="14" placeholder="Digite o CPF do funcionário: " required>
-                                <input type="password" name="senha" id="senha" placeholder="Digite a senha do funcionário: " required>
-                            </div>
-                            <div class="coluna">
-                                <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Digite o telefone do funcionário" required>
-                                <input type="email" name="email" class="Email" placeholder="Digite o e-mail do funcionário: " required>
-                                <select name="cargo" id="" required>
-                                    <option value="" disabled selected>Cargo do Funcionário</option>
-                                    <option value="caixa">Caixa</option>
-                                    <option value="repositor">Repositor</option>
-                                    <option value="adm">Administrador</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="botoes">
-                        <div>
-                            <a href="Adm.php" class="voltar"><button type="button" class="voltar">Voltar</button></a>
-                        </div>
-                        <div>
-                            <button type="submit" id="cade">Cadastrar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="sair">
+            <a href="../funcoes/logout.php"><p>sair</p></a>
         </div>
     </div>
+    <div class="navbar">
+        <nav>
+            <ul>
+                <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
+                <li><a href="AdmFuncionarios.php">Funcionários</a></li>
+                <li><a href="AdmClientes.php">Clientes</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="cadastrar">
+        <div class="cadastro">
+            <?php if (!empty($mensagemSucesso)): ?>
+                <div class="mensagem sucesso" style="display: flex; color: red;"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
+            <?php elseif (!empty($mensagemErro)): ?>
+                <div class="mensagem erro" style="display: flex; color: red;"><?php echo htmlspecialchars($mensagemErro); ?></div>
+            <?php endif; ?>
+
+            <form action="" method="POST">
+                <div class="cliente">
+                    <p>Novo Funcionário:</p>
+                    <div class="colunas">
+                        <div class="coluna">
+                            <input type="text" name="nome" class="NomeCliente" placeholder="Digite o nome do funcionário: " value="<?php echo isset($nome) ? htmlspecialchars($nome) : ''; ?>" autocomplete="off" required />
+                            <input type="text" name="cpf" id="cpf" maxlength="14" placeholder="Digite o CPF do funcionário: " value="<?php echo isset($cpf) ? htmlspecialchars($cpf): ''; ?>" autocomplete="off" required />
+                            <input type="password" name="senha" id="senha" placeholder="Digite a senha do funcionário: " autocomplete="off" required />
+                        </div>
+                        <div class="coluna">
+                            <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Digite o telefone do funcionário" value="<?php echo isset($telefone) ? htmlspecialchars($telefone) : ''; ?>" autocomplete="off" required />
+                            <input type="email" name="email" class="Email" placeholder="Digite o e-mail do funcionário: " value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" autocomplete="off" required />
+                            <select name="cargo" required>
+                                <option value="" disabled <?php echo !isset($cargo) ? 'selected' : ''; ?>>Cargo do Funcionário</option>
+                                <option value="caixa" <?php echo (isset($cargo) && $cargo === "caixa") ? 'selected' : ''; ?>>Caixa</option>
+                                <option value="repositor" <?php echo (isset($cargo) && $cargo === "repositor") ? 'selected' : ''; ?>>Repositor</option>
+                                <option value="adm" <?php echo (isset($cargo) && $cargo === "adm") ? 'selected' : ''; ?>>Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="botoes">
+                    <div>
+                        <a href="Adm.php" class="voltar"><button type="button" class="voltar">Voltar</button></a>
+                    </div>
+                    <div>
+                        <button type="submit" id="cade">Cadastrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

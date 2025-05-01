@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../funcoes/conexao.php'); // Adicionei esta linha - faltava incluir a conexão
+include('../funcoes/conexao.php');
 
 // Captura o CPF da URL e sanitiza
 $cpf = isset($_GET['cpf']) ? trim($_GET['cpf']) : '';
