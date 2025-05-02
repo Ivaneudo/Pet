@@ -27,11 +27,11 @@ if (!empty($cpf)) {
         $stmt2->execute();
         $stmt2->close();
 
-        // Deletar da tabela caixa
-        $sql3 = "DELETE FROM caixa WHERE cpf = ?";
+        // Deletar da tabela secretaria
+        $sql3 = "DELETE FROM secretaria WHERE cpf = ?";
         $stmt3 = $conn->prepare($sql3);
         if (!$stmt3) {
-            throw new Exception("Erro ao preparar a consulta (caixa): " . $conn->error);
+            throw new Exception("Erro ao preparar a consulta (secretaria): " . $conn->error);
         }
         $stmt3->bind_param("s", $cpf);
         $stmt3->execute();

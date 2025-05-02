@@ -1,9 +1,9 @@
 <?php
     session_start();
 
-    // Verifica se o usuário é um caixa
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'caixa') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+    // Verifica se o usuário é um secretaria
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
         exit();
     }
 
@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caixa Cadastro de Clientes</title>
+    <title>Cadastrar Clientes</title>
     <!-- TODO: link do icon -->
      <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <!-- TODO: link do css -->
@@ -43,9 +43,10 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="CaixaCadastrar.php" id="selecionado">Cadastrar</a></li>
-                    <li><a href="CaixaProdutos.php">Produtos</a></li>
-                    <li><a href="CaixaServiços.php">Serviço</a></li>
+                    <li><a href="Secretaria.php">Menu</a></li>
+                    <li><a href="SecretariaClientes.php">Clientes</a></li>
+                    <li><a href="SecretariaCadastrar.php">Cadastrar Clientes</a></li>
+                    <li><a href="SecretariaPetsClientes.php">Pets</a></li>
                 </ul>
             </nav>
         </div>
@@ -156,12 +157,6 @@
                             name="peso"
                             class="peso"
                             placeholder="Digite o peso: ">
-
-                            <input
-                            type="text"
-                            name="cor"
-                            class="cor"
-                            placeholder="Digite a cor do animal: ">
 
                             <select name="raça" id="raça">
                                 <!-- Raças de Cachorro -->

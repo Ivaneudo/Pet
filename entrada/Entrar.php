@@ -43,8 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         exit();
     } 
     
-    // TODO: Verifica se o CPF e a senha pertencem ao caixa
-    $stmt = $conn->prepare("SELECT * FROM caixa WHERE cpf = ? AND senha = ?");
+    // TODO: Verifica se o CPF e a senha pertencem a secretaria
+    $stmt = $conn->prepare("SELECT * FROM secretaria WHERE cpf = ? AND senha = ?");
     $stmt->bind_param("ss", $cpf, $senha);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -52,8 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     if ($result->num_rows > 0){
         $usuario = $result->fetch_assoc();
         $_SESSION['usuario'] = $usuario['nome'];
-        $_SESSION['tipo_usuario'] = 'caixa';
-        header("Location: ../caixa/Caixa.php");
+        $_SESSION['tipo_usuario'] = 'secretaria';
+        header("Location: ../secretaria/Secretaria.php");
         exit();
     } 
     if ($result->num_rows == 0){

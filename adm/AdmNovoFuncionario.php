@@ -30,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensagemErro = "Por favor, preencha todos os campos.";
     } else {
         // Prepara a consulta de inserção com base no cargo selecionado
-        if ($cargo === 'caixa') {
-            $sql = "INSERT INTO caixa (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+        if ($cargo === 'secretaria') {
+            $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
         } elseif ($cargo === 'repositor') {
             $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
         } elseif ($cargo === 'adm') {
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="cadastrar">
         <div class="cadastro">
             <?php if (!empty($mensagemSucesso)): ?>
-                <div class="mensagem sucesso" style="display: flex; color: red;"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
+                <div class="mensagem sucesso" style="display: flex; color: green;"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
             <?php elseif (!empty($mensagemErro)): ?>
                 <div class="mensagem erro" style="display: flex; color: red;"><?php echo htmlspecialchars($mensagemErro); ?></div>
             <?php endif; ?>
@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="email" name="email" class="Email" placeholder="Digite o e-mail do funcionário: " value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" autocomplete="off" required />
                             <select name="cargo" required>
                                 <option value="" disabled <?php echo !isset($cargo) ? 'selected' : ''; ?>>Cargo do Funcionário</option>
-                                <option value="caixa" <?php echo (isset($cargo) && $cargo === "caixa") ? 'selected' : ''; ?>>Caixa</option>
+                                <option value="secretaria" <?php echo (isset($cargo) && $cargo === "secretaria") ? 'selected' : ''; ?>>Secretaria</option>
                                 <option value="repositor" <?php echo (isset($cargo) && $cargo === "repositor") ? 'selected' : ''; ?>>Repositor</option>
                                 <option value="adm" <?php echo (isset($cargo) && $cargo === "adm") ? 'selected' : ''; ?>>Administrador</option>
                             </select>

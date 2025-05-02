@@ -4,7 +4,7 @@
 
     // Verifica se o usuário é um administrador
     if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {   
-    header("Location: ../entrada/Entrar.php");
+        header("Location: ../entrada/Entrar.php");
         exit();
     }
 
@@ -14,14 +14,14 @@
     $cpfPesquisado = '';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) { 
-    $cpfPesquisado = trim($_POST['cpf']);
+        $cpfPesquisado = trim($_POST['cpf']);
 
         // Consulta para buscar o funcionário pelo CPF nas três tabelas
         $sql = "SELECT cpf, nome, 'administrador' AS cargo FROM adm WHERE cpf = ? 
                 UNION 
                 SELECT cpf, nome, 'repositor' AS cargo FROM repositor WHERE cpf = ? 
                 UNION 
-                SELECT cpf, nome, 'caixa' AS cargo FROM caixa WHERE cpf = ? 
+                SELECT cpf, nome, 'secretaria' AS cargo FROM secretaria WHERE cpf = ? 
                 LIMIT 1";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $cpfPesquisado, $cpfPesquisado, $cpfPesquisado);
@@ -34,7 +34,7 @@
             UNION 
             SELECT cpf, nome, 'Repositor' AS cargo FROM repositor 
             UNION 
-            SELECT cpf, nome, 'Caixa' AS cargo FROM caixa 
+            SELECT cpf, nome, 'Secretaria' AS cargo FROM secretaria 
             ORDER BY nome ASC";
         $result = $conn->query($sql);
     }

@@ -12,30 +12,53 @@ if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'reposito
 $nomeFuncionario = $_SESSION['usuario'];
 
 // Inicializa variáveis
+$codigoProduto = '';
+$nomeProduto = '';
+$precoProduto = '';
+$estoqueProduto = '';
 $mensagem = '';
 
 // Se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Captura os dados do formulário
-    $codigoProduto = trim($_POST['codigo']);
-    $nomeProduto = trim($_POST['nome']);
-    $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
-    $estoqueProduto = intval($_POST['estoque']);
+    // Se o código do produto foi enviado
+    if (isset($_POST['codigo']) && !empty(trim($_POST['codigo']))) {
+        $codigoProduto = trim($_POST['codigo']);
 
-    // Verifica se todos os campos estão preenchidos
-    if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0) {
-        // Insere o novo produto no banco de dados
-        $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque) VALUES (?, ?, ?, ?)";
-        $stmtInsert = $conn->prepare($sqlInsert);
-        $stmtInsert->bind_param("isdi", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto);
+        // Busca o produto pelo ID
+        $sql = "SELECT nome_produto, preco, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $codigoProduto);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($stmtInsert->execute()) {
-            $mensagem = "Produto cadastrado com sucesso!";
+        if ($result->num_rows > 0) {
+            $produto = $result->fetch_assoc();
+            $nomeProduto = $produto['nome_produto'];
+            $precoProduto = $produto['preco'];
+            $estoqueProduto = $produto['estoque'];
         } else {
-            $mensagem = "Erro ao cadastrar o produto.";
+            $mensagem = "Produto não encontrado.";
         }
-    } else {
-        $mensagem = "Por favor, preencha todos os campos corretamente.";
+    }
+
+    // Se o botão de modificar foi clicado
+    if (isset($_POST['modificar'])) {
+        $nomeProduto = trim($_POST['nome']);
+        // Substitui vírgula por ponto para ponto decimal, se enviado com vírgula
+        $precoProduto = floatval(str_replace(',', '.', $_POST['preco']));
+        $estoqueProduto = intval($_POST['estoque']);
+        $codigoProduto = trim($_POST['codigo']); // Garante que o código está definido
+
+        // Atualiza o produto no banco de dados
+        $sqlUpdate = "UPDATE produto SET nome_produto = ?, preco = ?, estoque = ? WHERE id_produto = ?";
+        $stmtUpdate = $conn->prepare($sqlUpdate);
+        $stmtUpdate->bind_param("sdii", $nomeProduto, $precoProduto, $estoqueProduto, $codigoProduto);
+
+        if ($stmtUpdate->execute()) {
+            $mensagem = "Produto atualizado com sucesso!";
+        } else {
+            $mensagem = "Erro ao atualizar o produto.";
+        }
     }
 }
 ?>
@@ -43,18 +66,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar produto</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../css/principal.css">
-    <link rel="stylesheet" href="../css/repositor.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editar Produto</title>
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/principal.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
 </head>
 <body>
     <div class="container">
         <div class="funcionario">
             <div class="funci">
-                <img src="../img/Logo-Pethop-250px.png" alt="">
+                <img src="../img/Logo-Pethop-250px.png" alt="" />
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
@@ -65,8 +88,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <nav>
                 <ul>
                     <li><a href="repositorEstoque.php">Estoque</a></li>
-                    <li><a href="repositorCadastrar.php" id="selecionado">Cadastrar Produto</a></li>
-                    <li><a href="repositorEditar.php">Editar Produto</a></li>
+                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
+                    <li><a href="repositorEditar.php" id="selecionado">Editar Produto</a></li>
                     <li><a href="repositorExcluir.php">Excluir Produto</a></li>
                 </ul>
             </nav>
@@ -75,37 +98,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="cadastro">
 
                 <?php if ($mensagem): ?>
-                    <p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false ? 'green' : 'red'); ?>">
+                    <p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? 'green' : 'red'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </p>
                 <?php endif; ?>
 
                 <form method="POST" action="">
                     <div class="cliente">
-                        <p>Cadastrar Produtos:</p>
+                        <p>Editar Produtos:</p>
                         <div class="colunas">
+
                             <div class="coluna">
                                 <input
                                     type="text"
                                     name="codigo"
                                     class="NomeCliente"
-                                    placeholder="Código: "
+                                    placeholder="Codigo: "
+                                    value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                     required
                                 >
                                 <input
                                     type="text"
-                                    name="preco"
                                     id="cpf"
+                                    name="preco"
                                     placeholder="Preço"
-                                    required
+                                    value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                 >
                             </div>
+
                             <div class="coluna">
                                 <input
                                     type="text"
                                     name="nome"
                                     class="Telefone"
                                     placeholder="Nome do produto"
+                                    value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                     required
                                 >
                                 <input
@@ -113,8 +140,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="estoque"
                                     class="Email"
                                     placeholder="Estoque"
+                                    value="<?php echo htmlspecialchars($estoqueProduto); ?>"
                                     min="0"
-                                    required>
+                                    required
+                                >
                             </div>
                         </div>
                     </div>
@@ -123,13 +152,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div>
                             <a href="repositor.php">
                                 <button class="voltar" id="volt" type="button">Voltar</button>
-                            </a>                        
+                            </a>
                         </div>
                         <div>
-                            <button id="cade" type="submit">Cadastrar</button>
+                            <button name="modificar" id="cade" type="submit">Modificar</button>
                         </div>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

@@ -77,6 +77,9 @@ CHANGE tamanho tamanho VARCHAR(50);
 ALTER TABLE produto 
 CHANGE id_produto id_produto INT NOT NULL PRIMARY KEY;
 
+ALTER TABLE produto 
+CHANGE preco preco DECIMAL (10, 2) NOT NULL;
+
 ALTER TABLE vendas 
 CHANGE valor_pago forma_de_pagamento ENUM('cartao', 'dinheiro');
 
@@ -102,6 +105,8 @@ ALTER TABLE pet
 ADD peso DECIMAL(10, 2);
 
 ALTER TABLE admnistrador RENAME TO adm;
+
+ALTER TABLE caixa RENAME TO secretaria;
 
 INSERT INTO adm(nome, cpf, telefone, email, senha) VALUES
 ('Maria', '123.456.789-10', '(85) 4002-8922', 'maria@gmail.com', '123');
@@ -131,4 +136,16 @@ INSERT INTO pet(nome_pet, idade, especie, cpf_dono) VALUES
 INSERT INTO pet(nome_pet, idade, especie, cpf_dono) VALUES
 ("kelly", 2, "cachorro", "124.421.142-12");
 
--- select * from pet;
+INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
+(001, 'Ração Premium Adulto', 50, 30.00, '10kg'),
+(002, 'Ração Sabor Frango Filhote', 30, 35.00, '3kg'),
+(003, 'Coleira Ajustável Colorida', 30, 10.00, 'M'),
+(004, 'Areia Higiênica', 20, 55.00, '5kg'),
+(005, 'Brinquedo Mordedor Osso', 15, 20.00, 'p'),
+(006, 'Caminha Pelúcia Luxo', 10, 60.00, 'G'),
+(007, 'Shampoo Neutro', 15, 25.00, '500ml'),
+(008, 'Pote Duplo para Ração e Água', 68, 27.90, 'Único'),
+(009, 'Ração Grain Free', 28, 29.90, '7kg'),
+(010, 'Arranhador com Sisal', 23, 69.90, '90cm');
+
+select * from secretaria;

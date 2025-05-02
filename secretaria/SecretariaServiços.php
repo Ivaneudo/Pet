@@ -1,9 +1,9 @@
 <?php
     session_start();
 
-    // Verifica se o usuário é um caixa
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'caixa') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+    // Verifica se o usuário é um secretaria
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
         exit();
     }
 
@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caixa</title>
+    <title>Serviços</title>
     <!-- TODO: link do ico -->
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <!-- TODO: link do css -->
@@ -40,9 +40,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="CaixaCadastrar.php" id="selecionado">Cadastrar</a></li>
-                    <li><a href="CaixaProdutos.php">Produtos</a></li>
-                    <li><a href="CaixaServiços.php">Serviço</a></li>
+                    <li><a href="SecretariaClientes.php" id="selecionado">Clientes</a></li>
+                    <li><a href="SecretariaProdutos.php">Produtos</a></li>
+                    <li><a href="SecretariaServiços.php">Serviço</a></li>
                 </ul>
             </nav>
         </div>

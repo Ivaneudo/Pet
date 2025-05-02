@@ -72,8 +72,14 @@ if (count($pets) > 0 && isset($pets[$petIndex])) {
     $currentPet = $pets[$petIndex];
 }
 
-// Trata o envio do formulário para modificar os dados
+// Mensagem de sucesso armazenada na sessão
 $message = '';
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); // Limpa a mensagem após exibi-la
+}
+
+// Trata o envio do formulário para modificar os dados
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
     // Atualiza dados do cliente
     $nome = $_POST['nome'];
@@ -99,13 +105,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
         $sqlUpdatePet = "UPDATE pet SET nome_pet = ?, idade = ?, especie = ?, sexo = ?, peso = ?, raca = ? WHERE id_pet = ?";
         $stmtUpdatePet = $conn->prepare($sqlUpdatePet);
         $id_pet = $currentPet['id_pet'];
-        $stmtUpdatePet->bind_param("sissdsi", $nomePet, $idade, $especie, $sexo, $peso, $raca, $id_pet);
+
+        // Converter peso para float ou null para evitar erro ao bind_param
+        $peso_float = is_numeric($peso) ? floatval($peso) : null;
+        // raca pode ser string ou null (bind_param precisa de string, usar '' se null)
+        $raca_str = $raca !== null ? $raca : '';
+
+        $stmtUpdatePet->bind_param("sissdsi", $nomePet, $idade, $especie, $sexo, $peso_float, $raca_str, $id_pet);
         if (!$stmtUpdatePet->execute()) {
             die("Erro ao atualizar pet: " . $stmtUpdatePet->error);
         }
     }
 
-    $message = "Informações atualizadas com sucesso!";
+    // Armazena mensagem na sessão para exibir após redirecionamento
+    $_SESSION['message'] = "Informações atualizadas com sucesso!";
+
     // Redireciona para a mesma página para evitar reenvio de formulário
     header("Location: AdmEditarCliente.php?cpf=" . urlencode($cpfCliente) . "&petIndex=" . $petIndex);
     exit();
@@ -138,10 +152,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['navegar'])) {
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <script src="../js/racaSelect.js" defer></script>
+    <script src="../js/mascaraTelefone.js" defer></script>
     <script>
         window.racaAtual = '<?php echo $currentPet['raca'] ?? ''; ?>';
     </script>
-    <script src="../js/mascara.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -166,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['navegar'])) {
         <div class="cadastrar">
             <div class="cadastro">
                 <?php if($message): ?>
-                    <p style="color:green; font-weight:bold;"><?php echo $message; ?></p>
+                    <p style="color: #008B00; font-weight: bold;"><?php echo htmlspecialchars($message); ?></p>
                 <?php endif; ?>
                 <form method="POST" action="">
                     <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" />
@@ -218,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['navegar'])) {
                         </div>
                     </div>
                     <?php else: ?>
-                        <p style="color: red;">Este cliente não possui pets cadastrados.</p>
+                        <p style="color: red; font-weight: bold;">Este cliente não possui pets cadastrados.</p>
                     <?php endif; ?>
 
                     <div class="botoes">

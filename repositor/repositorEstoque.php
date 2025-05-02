@@ -1,14 +1,38 @@
 <?php
-    session_start();
+session_start();
+include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um repositor
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
-        exit();
-    }
+// Verifica se o usuário é um repositor
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+    exit();
+}
 
-    // Captura o nome do funcionário da sessão
-    $nomeFuncionario = $_SESSION['usuario'];
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
+
+// Inicializa a variável para o ID do produto pesquisado
+$idProdutoPesquisado = '';
+
+// Verifica se o formulário de pesquisa foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
+    $idProdutoPesquisado = trim($_POST['id_produto']);
+
+    // Consulta para buscar o produto pelo ID
+    $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $idProdutoPesquisado);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // Consulta para mostrar todos os produtos
+    $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+    $result = $conn->query($sql);
+}
+
+if ($result === false) {
+    die("Erro na consulta: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,18 +41,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque</title>
-    <!-- TODO: link do ico -->
-     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
-    <!-- TODO: link do css -->
-     <link rel="stylesheet" href="../css/principal.css">
-     <link rel="stylesheet" href="../css/repositor.css">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/principal.css">
+    <link rel="stylesheet" href="../css/repositor.css">
 </head>
 <body>
     <div class="container">
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
                 <a href="../funcoes/logout.php"><p>sair</p></a>
@@ -37,77 +59,54 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="#">Estoque</a></li>
+                    <li><a href="repositorEstoque.php" id="selecionado">Estoque</a></li>
                     <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
+                    <li><a href="repositorEditar.php">Editar Produto</a></li>
                     <li><a href="repositorExcluir.php">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>
         <div class="estoque">
             <div class="esto">
-                <div class="pesquisa">
-                    <div class="campo">
-                        <input
-                        type="text"
-                        placeholder="Digite o código do produto: ">
-                        <img src="../img/search-svgrepo-com.svg" alt="">
+                <form method="POST" action="">
+                    <div class="pesquisa">
+                        <div class="campo">
+                            <input
+                            type="text"
+                            name="id_produto"
+                            id="id_produto"
+                            placeholder="Digite o ID do produto: "
+                            autocomplete="off"
+                            value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
+                            <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                <img src="../img/search-svgrepo-com.svg" alt="">
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
                 <div class="produtos">
                     <table>
                         <thead>
                             <tr>
-                                <th>Code</th>
+                                <th>Código</th>
                                 <th>Nome</th>
-                                <th>Unidades</th>
+                                <th>Estoque</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>Coleira de Cachorro</td>
-                                <td>20</td>
-                            </tr>
+                            <?php if ($result->num_rows > 0): ?>
+                                <?php while($row = $result->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($row['id_produto']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['nome_produto']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['estoque']); ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3">Nenhum produto encontrado.</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
