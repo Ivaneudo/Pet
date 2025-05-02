@@ -106,8 +106,6 @@ ADD peso DECIMAL(10, 2);
 
 ALTER TABLE admnistrador RENAME TO adm;
 
-ALTER TABLE caixa RENAME TO secretaria;
-
 INSERT INTO adm(nome, cpf, telefone, email, senha) VALUES
 ('Maria', '123.456.789-10', '(85) 4002-8922', 'maria@gmail.com', '123');
 
@@ -148,4 +146,4 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 (009, 'Ração Grain Free', 28, 29.90, '7kg'),
 (010, 'Arranhador com Sisal', 23, 69.90, '90cm');
 
-select * from secretaria;
+ALTER TABLE caixa RENAME TO secretaria;
