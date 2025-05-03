@@ -19,7 +19,6 @@
 .cadastrar {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 100vw;
     height: 600px;
     align-items: center;
