@@ -71,9 +71,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
+                    <li><a href="Adm.php">Menu</a></li>
                     <li><a href="AdmFuncionarios.php">Funcionários</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
                 </ul>
             </nav>
         </div>

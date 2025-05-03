@@ -2,29 +2,31 @@
 session_start();
 include('../funcoes/conexao.php');
 
-// TODO: Verifica se o usuário é um administrador
+// Verifica se o usuário é um adiministrador
 if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php");
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
     exit();
 }
 
-// TODO: Guarda o nome do funcionário
+// Captura o nome do funcionário da sessão
 $nomeFuncionario = $_SESSION['usuario'];
 
-$cpfPesquisado = '';
+// Inicializa a variável para o ID do produto pesquisado
+$idProdutoPesquisado = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
-    $cpfPesquisado = trim($_POST['cpf']);
+// Verifica se o formulário de pesquisa foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
+    $idProdutoPesquisado = trim($_POST['id_produto']);
 
-    // TODO: Consulta para buscar o cliente pelo CPF
-    $sql = "SELECT cpf, nome FROM cliente WHERE cpf = ? LIMIT 1";
+    // Consulta para buscar o produto pelo ID
+    $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cpfPesquisado);
+    $stmt->bind_param("i", $idProdutoPesquisado);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
-    // TODO: Consulta para mostrar todos os clientes
-    $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
+    // Consulta para mostrar todos os produtos
+    $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
     $result = $conn->query($sql);
 }
 
@@ -38,20 +40,17 @@ if ($result === false) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
+    <title>Estoque</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
-    <link rel="stylesheet" href="../css/AdmFuncionarios.css">
-    <script src="../js/mascara.js" defer></script>
-    <script src="../js/excluirCliente.js" defer></script>
 </head>
 <body>
     <div class="container">
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
                 <a href="../funcoes/logout.php"><p>sair</p></a>
@@ -60,9 +59,10 @@ if ($result === false) {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
-                    <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
+                    <li><a href="Adm.php" id="selecionado">Menu</a></li>
+                    <li><a href="AdmCadastrarProduto.php">Cadastrar Produto</a></li>
+                    <li><a href="AdmEditarProduto.php">Editar Produto</a></li>
+                    <li><a href="AdmExcluirProduto.php">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>
@@ -73,11 +73,11 @@ if ($result === false) {
                         <div class="campo">
                             <input
                             type="text"
-                            name="cpf"
-                            id="cpf"
-                            placeholder="Digite o cpf do cliente: "
+                            name="id_produto"
+                            id="id_produto"
+                            placeholder="Digite o ID do produto: "
                             autocomplete="off"
-                            value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                            value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>
@@ -88,35 +88,23 @@ if ($result === false) {
                     <table>
                         <thead>
                             <tr>
-                                <th>CPF</th>
+                                <th>Código</th>
                                 <th>Nome</th>
-                                <th>Editar</th>
-                                <th>Remover</th>
+                                <th>Estoque</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if ($result->num_rows > 0): ?>
                                 <?php while($row = $result->fetch_assoc()): ?>
                                     <tr>
-                                        <td>
-                                            <?php echo htmlspecialchars($row['cpf']); ?>
-                                        </td>
-                                        <td class="ver">
-                                            <?php echo htmlspecialchars($row['nome']); ?>
-                                        </td>
-                                        <td>
-                                            <a href='AdmEditarCliente.php?cpf=<?php echo htmlspecialchars($row['cpf']); ?>' style="color: #40005C;">Editar</a>
-                                        </td>
-                                        <td class="demitir">
-                                            <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>')">
-                                                <img src="../img/lata-de-lixo.png" alt="Remover">
-                                            </a>
-                                        </td>
+                                        <td><?php echo htmlspecialchars($row['id_produto']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['nome_produto']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['estoque']); ?></td>
                                     </tr>
                                 <?php endwhile; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="3">Nenhum cliente encontrado.</td>
+                                    <td colspan="3">Nenhum produto encontrado.</td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>

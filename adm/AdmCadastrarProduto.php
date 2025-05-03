@@ -2,9 +2,9 @@
 session_start();
 include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um repositor
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+// Verifica se o usuário é um adm
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
     exit();
 }
 
@@ -65,10 +65,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="repositorEstoque.php">Estoque</a></li>
-                    <li><a href="repositorCadastrar.php" id="selecionado">Cadastrar Produto</a></li>
-                    <li><a href="repositorEditar.php">Editar Produto</a></li>
-                    <li><a href="repositorExcluir.php">Excluir Produto</a></li>
+                    <li><a href="Adm.php" id="selecionado">Menu</a></li>
+                    <li><a href="AdmCadastrarProduto.php">Cadastrar Produto</a></li>
+                    <li><a href="AdmEditarProduto.php">Editar Produto</a></li>
+                    <li><a href="AdmExcluirProduto.php">Excluir Produto</a></li>
                 </ul>
             </nav>
         </div>
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="botoes">
                         <div>
-                            <a href="repositor.php">
+                            <a href="AdmEstoque.php">
                                 <button class="voltar" id="volt" type="button">Voltar</button>
                             </a>                        
                         </div>
