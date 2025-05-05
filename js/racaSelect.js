@@ -3,39 +3,39 @@ document.addEventListener('DOMContentLoaded', function () {
     const racaSelect = document.getElementById('raca')
 
     const racasCachorro = [
-        {value: 'sem-raca-definida', text: 'Sem raça definida'},
-        {value: 'vira-lata', text: 'Vira Lata'},
-        {value: 'chow-chow', text: 'Chow-Chow'},
-        {value: 'bulldog', text: 'Bulldog'},
-        {value: 'golden-retriever', text: 'Golden Retriever'},
-        {value: 'husky-siberiano', text: 'Husky Siberiano'},
-        {value: 'labrador', text: 'Labrador'},
-        {value: 'maltes', text: 'Maltês'},
-        {value: 'pastor-alemao', text: 'Pastor Alemão'},
-        {value: 'pincher', text: 'Pincher'},
-        {value: 'pit-bull', text: 'Pit-Bull'},
-        {value: 'poodle', text: 'Poodle'},
-        {value: 'rottweiler', text: 'Rottweiler'},
-        {value: 'salsicha', text: 'Salsicha'},
-        {value: 'shihtzu', text: 'Shih Tzu'},
-        {value: 'outra', text: 'Outra'}
+        {value: 'Sem raça definida', text: 'Sem raça definida'},
+        {value: 'Vira lata', text: 'Vira Lata'},
+        {value: 'Chow-Chow', text: 'Chow-Chow'},
+        {value: 'Bulldog', text: 'Bulldog'},
+        {value: 'Golden Retriever', text: 'Golden Retriever'},
+        {value: 'Husky Siberiano', text: 'Husky Siberiano'},
+        {value: 'Labrador', text: 'Labrador'},
+        {value: 'Maltês', text: 'Maltês'},
+        {value: 'Pastor Alemão', text: 'Pastor Alemão'},
+        {value: 'Pincher', text: 'Pincher'},
+        {value: 'Pit-Bull', text: 'Pit-Bull'},
+        {value: 'Poodle', text: 'Poodle'},
+        {value: 'Rottweiler', text: 'Rottweiler'},
+        {value: 'Salsicha', text: 'Salsicha'},
+        {value: 'Shihtzu', text: 'Shih Tzu'},
+        {value: 'Outra', text: 'Outra'}
     ]
     
     const racasGato = [
-        {value: 'sem-raca-definida', text: 'Sem raça definida'},
-        {value: 'siames', text: 'Siamês'},
-        {value: 'persa', text: 'Persa'},
-        {value: 'sphynx', text: 'Sphynx'},
-        {value: 'tricolor', text: 'Tricolor'},
-        {value: 'tigrado', text: 'Tigrado'},
-        {value: 'listrado', text: 'Listrado'},
-        {value: 'frajola', text: 'Frajola'},
-        {value: 'preto', text: 'Preto'},
-        {value: 'branco', text: 'Branco'},
-        {value: 'laranja', text: 'Laranja'},
-        {value: 'cinza', text: 'Cinza'},
-        {value: 'marrom', text: 'Marrom'},
-        {value: 'outra', text: 'Outra'}
+        {value: 'Sem raça definida', text: 'Sem raça definida'},
+        {value: 'Siamês', text: 'Siamês'},
+        {value: 'Persa', text: 'Persa'},
+        {value: 'Sphynx', text: 'Sphynx'},
+        {value: 'Tricolor', text: 'Tricolor'},
+        {value: 'Tigrado', text: 'Tigrado'},
+        {value: 'Listrado', text: 'Listrado'},
+        {value: 'Frajola', text: 'Frajola'},
+        {value: 'Preto', text: 'Preto'},
+        {value: 'Branco', text: 'Branco'},
+        {value: 'Laranja', text: 'Laranja'},
+        {value: 'Cinza', text: 'Cinza'},
+        {value: 'Marrom', text: 'Marrom'},
+        {value: 'Outra', text: 'Outra'}
     ]
 
     function popularRacas(especieSelecionada) {
@@ -51,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function () {
         racaSelect.appendChild(optionPadrao)
 
         let racasParaUsar = [];
-        if (especieSelecionada === 'cachorro') {
+        if (especieSelecionada == 'Cachorro') {
             racasParaUsar = racasCachorro
-        } else if (especieSelecionada === 'gato') {
+        } else if (especieSelecionada == 'Gato') {
             racasParaUsar = racasGato
         } 
 
