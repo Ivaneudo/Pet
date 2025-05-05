@@ -1,10 +1,10 @@
 <?php
 session_start();
-include('../funcoes/conexao.php'); // Inclui a conexão com o banco de dados
+include('../funcoes/conexao.php');
 
 // Verifica se o usuário é um administrador
 if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+    header("Location: ../entrada/Entrar.php");
     exit();
 }
 
@@ -18,41 +18,66 @@ $mensagemErro = '';
 // Verifica se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Captura os dados do formulário
-    $nome = trim($_POST['nome']);
-    $cpf = trim($_POST['cpf']);
-    $telefone = trim($_POST['telefone']);
-    $email = trim($_POST['email']);
-    $senha = trim($_POST['senha']);
-    $cargo = $_POST['cargo'];
+    $nome = trim($_POST['nome'] ?? '');
+    $cpf = trim($_POST['cpf'] ?? '');
+    $telefone = trim($_POST['telefone'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $senha = trim($_POST['senha'] ?? '');
+    $cargo = $_POST['cargo'] ?? '';
 
     // Validações básicas
     if (empty($nome) || empty($cpf) || empty($telefone) || empty($email) || empty($senha) || empty($cargo)) {
         $mensagemErro = "Por favor, preencha todos os campos.";
     } else {
-        // Prepara a consulta de inserção com base no cargo selecionado
-        if ($cargo === 'secretaria') {
-            $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-        } elseif ($cargo === 'repositor') {
-            $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-        } elseif ($cargo === 'adm') {
-            $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-        } else {
-            $mensagemErro = "Cargo inválido.";
-        }
+        // Verificação do CPF em todas as tabelas
+        $sqlCheckCpf = "SELECT COUNT(*) as total FROM (
+                          SELECT cpf FROM adm WHERE cpf = ?
+                          UNION ALL
+                          SELECT cpf FROM cliente WHERE cpf = ?
+                          UNION ALL
+                          SELECT cpf FROM secretaria WHERE cpf = ?
+                          UNION ALL
+                          SELECT cpf FROM repositor WHERE cpf = ?
+                        ) as cpf_unico";
+        
+        $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
+        $stmtCheckCpf->bind_param("ssss", $cpf, $cpf, $cpf, $cpf);
+        $stmtCheckCpf->execute();
+        $result = $stmtCheckCpf->get_result();
+        $row = $result->fetch_assoc();
+        $totalCpfCount = $row['total'];
+        $stmtCheckCpf->close();
 
-        if (empty($mensagemErro)) {
-            // Prepara e executa a consulta
-            $stmt = $conn->prepare($sql);
-            if ($stmt) {
-                $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
-                if ($stmt->execute()) {
-                    $mensagemSucesso = "Funcionário cadastrado com sucesso.";
-                } else {
-                    $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
-                }
-                $stmt->close();
+        if ($totalCpfCount > 0) {
+            $mensagemErro = "Este usuário já existe.";
+        } else {
+            // Prepara a consulta de inserção com base no cargo selecionado
+            if ($cargo === 'secretaria') {
+                $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+            } elseif ($cargo === 'repositor') {
+                $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+            } elseif ($cargo === 'adm') {
+                $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
             } else {
-                $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+                $mensagemErro = "Cargo inválido.";
+            }
+
+            if (empty($mensagemErro)) {
+                // Prepara e executa a consulta
+                $stmt = $conn->prepare($sql);
+                if ($stmt) {
+                    $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+                    if ($stmt->execute()) {
+                        $mensagemSucesso = "Funcionário cadastrado com sucesso.";
+                        // Limpa os campos do formulário
+                        $nome = $cpf = $telefone = $email = $senha = $cargo = '';
+                    } else {
+                        $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
+                    }
+                    $stmt->close();
+                } else {
+                    $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+                }
             }
         }
     }
@@ -70,6 +95,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <script src="../js/mascara.js" defer></script>
+    <style>
+        .mensagem-erro{ 
+            color: #CD0000; 
+            font-weight: bold;
+            text-align: left;
+        }
+        .mensagem-sucesso{ 
+            color: #008B00; 
+            font-weight: bold; 
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -95,9 +132,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="cadastrar">
         <div class="cadastro">
             <?php if (!empty($mensagemSucesso)): ?>
-                <div class="mensagem sucesso" style="display: flex; color: green;"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
+                <div class="mensagem-sucesso"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
             <?php elseif (!empty($mensagemErro)): ?>
-                <div class="mensagem erro" style="display: flex; color: red;"><?php echo htmlspecialchars($mensagemErro); ?></div>
+                <div class="mensagem-erro"><?php echo htmlspecialchars($mensagemErro); ?></div>
             <?php endif; ?>
 
             <form action="" method="POST">

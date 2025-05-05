@@ -1,35 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const especieRadios = document.querySelectorAll('input[name="especie"]')
+    const especieRadios = document.querySelectorAll('input[name="animal"]')
     const racaSelect = document.getElementById('raca')
 
     const racasCachorro = [
         {value: 'sem-raca-definida', text: 'Sem raça definida'},
-        {value: 'labrador', text: 'Labrador Retriever'},
-        {value: 'pastor-alemao', text: 'Pastor Alemão'},
-        {value: 'poodle', text: 'Poodle'},
-        {value: 'bulldog-ingles', text: 'Bulldog Inglês'},
+        {value: 'vira-lata', text: 'Vira Lata'},
+        {value: 'chow-chow', text: 'Chow-Chow'},
+        {value: 'bulldog', text: 'Bulldog'},
         {value: 'golden-retriever', text: 'Golden Retriever'},
+        {value: 'husky-siberiano', text: 'Husky Siberiano'},
+        {value: 'labrador', text: 'Labrador'},
+        {value: 'maltes', text: 'Maltês'},
+        {value: 'pastor-alemao', text: 'Pastor Alemão'},
+        {value: 'pincher', text: 'Pincher'},
+        {value: 'pit-bull', text: 'Pit-Bull'},
+        {value: 'poodle', text: 'Poodle'},
         {value: 'rottweiler', text: 'Rottweiler'},
-        {value: 'chihuahua', text: 'Chihuahua'},
-        {value: 'beagle', text: 'Beagle'},
+        {value: 'salsicha', text: 'Salsicha'},
         {value: 'shihtzu', text: 'Shih Tzu'},
-        {value: 'husky-siberiano', text: 'Husky Siberiano'}
+        {value: 'outra', text: 'Outra'}
     ]
-
+    
     const racasGato = [
+        {value: 'sem-raca-definida', text: 'Sem raça definida'},
         {value: 'siames', text: 'Siamês'},
         {value: 'persa', text: 'Persa'},
-        {value: 'maine-coon', text: 'Maine Coon'},
-        {value: 'ragdoll', text: 'Ragdoll'},
         {value: 'sphynx', text: 'Sphynx'},
-        {value: 'bengal', text: 'Bengal'},
-        {value: 'britanico-pelo-curto', text: 'Britânico de Pelo Curto'},
-        {value: 'abissinio', text: 'Abissínio'},
-        {value: 'noruegues-da-floresta', text: 'Norueguês da Floresta'},
-        {value: 'azul-russo', text: 'Azul Russo'}
+        {value: 'tricolor', text: 'Tricolor'},
+        {value: 'tigrado', text: 'Tigrado'},
+        {value: 'listrado', text: 'Listrado'},
+        {value: 'frajola', text: 'Frajola'},
+        {value: 'preto', text: 'Preto'},
+        {value: 'branco', text: 'Branco'},
+        {value: 'laranja', text: 'Laranja'},
+        {value: 'cinza', text: 'Cinza'},
+        {value: 'marrom', text: 'Marrom'},
+        {value: 'outra', text: 'Outra'}
     ]
 
-    function popularRacas(especieSelecionada, racaAtual) {
+    function popularRacas(especieSelecionada) {
         // Limpa as opções existentes
         racaSelect.innerHTML = ''
 
@@ -41,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         optionPadrao.selected = true
         racaSelect.appendChild(optionPadrao)
 
-        let racasParaUsar = []
+        let racasParaUsar = [];
         if (especieSelecionada === 'cachorro') {
             racasParaUsar = racasCachorro
         } else if (especieSelecionada === 'gato') {
@@ -52,33 +61,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const option = document.createElement('option')
             option.value = r.value
             option.textContent = r.text
-            if (r.value === racaAtual) {
-                option.selected = true;
-            }
             racaSelect.appendChild(option)
         });
-    }
-
-    function getEspecieSelecionada() {
-        for (const radio of especieRadios) {
-            if (radio.checked) {
-                return radio.value
-            }
-        }
-        return null;
-    }
-
-    // Inicializa o select com base na espécie atual do pet carregado
-    const especieInicial = getEspecieSelecionada();
-    const racaAtual = window.racaAtual || ''
-    if (especieInicial) {
-        popularRacas(especieInicial, racaAtual)
     }
 
     // Adiciona evento para quando mudar a espécie
     especieRadios.forEach(function(radio) {
         radio.addEventListener('change', function() {
-            popularRacas(this.value, '')
+            popularRacas(this.value)
         })
     })
 })

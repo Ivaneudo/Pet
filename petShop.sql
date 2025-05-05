@@ -147,3 +147,5 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 (010, 'Arranhador com Sisal', 23, 69.90, '90cm');
 
 ALTER TABLE caixa RENAME TO secretaria;
+
+select * from secretaria;

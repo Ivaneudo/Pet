@@ -45,6 +45,7 @@ if ($result === false) {
     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
     <script src="../js/mascara.js" defer></script>
     <script src="../js/excluirCliente.js" defer></script>
+    <script src="../js/SessaoCpf.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -105,7 +106,7 @@ if ($result === false) {
                                             <?php echo htmlspecialchars($row['nome']); ?>
                                         </td>
                                         <td>
-                                            <a href='AdmEditarCliente.php?cpf=<?php echo htmlspecialchars($row['cpf']); ?>' style="color: #40005C;">Editar</a>
+                                            <a href='AdmEditarCliente.php' style="color: #40005C;" onclick="SessaoCpf('<?php echo htmlspecialchars($row['cpf']); ?>')">Editar</a>
                                         </td>
                                         <td class="demitir">
                                             <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>')">
