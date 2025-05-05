@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form method="POST" action="">
                     <div class="pesquisa-cliente">
                         <label for="cpfCliente">Pesquisar CPF do Cliente:</label>
-                        <input type="text" name="cpfCliente" id="cpfCliente" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" required>
+                        <input type="text" name="cpfCliente" id="cpf" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" required>
                         <button type="submit" name="pesquisar">Pesquisar</button>
                     </div>
                 </form>

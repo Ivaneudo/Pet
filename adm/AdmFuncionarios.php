@@ -73,7 +73,8 @@
                 <ul>
                     <li><a href="Adm.php">Menu</a></li>
                     <li><a href="AdmFuncionarios.php">Funcionários</a></li>
-                    <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Cadastrar funcionário</a></li>
+                    <li><a href="AdmEditarFuncionario.php">Editar funcionário</a></li>
                 </ul>
             </nav>
         </div>

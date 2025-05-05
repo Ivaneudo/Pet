@@ -2,8 +2,8 @@
 session_start();
 include('../funcoes/conexao.php');
 
-// Verificação de admin
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+// Verificação de secretaria
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
     header("Location: ../entrada/Entrar.php");
     exit();
 }
@@ -105,9 +105,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
-                    <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
+                    <li><a href="Secretaria.php">Menu</a></li>
+                    <li><a href="SecretariaClientes.php">Clientes</a></li>
+                    <li><a href="SecretariaCadastrarCliente.php">Cadastrar Clientes</a></li>
                 </ul>
             </nav>
         </div>
@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="botoes">
                         <div>
-                            <a href="AdmClientes.php">
+                            <a href="SecretariaClientes.php">
                                 <button type="button" class="voltar" id="volt">Voltar</button>
                             </a>
                         </div>

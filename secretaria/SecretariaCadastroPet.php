@@ -3,7 +3,7 @@ session_start();
 include('../funcoes/conexao.php');
 
 // Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
     header("Location: ../entrada/Entrar.php");
     exit();
 }
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $idade = $_POST['idade'];
         $especie = $_POST['animal'];
         $sexo = $_POST['sexo'];
-        $peso = $_POST['peso'];
+        $peso = str_replace(',', '.', $_POST['peso']); // Substitui vírgula por ponto
         $raca = $_POST['raca'];
 
         // Insere os dados do pet no banco de dados
@@ -52,9 +52,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmtInsert->execute()) {
             $mensagem = "Pet cadastrado com sucesso!";
-            // Redireciona para a mesma página para permitir o cadastro de outro pet
-            header("Location: " . $_SERVER['PHP_SELF'] . "?cpf=" . urlencode($cpfCliente));
-            exit();
+            // Não redireciona para manter a mensagem após cadastro
+            // Limpa os dados do formulário para novo cadastro
+            $cliente = $cliente; // Mantém o cliente para mostrar o formulário novamente
         } else {
             $mensagem = "Erro ao cadastrar pet: " . $stmtInsert->error;
         }
@@ -74,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <script src="../js/mascara.js" defer></script>
-    <script src="../js/racaSelect.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -90,39 +89,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
-                    <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
-                    <li><a href="AdmCadastrarPet.php">Cadastrar Pet</a></li>
+                    <li><a href="Secretaria.php">Menu</a></li>
+                    <li><a href="SecretariaPet.php">Pets</a></li>
+                    <li><a href="SecretariaCadastroPet.php">Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>
 
         <div class="cadastrar">
             <div class="cadastro">
-            <form method="POST" action="">
+                <form method="POST" action="">
                     <div class="pesquisa-cliente">
                         <label for="cpfCliente">Pesquisar CPF do Cliente:</label>
-                        <input type="text" name="cpfCliente" id="cpfCliente" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" required>
+                        <input type="text" name="cpfCliente" id="cpf" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" required>
                         <button type="submit" name="pesquisar">Pesquisar</button>
                     </div>
                 </form>
 
                 <?php if ($mensagem): ?>
-                    <p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? 'green' : 'red'; ?>">
+                    <strong><p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
-                    </p>
+                    </p></strong>
                 <?php endif; ?>
 
                 <?php if ($cliente): ?>
                     <form method="POST" action="">
                         <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>">
-                        
-                        <div class="cliente-dados">
-                            <p>Cliente: <strong><?php echo htmlspecialchars($cliente['nome']); ?></strong></p>
-                            <p>CPF: <?php echo htmlspecialchars($cliente['cpf']); ?></p>
-                            <p>Telefone: <?php echo htmlspecialchars($cliente['telefone']); ?></p>
-                            <p>Email: <?php echo htmlspecialchars($cliente['email']); ?></p>
+                        <div class="coluna">
+                            <p><strong>Cliente:</strong> <?php echo htmlspecialchars($cliente['nome']); ?></p>
+                        </div>
+                        <div class="coluna">
+                            <p><strong>Email:</strong> <?php echo htmlspecialchars($cliente['email']); ?></p>
                         </div>
 
                         <p>Dados do Pet</p>
@@ -130,9 +127,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="animais">
                             <div class="coluna">
                                 <div class="AnimalTipo">
-                                    <input type="radio" class="tipo" name="animal" value="gato" id="gato" required>
+                                    <input type="radio" class="tipo" name="animal" value="Gato" id="gato" required>
                                     <label for="gato">Gato</label>
-                                    <input type="radio" class="tipo" name="animal" value="cachorro" id="cachorro" required>
+
+                                    <input type="radio" class="tipo" name="animal" value="Cachorro" id="cachorro" required>
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
@@ -144,23 +142,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="AnimalTipo">
                                     <input type="radio" class="tipo" name="sexo" value="macho" id="sexoMacho" required>
                                     <label for="sexoMacho">M</label>
+                                    
                                     <input type="radio" class="tipo" name="sexo" value="femea" id="sexoFemea" required>
                                     <label for="sexoFemea">F</label>
+
                                     <input type="radio" class="tipo" name="sexo" value="intersexo" id="sexoIntersexo" required>
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
-                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="[\d\.]+">
+                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="^\d{1,3}(,\d{1,2})?$" title="Peso válido, use vírgula como separador decimal, ex: 12,34">
 
-                                <select name="raca" id="raca" required>
-                                    <option value="">Escolha uma raça</option>
-                                    <!-- Será populado por racaSelect.js -->
-                                </select>
+                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" required>
                             </div>
                         </div>
 
                         <div class="botoes">
-                            <button type="submit" name="cadastrarPet" class="cade">Cadastrar Pet</button>
+                            <div>
+                                <a href="SecretariaPet.php">
+                                    <button type="button" class="voltar" id="volt">Voltar</button>
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" name="cadastrarPet" class="cade">Cadastrar Pet</button>
+                            </div>
                         </div>
                     </form>
                 <?php endif; ?>

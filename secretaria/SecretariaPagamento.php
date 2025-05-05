@@ -41,6 +41,7 @@
                     <li><a href="SecretariaClientes.php">Clientes</a></li>
                     <li><a href="SecretariaProdutos.php">Produtos</a></li>
                     <li><a href="SecretariaServiços.php">Serviço</a></li>
+                    <li><a href="SecretariaPet.php">Pets</a></li>
                 </ul>
             </nav>
         </div>

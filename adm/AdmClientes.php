@@ -45,7 +45,7 @@ if ($result === false) {
     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
     <script src="../js/mascara.js" defer></script>
     <script src="../js/excluirCliente.js" defer></script>
-    <script src="../js/SessaoCpf.js" defer></script>
+    <script src="../js/AdmSessaoCpf.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -64,7 +64,6 @@ if ($result === false) {
                     <li><a href="Adm.php">Menu</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
                     <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
-                    <li><a href="AdmCadastrarPet.php">Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>

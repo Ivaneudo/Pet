@@ -1,0 +1,195 @@
+<?php
+session_start();
+include('../funcoes/conexao.php');
+
+// Verifica se o usuário é um administrador
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+    header("Location: ../entrada/Entrar.php");
+    exit();
+}
+
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
+
+// Inicializa variáveis
+$cpfFuncionario = '';
+$funcionario = null;
+$mensagem = '';
+
+// Se o formulário foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Se o CPF do funcionário foi enviado
+    if (isset($_POST['cpf']) && !empty(trim($_POST['cpf']))) {
+        $cpfFuncionario = trim($_POST['cpf']);
+
+        // Verifica em cada tabela se o funcionário existe
+        $tables = ['adm', 'secretaria', 'repositor'];
+        foreach ($tables as $table) {
+            $sql = "SELECT * FROM $table WHERE cpf = ? LIMIT 1";
+            $stmt = $conn->prepare($sql);
+            
+            if ($stmt === false) {
+                die("Erro ao preparar a consulta: " . $conn->error);
+            }
+
+            $stmt->bind_param("s", $cpfFuncionario);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $funcionario = $result->fetch_assoc();
+                $funcionario['cargo'] = $table; // Define o cargo com base na tabela
+                break; // Sai do loop se encontrar o funcionário
+            }
+        }
+
+        if (!$funcionario) {
+            $mensagem = "Funcionário não encontrado.";
+        }
+    }
+
+    // Se o botão de modificar foi clicado
+    if (isset($_POST['modificar']) && $funcionario) {
+        $nome = trim($_POST['nome']);
+        $telefone = trim($_POST['telefone']);
+        $email = trim($_POST['email']);
+        $cargo = $funcionario['cargo']; // O cargo é inalterável
+
+        // Atualiza os dados do funcionário na tabela correspondente
+        $sqlUpdate = "UPDATE $cargo SET nome = ?, telefone = ?, email = ? WHERE cpf = ?";
+        $stmtUpdate = $conn->prepare($sqlUpdate);
+        
+        if ($stmtUpdate === false) {
+            die("Erro ao preparar a atualização: " . $conn->error);
+        }
+
+        $stmtUpdate->bind_param("ssss", $nome, $telefone, $email, $cpfFuncionario);
+
+        if ($stmtUpdate->execute()) {
+            $mensagem = "Funcionário atualizado com sucesso!";
+            // Limpa os campos após a atualização
+            $cpfFuncionario = '';
+            $funcionario = null;
+        } else {
+            $mensagem = "Erro ao atualizar o funcionário: " . $stmtUpdate->error;
+        }
+        $stmtUpdate->close();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editar Funcionário</title>
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/principal.css" />
+    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/caixaCadastro.css" />
+    <script src="../js/mascara.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="funcionario">
+            <div class="funci">
+                <img src="../img/Logo-Pethop-250px.png" alt="" />
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
+            </div>
+            <div class="sair">
+                <a href="../funcoes/logout.php"><p>sair</p></a>
+            </div>
+        </div>
+        <div class="navbar">
+            <nav>
+                <ul>
+                    <li><a href="Adm.php">Menu</a></li>
+                    <li><a href="AdmFuncionarios.php">Funcionários</a></li>
+                    <li><a href="AdmNovoFuncionario.php">Cadastrar Funcionário</a></li>
+                    <li><a href="AdmEditarFuncionario.php">Editar Funcionário</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="cadastrar">
+            <div class="cadastro">
+                <?php if ($mensagem): ?>
+                    <strong><p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false) ? '#008B00' : '#CD0000'; ?>">
+                        <?php echo htmlspecialchars($mensagem); ?>
+                    </p></strong>
+                <?php endif; ?>
+
+                <form method="POST" action="">
+                    <div class="pesquisa-funcionario">
+                        <label for="cpf">Pesquisar CPF do Funcionário:</label>
+                        <input
+                            type="text"
+                            name="cpf"
+                            id="cpf"
+                            maxlength="14"
+                            placeholder="Digite o CPF do funcionário"
+                            value="<?php echo htmlspecialchars($cpfFuncionario); ?>"
+                            required
+                        />
+                        <button type="submit" name="buscar">Buscar</button>
+                    </div>
+                </form>
+
+                <?php if ($funcionario): ?>
+                    <form method="POST" action="">
+                        <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfFuncionario); ?>" />
+
+                        <p><strong>Editar Funcionário:</strong></p>
+                        <div class="colunas">
+                            <div class="coluna">
+                                <p><strong>Nome:</strong></p>
+                                <input
+                                    type="text"
+                                    name="nome"
+                                    placeholder="Nome do funcionário"
+                                    value="<?php echo htmlspecialchars($funcionario['nome']); ?>"
+                                    required
+                                />
+                                <p><strong>Telefone:</strong></p>
+                                <input
+                                    type="text"
+                                    name="telefone"
+                                    maxlength="14"
+                                    placeholder="Telefone"
+                                    value="<?php echo htmlspecialchars($funcionario['telefone']); ?>"
+                                    required
+                                />
+                            </div>
+                            <div class="coluna">
+                                <p><strong>E-mail:</strong></p>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="E-mail"
+                                    value="<?php echo htmlspecialchars($funcionario['email']); ?>"
+                                    required
+                                />
+                                <p><strong>Cargo:</strong></p>
+                                <input type="text" value="<?php echo ucfirst(htmlspecialchars($funcionario['cargo'])); ?>" disabled style="color: #6c6b6b;">
+                            </div>
+                        </div>
+
+                        <div class="botoes">
+                            <div>
+                                <a href="AdmFuncionarios.php" class="voltar">
+                                    <button type="button" class="voltar">Voltar</button>
+                                </a>
+                            </div>
+                            <div>
+                                <button type="submit" name="modificar" id="cade">Atualizar</button>
+                            </div>
+                        </div>
+                    </form>
+                <?php endif; ?>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
