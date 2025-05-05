@@ -66,9 +66,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <nav>
                 <ul>
                     <li><a href="Adm.php" id="selecionado">Menu</a></li>
+                    <li><a href="AdmEstoque.php" id="selecionado">Estoque</a></li>
                     <li><a href="AdmCadastrarProduto.php">Cadastrar Produto</a></li>
                     <li><a href="AdmEditarProduto.php">Editar Produto</a></li>
-                    <li><a href="AdmExcluirProduto.php">Excluir Produto</a></li>
+                    <li><a href="AdmExcluirProduto.php">Excluir Estoque</a></li>
                 </ul>
             </nav>
         </div>

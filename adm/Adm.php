@@ -40,6 +40,7 @@ $nomeFuncionario = $_SESSION['usuario'];
                     <li><a href="AdmEstoque.php">Estoque</a></li>
                     <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
+                    <li><a href="AdmPet.php">Pets</a></li>
                 </ul>
             </nav>
         </div>
