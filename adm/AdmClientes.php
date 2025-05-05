@@ -64,6 +64,7 @@ if ($result === false) {
                     <li><a href="Adm.php">Menu</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
                     <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
+                    <li><a href="AdmCadastrarPet.php">Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>
