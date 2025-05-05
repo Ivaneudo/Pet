@@ -37,7 +37,7 @@ $nomeFuncionario = $_SESSION['usuario'];
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmNovoFuncionario.php">Novo funcionario</a></li>
+                    <li><a href="AdmEstoque.php">Estoque</a></li>
                     <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
                 </ul>

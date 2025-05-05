@@ -153,16 +153,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['navegar'])) {
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <script src="../js/racaSelect.js" defer></script>
     <script src="../js/mascaraTelefone.js" defer></script>
-    <script>
-        window.racaAtual = '<?php echo $currentPet['raca'] ?? ''; ?>';
-    </script>
 </head>
 <body>
     <div class="container">
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="" />
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
                 <a href="../funcoes/logout.php"><p>sair</p></a>
@@ -171,8 +168,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['navegar'])) {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmNovoFuncionario.php">Novo funcionario</a></li>
-                    <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
+                    <li><a href="Adm.php">Menu</a></li>
+                    <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
                 </ul>
             </nav>
@@ -202,51 +199,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['navegar'])) {
                     <p>Dados do pet</p>
 
                     <?php if ($currentPet): ?>
-                    <div class="animais">
-                        <div class="coluna">
-                            <div class="AnimalTipo">
-                                <input type="radio" class="tipo" name="especie" value="gato" id="gato" <?php if ($currentPet['especie'] === 'gato') echo 'checked'; ?>>
-                                <label for="gato">Gato</label>
-                                <input type="radio" class="tipo" name="especie" value="cachorro" id="cachorro" <?php if ($currentPet['especie'] === 'cachorro') echo 'checked'; ?>>
-                                <label for="cachorro">Cachorro</label>
+                        <div class="animais">
+                            <div class="coluna">
+                                <div class="AnimalTipo">
+                                    <input type="radio" class="tipo" name="especie" value="gato" id="gato" <?php if ($currentPet['especie'] === 'gato') echo 'checked'; ?>>
+                                    <label for="gato">Gato</label>
+                                    <input type="radio" class="tipo" name="especie" value="cachorro" id="cachorro" <?php if ($currentPet['especie'] === 'cachorro') echo 'checked'; ?>>
+                                    <label for="cachorro">Cachorro</label>
+                                </div>
+    
+                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" value="<?php echo htmlspecialchars($currentPet['nome_pet']); ?>" required>
+                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" value="<?php echo htmlspecialchars($currentPet['idade']); ?>">
                             </div>
-
-                            <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" value="<?php echo htmlspecialchars($currentPet['nome_pet']); ?>" required>
-                            <input type="number" name="idade" class="idade" placeholder="Idade do animal" value="<?php echo htmlspecialchars($currentPet['idade']); ?>">
-                        </div>
-                        <div class="coluna">
-                            <div class="AnimalTipo">
-                                <input type="radio" class="tipo" name="sexo" value="macho" id="sexoMacho" <?php if ($currentPet['sexo'] === 'macho') echo 'checked'; ?>>
-                                <label for="sexoMacho">M</label>
-                                <input type="radio" class="tipo" name="sexo" value="femea" id="sexoFemea" <?php if ($currentPet['sexo'] === 'femea') echo 'checked'; ?>>
-                                <label for="sexoFemea">F</label>
-                                <input type="radio" class="tipo" name="sexo" value="intersexo" id="sexoIntersexo" <?php if ($currentPet['sexo'] === 'intersexo') echo 'checked'; ?>>
-                                <label for="sexoIntersexo">I</label>
+                            <div class="coluna">
+                                <div class="AnimalTipo">
+                                    <input type="radio" class="tipo" name="sexo" value="macho" id="sexoMacho" <?php if ($currentPet['sexo'] === 'macho') echo 'checked'; ?>>
+                                    <label for="sexoMacho">M</label>
+                                    <input type="radio" class="tipo" name="sexo" value="femea" id="sexoFemea" <?php if ($currentPet['sexo'] === 'femea') echo 'checked'; ?>>
+                                    <label for="sexoFemea">F</label>
+                                    <input type="radio" class="tipo" name="sexo" value="intersexo" id="sexoIntersexo" <?php if ($currentPet['sexo'] === 'intersexo') echo 'checked'; ?>>
+                                    <label for="sexoIntersexo">I</label>
+                                </div>
+    
+                                <input type="text" name="peso" class="peso" placeholder="Peso" value="<?php echo htmlspecialchars($currentPet['peso'] ?? ''); ?>">
+    
+                                <select name="raca" id="raca">
+                                    <!-- Options will be populated by JS -->
+                                </select>
                             </div>
-
-                            <input type="text" name="peso" class="peso" placeholder="Peso" value="<?php echo htmlspecialchars($currentPet['peso'] ?? ''); ?>">
-
-                            <select name="raca" id="raca">
-                                <!-- Options will be populated by JS -->
-                            </select>
                         </div>
-                    </div>
-                    <?php else: ?>
-                        <p style="color: red; font-weight: bold;">Este cliente não possui pets cadastrados.</p>
-                    <?php endif; ?>
-
-                    <div class="botoes">
-                        <div>
-                            <button type="submit" name="navegar" value="voltar" class="voltar" style="color: black;" <?php if($petIndex <= 0) echo 'disabled'; ?>>Voltar</button>
+                        <?php else: ?>
+                            <p style="color: red; font-weight: semi-bold;">
+                                Este cliente não possui pets cadastrados. <br> Para cadastrar um pet 
+                                <a href="AdmCadastroPet.php?cpf=<?php echo urlencode($cpfCliente); ?>" style="color: #40005ca8;" >clique aqui</a>.
+                            </p>
+                        <?php endif; ?>
+    
+                        <div class="botoes">
+                            <div>
+                                <button type="submit" name="navegar" value="voltar" class="voltar" style="color: black;" <?php if($petIndex <= 0) echo 'disabled'; ?>>Voltar</button>
+                            </div>
+                            <div>
+                                <button type="submit" name="navegar" value="proximo" class="novo" style="color: black;" <?php if($petIndex >= count($pets)-1) echo 'disabled'; ?>>Próximo Pet</button>
+                                <button type="submit" name="modificar" class="cade">Modificar</button>
+                            </div>
                         </div>
-                        <div>
-                            <button type="submit" name="navegar" value="proximo" class="novo" style="color: black;" <?php if($petIndex >= count($pets)-1) echo 'disabled'; ?>>Próximo Pet</button>
-                            <button type="submit" name="modificar" class="cade">Modificar</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

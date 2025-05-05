@@ -85,9 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="navbar">
         <nav>
             <ul>
-                <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
+                <li><a href="Adm.php">Menu</a></li>
                 <li><a href="AdmFuncionarios.php">Funcionários</a></li>
-                <li><a href="AdmClientes.php">Clientes</a></li>
+                <li><a href="AdmNovoFuncionario.php">Novo funcionário</a></li>
             </ul>
         </nav>
     </div>
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="botoes">
                     <div>
-                        <a href="Adm.php" class="voltar"><button type="button" class="voltar">Voltar</button></a>
+                        <a href="AdmFuncionarios.php" class="voltar"><button type="button" class="voltar">Voltar</button></a>
                     </div>
                     <div>
                         <button type="submit" id="cade">Cadastrar</button>
