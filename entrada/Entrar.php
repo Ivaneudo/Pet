@@ -93,7 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                         id="cpf"
                         name="cpf"
                         maxlength="14"
-                        placeholder="Digite seu usuário: " required>
+                        placeholder="Digite seu usuário: " 
+                        required
+                        autocomplete=off>
                     <input 
                         type="password"
                         class="senha"

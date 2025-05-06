@@ -89,6 +89,7 @@
                             id="cpf"
                             placeholder="Digite o CPF do funcionário: "
                             autocomplete="off"
+                            maxlength=14
                             value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">

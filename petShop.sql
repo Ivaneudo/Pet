@@ -148,4 +148,7 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 
 ALTER TABLE caixa RENAME TO secretaria;
 
-select * from secretaria;
+select * from pet;
+
+ALTER TABLE pet
+CHANGE especie especie ENUM('Gato', 'Cachorro') NOT NULL;

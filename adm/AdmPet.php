@@ -59,13 +59,6 @@ if ($result === false) {
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <script src="../js/mascara.js" defer></script>
     <script src="../js/excluirPet.js" defer></script>
-    <script>
-        function confirmarExclusao(cpf, petId, petNome) {
-            if (confirm("Tem certeza que deseja remover o pet '" + petNome + "' do dono com CPF " + cpf + "?")) {
-                window.location.href = "excluirPet.php?cpf=" + encodeURIComponent(cpf) + "&petId=" + encodeURIComponent(petId);
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="container">

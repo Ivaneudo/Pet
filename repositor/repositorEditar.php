@@ -102,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="cadastrar">
             <div class="cadastro">
             <?php if ($mensagem): ?>
-                    <p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? 'green' : 'red'; ?>">
+                    <strong><p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
-                    </p>
+                    </p></strong>
                 <?php endif; ?>
 
                 <form method="POST" action="">

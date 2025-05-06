@@ -11,8 +11,11 @@ if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') 
 // Captura o nome do funcionário da sessão
 $nomeFuncionario = $_SESSION['usuario'];
 
-// Captura o CPF do cliente da sessão
-if (isset($_SESSION['cpf_cliente'])) {
+// Captura o CPF do cliente da sessão ou do POST (caso de redirecionamento)
+if (isset($_POST['cpfCliente'])) {
+    $cpfCliente = $_POST['cpfCliente'];
+    $_SESSION['cpf_cliente'] = $cpfCliente;
+} elseif (isset($_SESSION['cpf_cliente'])) {
     $cpfCliente = $_SESSION['cpf_cliente'];
 } else {
     die("CPF do cliente não informado.");
@@ -20,16 +23,23 @@ if (isset($_SESSION['cpf_cliente'])) {
 
 $cliente = null;
 
-// Busca dados do cliente
-$sql = "SELECT * FROM cliente WHERE cpf = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $cpfCliente);
-$stmt->execute();
-$result = $stmt->get_result();
+// Função para buscar dados do cliente
+function buscarCliente($conn, $cpfCliente) {
+    $sql = "SELECT * FROM cliente WHERE cpf = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $cpfCliente);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    }
+    return null;
+}
 
-if ($result->num_rows > 0) {
-    $cliente = $result->fetch_assoc();
-} else {
+// Busca dados iniciais do cliente
+$cliente = buscarCliente($conn, $cpfCliente);
+if (!$cliente) {
     die("Cliente não encontrado.");
 }
 
@@ -50,13 +60,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
     $sqlUpdateCliente = "UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE cpf = ?";
     $stmtUpdateCliente = $conn->prepare($sqlUpdateCliente);
     $stmtUpdateCliente->bind_param("ssss", $nome, $telefone, $email, $cpfCliente);
-    if (!$stmtUpdateCliente->execute()) {
+    
+    if ($stmtUpdateCliente->execute()) {
+        // Armazena mensagem na sessão para exibir após redirecionamento
+        $_SESSION['message'] = "Informações atualizadas com sucesso!";
+        
+        // Atualiza os dados na variável $cliente para mostrar os valores atualizados
+        $cliente = buscarCliente($conn, $cpfCliente);
+        
+        // Redireciona para a mesma página para evitar reenvio do formulário
+        header("Location: AdmEditarCliente.php");
+        exit();
+    } else {
         die("Erro ao atualizar cliente: " . $stmtUpdateCliente->error);
     }
-
-    // Armazena mensagem na sessão para exibir após redirecionamento
-    $_SESSION['message'] = "Informações atualizadas com sucesso!";
-
 }
 ?>
 <!DOCTYPE html>
@@ -94,7 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
         <div class="cadastrar">
             <div class="cadastro">
                 <?php if($message): ?>
-                    <p style="color: #008B00; font-weight: bold;"><?php echo htmlspecialchars($message); ?></p>
+                    <div class="alert alert-success" style="color: #008B00; font-weight: bold; text-align: left;">
+                        <?php echo htmlspecialchars($message); ?>
+                    </div>
                 <?php endif; ?>
                 <form method="POST" action="">
                     <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" />
