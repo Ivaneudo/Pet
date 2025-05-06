@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
                         <div class="colunas">
                             <div class="coluna">
                                 <P for="cpf_display">CPF:</P>
-                                <input type="text" name="cpf_display" class="CPFCliente" placeholder="CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" disabled style="color: #6c6b6b;">
+                                <input type="text" name="cpf_display" class="CPFCliente" placeholder="CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" disabled style="color: #6c6b6b; cursor: not-allowed;">
                                 
                                 <P for="telefone">Telefone:</P>
                                 <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Telefone do cliente" value="<?php echo htmlspecialchars($cliente['telefone']); ?>">

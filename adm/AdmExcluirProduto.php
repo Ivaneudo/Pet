@@ -134,6 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     placeholder="Código"
                                     value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                     readonly
+                                    style="color: #6c6b6b; cursor: not-allowed;"
                                 >
                                 <input
                                     type="text"
@@ -142,6 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     placeholder="Preço"
                                     value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                     disabled
+                                    style="color: #6c6b6b; cursor: not-allowed;"
                                 >
                             </div>
 
@@ -153,6 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     placeholder="Nome do produto"
                                     value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                     disabled
+                                    style="color: #6c6b6b; cursor: not-allowed;"
                                 >
                                 <input
                                     type="number"

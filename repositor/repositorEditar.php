@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li><a href="repositorEstoque.php">Estoque</a></li>
                     <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
                     <li><a href="repositorEditar.php" id="selecionado">Editar Produto</a></li>
-                    <li><a href="repositorExcluir.php">Excluir Produto</a></li>
+                    <li><a href="repositorExcluir.php">Excluir Estoque</a></li>
                 </ul>
             </nav>
         </div>

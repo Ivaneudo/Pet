@@ -40,4 +40,5 @@ button {
     height: 50px;
     border-radius: 15px;
     border: none;
+    cursor: pointer;
 }

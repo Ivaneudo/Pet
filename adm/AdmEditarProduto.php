@@ -137,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         placeholder="Código: "
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
+                                        style="color: #6c6b6b; cursor: not-allowed;"
                                     >
                                     <input
                                         type="text"

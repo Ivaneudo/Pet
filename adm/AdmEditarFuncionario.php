@@ -171,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     required
                                 />
                                 <p><strong>Cargo:</strong></p>
-                                <input type="text" value="<?php echo ucfirst(htmlspecialchars($funcionario['cargo'])); ?>" disabled style="color: #6c6b6b;">
+                                <input type="text" value="<?php echo ucfirst(htmlspecialchars($funcionario['cargo'])); ?>" disabled style="color: #6c6b6b; cursor: not-allowed;">
                             </div>
                         </div>
 

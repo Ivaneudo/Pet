@@ -72,8 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Subtrair Estoque</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
+    <title>Excluir Estoque</title>
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/repositor.css" />
 </head>
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li><a href="repositorEstoque.php">Estoque</a></li>
                 <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
                 <li><a href="repositorEditar.php">Editar Produto</a></li>
-                <li><a href="repositorExcluir.php" id="selecionado">Subtrair Estoque</a></li>
+                <li><a href="repositorExcluir.php" id="selecionado">Excluir Estoque</a></li>
             </ul>
         </nav>
     </div>

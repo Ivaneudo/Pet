@@ -62,7 +62,7 @@ if ($result === false) {
                     <li><a href="repositorEstoque.php" id="selecionado">Estoque</a></li>
                     <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
                     <li><a href="repositorEditar.php">Editar Produto</a></li>
-                    <li><a href="repositorExcluir.php">Excluir Produto</a></li>
+                    <li><a href="repositorExcluir.php">Excluir Estoque</a></li>
                 </ul>
             </nav>
         </div>
