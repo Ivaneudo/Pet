@@ -38,9 +38,8 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="SecretariaClientes.php">Clientes</a></li>
-                    <li><a href="SecretariaPet.php">Pets</a></li>
-                    <li><a href="SecretariaProdutos.php">Produtos</a></li>
+                    <li><a href="Secretaria.php">Menu</a></li>
+                    <li><a href="SecretariaVendas.php">Caixa</a></li>
                     <li><a href="SecretariaServiços.php">Serviço</a></li>
                 </ul>
             </nav>
@@ -49,7 +48,7 @@
             <div class="pag">
                 <div class="CardDin">
                     <nav>
-                        <a href="CaixaPagamento.php">Cartão</a>
+                        <a href="SecretariaPagamento.php">Cartão</a>
                         <a href="#" id="selec">Dinheiro</a>
                     </nav>
                 </div>
@@ -71,7 +70,7 @@
                     </div>
                     <div class="botoes">
                         <div>
-                            <button class="voltar" id="volt">Cancelar</button>
+                            <button class="voltar" id="volt" onclick="window.location.href='Secretaria.php'">Cancelar</button>
                         </div>
                         <div>
                             <button id="cade">Finalizar</button>

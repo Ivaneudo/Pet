@@ -18,14 +18,6 @@ CREATE TABLE cliente (
 	senha VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE supervisor(
-	nome VARCHAR(100),
-	cpf CHAR(14) NOT NULL UNIQUE,
-	telefone CHAR(14),
-	email VARCHAR(100) UNIQUE,
-	senha VARCHAR(50) NOT NULL
-);
-
 CREATE TABLE repositor(
 	nome VARCHAR(100),
 	cpf CHAR(14) NOT NULL UNIQUE,
@@ -152,3 +144,27 @@ select * from pet;
 
 ALTER TABLE pet
 CHANGE especie especie ENUM('Gato', 'Cachorro') NOT NULL;
+
+ALTER TABLE vendas
+ADD id_pet INT;
+
+ALTER TABLE vendas
+ADD FOREIGN KEY (id_pet) REFERENCES pet(id_pet);
+
+ALTER TABLE vendas
+ADD formaPagamento ENUM('Crédito','Débito');
+
+-- 1. Verificar o nome da constraint FOREIGN KEY
+SHOW CREATE TABLE vendas;
+
+-- 2. Remover a FOREIGN KEY (substitua vendas_ibfk_1 pelo nome real da sua constraint)
+ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_1;
+
+-- 3. Renomear a coluna na tabela vendas
+ALTER TABLE vendas CHANGE caixa_id secretaria_id INT;
+
+-- 4. Renomear a coluna na tabela secretaria
+ALTER TABLE secretaria CHANGE caixa_id secretaria_id INT AUTO_INCREMENT;
+
+-- 5. Recriar a FOREIGN KEY
+ALTER TABLE vendas ADD FOREIGN KEY (secretaria_id) REFERENCES secretaria(secretaria_id);
