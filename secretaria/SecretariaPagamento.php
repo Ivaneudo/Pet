@@ -44,6 +44,36 @@ foreach ($petsSelecionados as $idPet) {
     $petsInfo[] = $resultPet->fetch_assoc();
     $stmtPet->close();
 }
+
+// Lógica para processar o POST após o envio do formulário
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $formaPagamento = $_POST['cartao']; // 'Crédito' ou 'Débito'
+    $valorPago = $_POST['valor']; // valor total da compra
+
+    // Consulta para obter o ID da secretaria
+    $sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
+    $stmtSecretaria = $conn->prepare($sqlSecretaria);
+    $stmtSecretaria->bind_param("s", $nomeFuncionario);
+    $stmtSecretaria->execute();
+    $resultSecretaria = $stmtSecretaria->get_result();
+    $secretaria = $resultSecretaria->fetch_assoc();
+    $stmtSecretaria->close();
+
+    $secretariaId = $secretaria['secretaria_id'];
+
+    // Insere os dados na tabela servico
+    foreach ($petsSelecionados as $idPet) {
+        $sqlServico = "INSERT INTO servico (secretaria_id, id_pet, servico, valor_servico, forma_de_pagamento) VALUES (?, ?, ?, ?, ?)";
+        $stmtServico = $conn->prepare($sqlServico);
+        $stmtServico->bind_param("iisss", $secretariaId, $idPet, $servico, $valorPago, $formaPagamento);
+        $stmtServico->execute();
+        $stmtServico->close();
+    }
+
+    // Após inserir, pode redirecionar para página de sucesso
+    header("Location: sucesso.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -56,14 +86,20 @@ foreach ($petsSelecionados as $idPet) {
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
+    <script src="../js/pagamentoCredito.js" defer></script>
     <style>
         .info-resumo p {
             color: #6c6b6b;
             font-size: 1em;
         }
+
         #parcelasContainer {
-            display: none; /* Esconde inicialmente */
+            display: none; 
             margin-top: 10px;
+        }
+        
+        .desabilitado{
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -81,9 +117,9 @@ foreach ($petsSelecionados as $idPet) {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Secretaria.php">Menu</a></li>
-                    <li><a href="SecretariaVendas.php">Caixa</a></li>
-                    <li><a href="SecretariaServiços.php">Serviço</a></li>
+                    <li><a href="#" class="desabilitado">Menu</a></li>
+                    <li><a href="#" class="desabilitado">Caixa</a></li>
+                    <li><a href="#" class="desabilitado">Serviço</a></li>
                 </ul>
             </nav>
         </div>
@@ -118,7 +154,7 @@ foreach ($petsSelecionados as $idPet) {
                     </nav>
                 </div>
                 
-                <form method="POST" action="finalizarPagamento.php">
+                <form method="POST" action="">
                     <input type="hidden" name="valor" value="<?php echo htmlspecialchars($valorCompra); ?>" />
                     <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfCliente); ?>" />
                     <input type="hidden" name="pets" value="<?php echo htmlspecialchars(implode(',', $petsSelecionados)); ?>" />
@@ -150,7 +186,7 @@ foreach ($petsSelecionados as $idPet) {
                     </div>
                     
                     <div class="botoes" style="margin-top:15px; display:flex; gap:10px;">
-                        <button type="button" class="voltar" id="volt" onclick="window.location.href='SecretariaServiços.php'">Cancelar</button>
+                        <button type="button" class="voltar" id="volt" onclick="window.location.href='cancelarPagamento.php'">Cancelar</button>
                         
                         <button type="submit" id="cade">Finalizar</button>
                     </div>
@@ -158,31 +194,5 @@ foreach ($petsSelecionados as $idPet) {
             </div>
         </div>
     </div>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const creditoRadio = document.getElementById('credito');
-        const debitoRadio = document.getElementById('debito');
-        const parcelasContainer = document.getElementById('parcelasContainer');
-        const parcelasSelect = document.getElementById('parcelas');
-
-        function atualizarParcelas() {
-            if (creditoRadio.checked) {
-                parcelasContainer.style.display = 'block';
-                parcelasSelect.setAttribute('required', 'required');
-            } else {
-                parcelasContainer.style.display = 'none';
-                parcelasSelect.removeAttribute('required');
-                parcelasSelect.value = "";
-            }
-        }
-
-        creditoRadio.addEventListener('change', atualizarParcelas);
-        debitoRadio.addEventListener('change', atualizarParcelas);
-
-        // Inicializa o estado correto ao carregar a página
-        atualizarParcelas();
-    });
-    </script>
 </body>
 </html>

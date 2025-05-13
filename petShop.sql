@@ -1,102 +1,81 @@
 CREATE DATABASE petShop;
 USE petShop;
 
-CREATE TABLE admnistrador(
-	nome VARCHAR(100),
-	cpf CHAR(14) NOT NULL UNIQUE,
-	telefone CHAR(14), 
-	email VARCHAR(100) UNIQUE,
-	senha VARCHAR(50) NOT NULL
+CREATE TABLE adm (
+    nome VARCHAR(100),
+    cpf CHAR(14) NOT NULL UNIQUE,
+    telefone CHAR(14), 
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE cliente (
-	id_cliente INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(100),
-	cpf CHAR(14) NOT NULL UNIQUE,
-	telefone CHAR(14),
-	email VARCHAR(100) UNIQUE,
-	senha VARCHAR(50) NOT NULL
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    cpf CHAR(14) NOT NULL UNIQUE,
+    telefone CHAR(14),
+    email VARCHAR(100) UNIQUE
 );
 
-CREATE TABLE repositor(
-	nome VARCHAR(100),
-	cpf CHAR(14) NOT NULL UNIQUE,
-	telefone CHAR(14),
-	email VARCHAR(100) UNIQUE,
-	senha VARCHAR(50) NOT NULL
+CREATE TABLE repositor (
+    nome VARCHAR(100),
+    cpf CHAR(14) NOT NULL UNIQUE,
+    telefone CHAR(14),
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE caixa(
-	caixa_id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(100),
-	cpf CHAR(14) NOT NULL UNIQUE,
-	telefone CHAR(14),
-	email VARCHAR(100) UNIQUE,
-	senha VARCHAR(50) NOT NULL
+CREATE TABLE secretaria (
+    secretaria_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    cpf CHAR(14) NOT NULL UNIQUE,
+    telefone CHAR(14),
+    email VARCHAR(100) UNIQUE,
+    senha VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE produto(
-	id_produto INT NOT NULL,
-	nome_produto VARCHAR(150),
-	estoque INT,
-	preco DECIMAL (10, 2) NOT NULL DEFAULT 0.00,
-	tamanho ENUM('P', 'M', 'G', 'GG')
+CREATE TABLE produto (
+    id_produto INT PRIMARY KEY,
+    nome_produto VARCHAR(150),
+    estoque INT,
+    preco DECIMAL(10, 2) NOT NULL,
+    tamanho VARCHAR(50)
 );
 
-CREATE TABLE vendas(
-	valor_compra DECIMAL(5,2),
-	valor_pago DECIMAL (7,2),
-	caixa_id INT,
-	FOREIGN KEY (caixa_id) REFERENCES caixa (caixa_id),
-	id_cliente INT,
-	FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+CREATE TABLE pet (
+    id_pet INT PRIMARY KEY AUTO_INCREMENT,
+    nome_pet VARCHAR(100) NOT NULL,
+    idade INT,
+    especie ENUM('Gato', 'Cachorro') NOT NULL,
+    sexo ENUM('macho', 'femea', 'intersexo'),
+    peso DECIMAL(10, 2),
+    raca VARCHAR(100),
+    cpf_dono CHAR(14),
+    FOREIGN KEY (cpf_dono) REFERENCES cliente(cpf)
 );
 
-CREATE TABLE pet(
-	nome_pet VARCHAR(100) NOT NULL,
-	idade INT,
-	especie ENUM('gato, cachorro') NOT NULL,
-	cpf_dono CHAR(14),
-	FOREIGN KEY (cpf_dono) REFERENCES cliente(cpf)
+CREATE TABLE vendas (
+    secretaria_id INT,
+    id_produto INT,
+    id_cliente INT,
+    valor_compra DECIMAL(10,2),
+    forma_de_pagamento ENUM('Crédito', 'Débito', 'Dinheiro'),
+    data_venda TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (secretaria_id) REFERENCES secretaria(secretaria_id),
+    FOREIGN KEY (id_produto) REFERENCES produto(id_produto),
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
-ALTER TABLE pet 
-ADD sexo ENUM('macho', 'femea', 'intersexo');
-
-ALTER TABLE produto 
-CHANGE tamanho tamanho VARCHAR(50);
-
-ALTER TABLE produto 
-CHANGE id_produto id_produto INT NOT NULL PRIMARY KEY;
-
-ALTER TABLE produto 
-CHANGE preco preco DECIMAL (10, 2) NOT NULL;
-
-ALTER TABLE vendas 
-CHANGE valor_pago forma_de_pagamento ENUM('cartao', 'dinheiro');
-
-ALTER TABLE vendas
-ADD servico ENUM('banho', 'tosa', 'banho e tosa');
-
-ALTER TABLE vendas
-ADD id_produto INT;
-
-ALTER TABLE vendas
-ADD FOREIGN KEY (id_produto) REFERENCES produto(id_produto);
-
-ALTER TABLE pet
-CHANGE especie especie ENUM('gato', 'cachorro') NOT NULL;
-
-ALTER TABLE pet
-ADD id_pet INT PRIMARY KEY AUTO_INCREMENT;
-
-ALTER TABLE pet
-ADD raca VARCHAR(100);
-
-ALTER TABLE pet
-ADD peso DECIMAL(10, 2);
-
-ALTER TABLE admnistrador RENAME TO adm;
+CREATE TABLE servico(
+    secretaria_id INT,
+    id_pet INT,
+    servico ENUM('Banho', 'Tosa', 'Banho e Tosa'),
+    valor_servico DECIMAL(10,2),
+    data_servico TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    forma_de_pagamento ENUM('Crédito', 'Débito', 'Dinheiro'),
+    FOREIGN KEY (secretaria_id) REFERENCES secretaria(secretaria_id),
+    FOREIGN KEY (id_pet) REFERENCES pet(id_pet)
+);
 
 INSERT INTO adm(nome, cpf, telefone, email, senha) VALUES
 ('Maria', '123.456.789-10', '(85) 4002-8922', 'maria@gmail.com', '123');
@@ -104,27 +83,18 @@ INSERT INTO adm(nome, cpf, telefone, email, senha) VALUES
 INSERT INTO repositor(nome, cpf, telefone, email, senha) VALUES
 ('Joao', '111.222.333-44', '(85) 1111-2222', 'joao@gmail.com', '1234');
 
-INSERT INTO caixa(nome, cpf, telefone, email, senha) VALUES
+INSERT INTO secretaria(nome, cpf, telefone, email, senha) VALUES
 ('Pedro', '555.666.777-88', '(85) 3333-4444', 'pedro@gmail.com', '12345');
 
-INSERT INTO caixa(nome, cpf, telefone, email, senha) VALUES
-('Antonia', '999.888.777-66', '(85) 5555-6666', 'antonia@gmail.com', '123456');
+INSERT INTO cliente(nome, cpf, email) VALUES
+('Ivaneudo', '123.321.132-12', 'ivaneudo@gmail.com'),
+('Ananda', '124.421.142-12', 'ananda@gmail.com'),
+('Geraldo', '999.999.999-99', 'geraldo@gmail.com');
 
-INSERT INTO cliente(nome, cpf, senha) VALUES
-('Ivaneudo', '123.321.132-12', '789');
-
-INSERT INTO cliente(nome, cpf, senha) VALUES
-('Ananda', '124.421.142-12', '987');
-
-UPDATE cliente
-SET email = "ananda@gmail.com"
-WHERE id_cliente = 6;
-
-INSERT INTO pet(nome_pet, idade, especie, cpf_dono) VALUES
-("feioso", 3, "gato", "124.421.142-12");
-
-INSERT INTO pet(nome_pet, idade, especie, cpf_dono) VALUES
-("kelly", 2, "cachorro", "124.421.142-12");
+INSERT INTO pet(nome_pet, idade, especie, cpf_dono, sexo, peso, raca) VALUES
+("Feioso", 3, "Gato", "124.421.142-12", "macho", 4.5, "Siamês"),
+("Kelly", 2, "Cachorro", "124.421.142-12", "femea", 8.2, "Poodle"),
+('Careca', 7, 'Gato', '999.999.999-99', 'intersexo', '6', 'Sphynx');
 
 INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 (001, 'Ração Premium Adulto', 50, 30.00, '10kg'),
@@ -138,33 +108,4 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 (009, 'Ração Grain Free', 28, 29.90, '7kg'),
 (010, 'Arranhador com Sisal', 23, 69.90, '90cm');
 
-ALTER TABLE caixa RENAME TO secretaria;
-
-select * from pet;
-
-ALTER TABLE pet
-CHANGE especie especie ENUM('Gato', 'Cachorro') NOT NULL;
-
-ALTER TABLE vendas
-ADD id_pet INT;
-
-ALTER TABLE vendas
-ADD FOREIGN KEY (id_pet) REFERENCES pet(id_pet);
-
-ALTER TABLE vendas
-ADD formaPagamento ENUM('Crédito','Débito');
-
--- 1. Verificar o nome da constraint FOREIGN KEY
-SHOW CREATE TABLE vendas;
-
--- 2. Remover a FOREIGN KEY (substitua vendas_ibfk_1 pelo nome real da sua constraint)
-ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_1;
-
--- 3. Renomear a coluna na tabela vendas
-ALTER TABLE vendas CHANGE caixa_id secretaria_id INT;
-
--- 4. Renomear a coluna na tabela secretaria
-ALTER TABLE secretaria CHANGE caixa_id secretaria_id INT AUTO_INCREMENT;
-
--- 5. Recriar a FOREIGN KEY
-ALTER TABLE vendas ADD FOREIGN KEY (secretaria_id) REFERENCES secretaria(secretaria_id);
+select * from servico;

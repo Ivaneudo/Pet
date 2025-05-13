@@ -45,6 +45,35 @@ foreach ($petsSelecionados as $idPet) {
     $stmtPet->close();
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // valor pago informado pelo usuário
+    $valorPago = $_POST['valor_pago']; 
+
+    // Consulta para obter o ID da secretaria
+    $sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
+    $stmtSecretaria = $conn->prepare($sqlSecretaria);
+    $stmtSecretaria->bind_param("s", $nomeFuncionario);
+    $stmtSecretaria->execute();
+    $resultSecretaria = $stmtSecretaria->get_result();
+    $secretaria = $resultSecretaria->fetch_assoc();
+    $stmtSecretaria->close();
+
+    $secretariaId = $secretaria['secretaria_id'];
+
+    // Insere os dados na tabela servico
+    foreach ($petsSelecionados as $idPet) {
+        $sqlServico = "INSERT INTO servico (secretaria_id, id_pet, servico, valor_servico, forma_de_pagamento) VALUES (?, ?, ?, ?, 'Dinheiro')";
+        $stmtServico = $conn->prepare($sqlServico);
+        $stmtServico->bind_param("iiss", $secretariaId, $idPet, $servico, $valorPago);
+        $stmtServico->execute();
+        $stmtServico->close();
+    }
+
+    // Redireciona para uma página de confirmação ou sucesso
+    header("Location: sucesso.php");
+    exit();
+}
+
 function getNomeServico($codigo) {
     switch($codigo) {
         case 'banho':
@@ -75,9 +104,14 @@ function getNomeServico($codigo) {
             font-size: 1em;
             margin: 4px 0;
         }
+
         .info-resumo {
             margin-bottom: 15px;
             padding-bottom: 10px;
+        }
+        
+        .desabilitado{
+            cursor: not-allowed;
         }
     </style>
 </head>
@@ -95,9 +129,9 @@ function getNomeServico($codigo) {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Secretaria.php">Menu</a></li>
-                    <li><a href="SecretariaVendas.php">Caixa</a></li>
-                    <li><a href="SecretariaServiços.php">Serviço</a></li>
+                    <li><a href="#" class="desabilitado">Menu</a></li>
+                    <li><a href="#" class="desabilitado">Caixa</a></li>
+                    <li><a href="#" class="desabilitado">Serviço</a></li>
                 </ul>
             </nav>
         </div>
@@ -122,42 +156,28 @@ function getNomeServico($codigo) {
                         <a href="#" id="selec">Dinheiro</a>
                     </nav>
                 </div>
-                <form action="">
+                <form method="POST" action="">
                     <div class="lin">
                         <div class="PrimLin">
                             <div class="valor">
-                                <input type="text" id="valor" placeholder="Valor: " readonly>
+                                <input type="text" id="valor" placeholder="Valor: " value="R$ <?php echo number_format($valorTotal, 2, ',', '.'); ?>" readonly>
                             </div>
                             <div class="valor">
-                                <input type="text" placeholder="Troco:  ">
-                            </div>
-                        </div>
-                        <div class="SecundLin">
-                            <div class="valor">
-                                <input type="text" placeholder="Valor Pago: ">
+                                <input type="number" name="valor_pago" placeholder="Valor Pago: " step="0.01" min="0" required>
                             </div>
                         </div>
                     </div>
-                    <div class="botoes">
+                    <div class="botoes" style="margin-top:15px; display:flex; gap:10px;">
                         <div>
                             <button type="button" class="voltar" id="volt" onclick="window.location.href='cancelarPagamento.php'">Cancelar</button> 
                         </div>
                         <div>
-                            <button id="cade">Finalizar</button>
+                            <button type="submit" id="cade">Finalizar</button>
                         </div>
-                    </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <script>
-        // Preenche o campo de valor com o valor total formatado
-        document.addEventListener('DOMContentLoaded', function() {
-            const valorTotal = <?php echo json_encode(number_format($valorTotal, 2, ',', '.')); ?>;
-            document.getElementById('valor').value = 'R$ ' + valorTotal;
-        });
-    </script>
 </body>
 </html>
