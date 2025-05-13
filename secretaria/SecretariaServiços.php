@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf']) && !isset($_POS
     ];
 
     // Redireciona sem parâmetros na URL
-    header("Location: SecretariaPagamento.php");
+    header("Location: SecretariaPagServico.php");
     exit();
 } else {
     $result = null;

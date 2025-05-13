@@ -171,7 +171,7 @@
                 </div>
                 <div class="CardDin">
                     <nav>
-                        <a href="SecretariaPagamento.php">Cartão</a>
+                        <a href="SecretariaPagServico.php">Cartão</a>
                         <a href="#" id="selec">Dinheiro</a>
                     </nav>
                 </div>

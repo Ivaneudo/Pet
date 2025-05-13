@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="CardDin">
                     <nav>
                         <a href="#" id="selec">Cartão</a>
-                        <a href="SecretariaPagamentoDinheiro.php">Dinheiro</a>
+                        <a href="SecretariaPagServicoDinheiro.php">Dinheiro</a>
                     </nav>
                 </div>
                 

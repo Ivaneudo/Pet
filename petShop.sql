@@ -109,3 +109,13 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 (010, 'Arranhador com Sisal', 23, 69.90, '90cm');
 
 select * from servico;
+
+SHOW CREATE TABLE vendas;
+
+ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_3;
+
+ALTER TABLE vendas CHANGE id_cliente cpf_cliente CHAR(14);
+
+ALTER TABLE vendas ADD FOREIGN KEY (cpf_cliente) REFERENCES cliente(cpf);
+
+--
