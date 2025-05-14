@@ -1,0 +1,43 @@
+button {
+    cursor: pointer;
+}
+.Escondido {
+    display: none;
+}
+.Aparece {
+    display: block;
+}
+.desabilitado{
+    cursor: not-allowed;
+}
+button img{
+    width: 25px;
+}
+.campo img {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 2px;
+    left: 12rem;
+}
+table {
+    margin-top: 1rem;
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%;
+}
+
+table td, th{
+    border: 1px solid black;
+}
+.excluir{
+    height: 30px;
+    width: 80px;
+    background: none; 
+    border: none; 
+    cursor: pointer;
+}
+.excluir img{
+    height: 22px;
+    width: 22px;
+}

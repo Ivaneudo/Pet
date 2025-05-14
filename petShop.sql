@@ -118,4 +118,8 @@ ALTER TABLE vendas CHANGE id_cliente cpf_cliente CHAR(14);
 
 ALTER TABLE vendas ADD FOREIGN KEY (cpf_cliente) REFERENCES cliente(cpf);
 
---
+ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_2;
+
+ALTER TABLE vendas DROP COLUMN id_produto;
+
+select * from vendas;

@@ -34,7 +34,10 @@
 
         if ($result->num_rows > 0) {
             // Credenciais válidas, cancela o pagamento
-            unset($_SESSION['dados_pagamento']);
+            if (isset($_SESSION['carrinho'])) {
+                unset($_SESSION['carrinho']); // Limpa o carrinho de produtos
+            }
+            unset($_SESSION['dados_pagamento']); // Limpa os dados de pagamento
             $pagamentoCancelado = true;
         } else {
             $erro = "CPF ou senha inválidos.";
