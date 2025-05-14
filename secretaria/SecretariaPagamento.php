@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Inserir uma linha na tabela vendas para cada produto no carrinho
         foreach ($carrinho as $item) {
-            $sqlVenda = "INSERT INTO vendas (secretaria_id, id_produto, cpf_cliente, valor_compra, forma_de_pagamento) VALUES (?, ?, ?, ?, ?)";
+            $sqlVenda = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento) VALUES (?, ?, ?, ?)";
             $stmtVenda = $conn->prepare($sqlVenda);
 
             // cpf_cliente pode ser null para clientes sem cpf informado
@@ -71,22 +71,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Valor da compra para o produto: preco * quantidade
             $valorProduto = $item['preco'] * $item['quantidade'];
 
-            $stmtVenda->bind_param("iisd", $secretariaId, $item['id_produto'], $cpfParaInsert, $valorProduto, $formaPagamento);
-
-
             if ($cpfParaInsert === null) {
-                // To insert null in prepared statement, we need to use bind_param workaround or execute direct query
+                // Para inserir null diretamente no SQL
                 $stmtVenda->close();
-                $sqlVendaNullCpf = "INSERT INTO vendas (secretaria_id, id_produto, cpf_cliente, valor_compra, forma_de_pagamento) VALUES (?, ?, NULL, ?, ?)";
+                $sqlVendaNullCpf = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento) VALUES (?, NULL, ?, ?)";
                 $stmtVendaNullCpf = $conn->prepare($sqlVendaNullCpf);
-                $stmtVendaNullCpf->bind_param("iid", $secretariaId, $item['id_produto'], $valorProduto, $formaPagamento);
+                $stmtVendaNullCpf->bind_param("ids", $secretariaId, $valorProduto, $formaPagamento);
                 $stmtVendaNullCpf->execute();
                 $stmtVendaNullCpf->close();
             } else {
-                $stmtVenda->bind_param("iissd", $secretariaId, $item['id_produto'], $cpfCliente, $valorProduto, $formaPagamento);
+                $stmtVenda->bind_param("isds", $secretariaId, $cpfCliente, $valorProduto, $formaPagamento);
                 $stmtVenda->execute();
                 $stmtVenda->close();
             }
+
+            // Atualiza o estoque para cada produto no carrinho
+            $sqlAtualizaEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
+            $stmtEstoque = $conn->prepare($sqlAtualizaEstoque);
+            $stmtEstoque->bind_param("ii", $item['quantidade'], $item['id_produto']);
+            $stmtEstoque->execute();
+            $stmtEstoque->close();
         }
 
         // Limpa os dados de pagamento da sessão após finalizar
@@ -205,4 +209,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </body>
 </html>
-
