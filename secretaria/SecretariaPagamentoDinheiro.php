@@ -18,6 +18,7 @@ if (!isset($_SESSION['dados_pagamento'])) {
 $dadosPagamento = $_SESSION['dados_pagamento'];
 $valorTotal = $dadosPagamento['valor_total'];
 $cpfCliente = $dadosPagamento['cpf_cliente'];
+$carrinho = $dadosPagamento['carrinho'];
 
 // Captura o nome do funcionário da sessão
 $nomeFuncionario = $_SESSION['usuario'];
@@ -65,7 +66,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmtVenda = $conn->prepare($sqlVenda);
             $stmtVenda->bind_param("isd", $secretariaId, $cpfCliente, $valorTotal);
         }
+
         if ($stmtVenda->execute()) {
+            // Atualiza o estoque para cada produto no carrinho
+            foreach ($carrinho as $item) {
+                $sqlAtualizaEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
+                $stmtEstoque = $conn->prepare($sqlAtualizaEstoque);
+                $stmtEstoque->bind_param("ii", $item['quantidade'], $item['id_produto']);
+                $stmtEstoque->execute();
+                $stmtEstoque->close();
+            }
+
             unset($_SESSION['dados_pagamento']);
             unset($_SESSION['carrinho']);
             header("Location: sucesso.php");
