@@ -113,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         name="codigo"
                         id="codigo"
                         placeholder="Digite o ID do produto"
+                        autocomplete=off 
                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                         required
                     >
@@ -130,7 +131,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="text"
                                     name="codigo"
                                     class="NomeCliente"
-                                    placeholder="Código"
+                                    placeholder="Código do Produto:"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                     readonly
                                 >
@@ -138,7 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="text"
                                     id="preco"
                                     name="preco"
-                                    placeholder="Preço"
+                                    placeholder="Preço do Produto: "
+                                    autocomplete=off
                                     value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                     disabled
                                 >
@@ -149,7 +152,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="text"
                                     name="nome"
                                     class="Telefone"
-                                    placeholder="Nome do produto"
+                                    placeholder="Nome do produto: "
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                     disabled
                                 >
@@ -157,7 +161,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="number"
                                     name="estoque"
                                     class="Email"
-                                    placeholder="Quantidade para subtrair"
+                                    placeholder="Quantidade para subtrair:"
+                                    autocomplete=off 
                                     value=""
                                     min="1"
                                     max="<?php echo htmlspecialchars($estoqueProduto); ?>"

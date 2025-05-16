@@ -137,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         placeholder="Código: "
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
+                                        autocomplete=off 
                                         style="color: #6c6b6b; cursor: not-allowed;"
                                     >
                                     <input
@@ -144,6 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         id="preco"
                                         name="preco"
                                         placeholder="Preço"
+                                        autocomplete=off 
                                         value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                     >
                                 </div>
@@ -154,6 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         name="nome"
                                         class="Telefone"
                                         placeholder="Nome do produto"
+                                        autocomplete=off 
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         required
                                     >
@@ -162,6 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         name="estoque"
                                         class="Email"
                                         placeholder="Estoque"
+                                        autocomplete=off 
                                         value="<?php echo htmlspecialchars($estoqueProduto); ?>"
                                         min="0"
                                         required

@@ -86,6 +86,7 @@ if ($result === false) {
                             <div class="pesquisa">
                                 <div class="campo">
                                     <input type="text" name="cpf" id="cpf" placeholder="Digite o CPF do dono: " maxlength="14" autocomplete="off" value="<?php echo isset($cpfPesquisado) ? htmlspecialchars($cpfPesquisado) : ''; ?>"/>
+                                    
                                     <button type="submit" style="background: none; border: none; cursor: pointer;">
                                         <img src="../img/search-svgrepo-com.svg" alt="Buscar">
                                     </button>

@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <?php if ($cliente): ?>
                     <form method="POST" action="">
-                        <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>">
+                        <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" autocomplete=off>
                         <div class="coluna">
                             <p><strong>Cliente:</strong> <?php echo htmlspecialchars($cliente['nome']); ?></p>
                         </div>
@@ -134,25 +134,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
-                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" required>
-                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" required min="0">
+                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" autocomplete=off required>
+                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" autocomplete=off required min="0">
                             </div>
 
                             <div class="coluna">
                                 <div class="AnimalTipo">
-                                    <input type="radio" class="tipo" name="sexo" value="macho" id="sexoMacho" required>
+                                    <input type="radio" class="tipo" name="sexo" value="macho" id="sexoMacho" autocomplete=off required>
                                     <label for="sexoMacho">M</label>
                                     
-                                    <input type="radio" class="tipo" name="sexo" value="femea" id="sexoFemea" required>
+                                    <input type="radio" class="tipo" name="sexo" value="femea" id="sexoFemea" autocomplete=off required>
                                     <label for="sexoFemea">F</label>
 
-                                    <input type="radio" class="tipo" name="sexo" value="intersexo" id="sexoIntersexo" required>
+                                    <input type="radio" class="tipo" name="sexo" value="intersexo" id="sexoIntersexo" autocomplete=off required>
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
-                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="^\d{1,3}(,\d{1,2})?$" title="Peso válido, use vírgula como separador decimal, ex: 12,34">
+                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="^\d{1,3}(,\d{1,2})?$" autocomplete=off>
 
-                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" required>
+                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" autocomplete=off required>
                             </div>
                         </div>
 

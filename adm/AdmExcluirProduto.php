@@ -114,6 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         name="codigo"
                         id="codigo"
                         placeholder="Digite o ID do produto"
+                        autocomplete=off 
                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                         required
                     >
@@ -132,6 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="codigo"
                                     class="NomeCliente"
                                     placeholder="Código"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                     readonly
                                     style="color: #6c6b6b; cursor: not-allowed;"
@@ -141,6 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     id="preco"
                                     name="preco"
                                     placeholder="Preço"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                     disabled
                                     style="color: #6c6b6b; cursor: not-allowed;"
@@ -153,6 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="nome"
                                     class="Telefone"
                                     placeholder="Nome do produto"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                     disabled
                                     style="color: #6c6b6b; cursor: not-allowed;"
@@ -164,6 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     placeholder="Quantidade para subtrair"
                                     value=""
                                     min="1"
+                                    autocomplete=off 
                                     max="<?php echo htmlspecialchars($estoqueProduto); ?>"
                                     required
                                 >

@@ -90,21 +90,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="text"
                                     name="codigo"
                                     class="NomeCliente"
-                                    placeholder="Código: "
+                                    placeholder="Código do produto: "
+                                    autocomplete=off 
                                     required
                                 >
                                 <input
                                     type="text"
                                     name="preco"
                                     id="cpf"
-                                    placeholder="Preço"
+                                    placeholder="Preço do produto:"
+                                    autocomplete=off 
                                     required
                                 >
                                 <input
                                     type="text"
                                     name="tamanho"
                                     class="Tamanho"
-                                    placeholder="Tamanho do produto"
+                                    placeholder="Tamanho do produto: "
+                                    autocomplete=off 
                                     required
                                 >
                             </div>
@@ -113,14 +116,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="text"
                                     name="nome"
                                     class="Telefone"
-                                    placeholder="Nome do produto"
+                                    placeholder="Nome do produto: "
+                                    autocomplete=off 
                                     required
                                 >
                                 <input
                                     type="number"
                                     name="estoque"
                                     class="Email"
-                                    placeholder="Estoque"
+                                    placeholder="Estoque: "
+                                    autocomplete=off 
                                     min="0"
                                     required
                                 >

@@ -144,16 +144,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="colunas">
                         <div class="coluna">
                             <input type="text" name="nome" class="NomeCliente" placeholder="Digite o nome do funcionário: " value="<?php echo isset($nome) ? htmlspecialchars($nome) : ''; ?>" autocomplete="off" required />
+
                             <input type="text" name="cpf" id="cpf" maxlength="14" placeholder="Digite o CPF do funcionário: " value="<?php echo isset($cpf) ? htmlspecialchars($cpf): ''; ?>" autocomplete="off" required />
+
                             <input type="password" name="senha" id="senha" placeholder="Digite a senha do funcionário: " autocomplete="off" required />
                         </div>
                         <div class="coluna">
                             <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Digite o telefone do funcionário" value="<?php echo isset($telefone) ? htmlspecialchars($telefone) : ''; ?>" autocomplete="off" required />
+
                             <input type="email" name="email" class="Email" placeholder="Digite o e-mail do funcionário: " value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" autocomplete="off" required />
+
                             <select name="cargo" required>
                                 <option value="" disabled <?php echo !isset($cargo) ? 'selected' : ''; ?>>Cargo do Funcionário</option>
+
                                 <option value="secretaria" <?php echo (isset($cargo) && $cargo === "secretaria") ? 'selected' : ''; ?>>Secretaria</option>
+
                                 <option value="repositor" <?php echo (isset($cargo) && $cargo === "repositor") ? 'selected' : ''; ?>>Repositor</option>
+                                
                                 <option value="adm" <?php echo (isset($cargo) && $cargo === "adm") ? 'selected' : ''; ?>>Administrador</option>
                             </select>
                         </div>

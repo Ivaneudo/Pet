@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
+    <script src="../js/mascaraTelefone.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -104,17 +105,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modificar'])) {
                         <div class="colunas">
                             <div class="coluna">
                                 <P for="cpf_display">CPF:</P>
-                                <input type="text" name="cpf_display" class="CPFCliente" placeholder="CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" disabled style="color: #6c6b6b;">
+                                <input type="text" name="cpf_display" class="CPFCliente" placeholder="CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" autocomplete=off disabled style="color: #6c6b6b;">
                                 
                                 <P for="telefone">Telefone:</P>
-                                <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Telefone do cliente" value="<?php echo htmlspecialchars($cliente['telefone']); ?>">
+                                <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Telefone do cliente" autocomplete=off value="<?php echo htmlspecialchars($cliente['telefone']); ?>">
                             </div>
                             <div class="coluna">
                                 <P for="nome">Nome:</P>
-                                <input type="text" name="nome" class="NomeCliente" placeholder="Nome do cliente" value="<?php echo htmlspecialchars($cliente['nome']); ?>" required>
+                                <input type="text" name="nome" class="NomeCliente" placeholder="Nome do cliente" autocomplete=off value="<?php echo htmlspecialchars($cliente['nome']); ?>" required>
                                 
                                 <P for="email">E-mail:</P>
-                                <input type="email" name="email" class="Email" placeholder="E-mail do cliente" value="<?php echo htmlspecialchars($cliente['email']); ?>">
+                                <input type="email" name="email" class="Email" placeholder="E-mail do cliente" autocomplete=off value="<?php echo htmlspecialchars($cliente['email']); ?>">
                             </div>
                         </div>
                     </div>

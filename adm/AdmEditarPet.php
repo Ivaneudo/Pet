@@ -116,8 +116,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pet) {
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
-                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" value="<?php echo htmlspecialchars($pet['nome_pet']); ?>" required>
-                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" min="0" value="<?php echo htmlspecialchars($pet['idade']); ?>" required>
+                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" value="<?php echo htmlspecialchars($pet['nome_pet']); ?>" autocomplete=off required>
+
+                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" min="0" value="<?php echo htmlspecialchars($pet['idade']); ?>" autocomplete=off required>
                             </div>
 
                             <div class="coluna">
@@ -132,9 +133,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $pet) {
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
-                                <input type="text" name="peso" class="peso" placeholder="Peso" pattern="^\d{1,3}(,\d{1,2})?$" title="Peso válido, use vírgula como separador decimal, ex: 12,34" value="<?php echo htmlspecialchars(str_replace('.', ',', $pet['peso'])); ?>" required>
+                                <input type="text" name="peso" class="peso" placeholder="Peso" pattern="^\d{1,3}(,\d{1,2})?$" autocomplete=off value="<?php echo htmlspecialchars(str_replace('.', ',', $pet['peso'])); ?>" required>
 
-                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" value="<?php echo htmlspecialchars($pet['raca']); ?>" required>
+                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" autocomplete=off value="<?php echo htmlspecialchars($pet['raca']); ?>" required>
                             </div>
                         </div>
 

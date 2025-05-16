@@ -92,6 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="codigo"
                                     class="NomeCliente"
                                     placeholder="Código: "
+                                    autocomplete=off 
                                     required
                                 >
                                 <input
@@ -99,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="preco"
                                     id="cpf"
                                     placeholder="Preço"
+                                    autocomplete=off 
                                     required
                                 >
                                 <input
@@ -106,6 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="tamanho"
                                     class="Tamanho"
                                     placeholder="Tamanho do produto"
+                                    autocomplete=off 
                                     required
                                 >
                             </div>
@@ -115,6 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="nome"
                                     class="Telefone"
                                     placeholder="Nome do produto"
+                                    autocomplete=off 
                                     required
                                 >
                                 <input
@@ -123,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     class="Email"
                                     placeholder="Estoque"
                                     min="0"
+                                    autocomplete=off 
                                     required
                                 >
                             </div>

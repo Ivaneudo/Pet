@@ -129,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             id="cpf"
                             maxlength="14"
                             placeholder="Digite o CPF do funcionário"
+                            autocomplete=off 
                             value="<?php echo htmlspecialchars($cpfFuncionario); ?>"
                             required
                         />
@@ -138,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <?php if ($funcionario): ?>
                     <form method="POST" action="">
-                        <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfFuncionario); ?>" />
+                        <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfFuncionario); ?>" autocomplete=off>
 
                         <p><strong>Editar Funcionário:</strong></p>
                         <div class="colunas">
@@ -148,6 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="text"
                                     name="nome"
                                     placeholder="Nome do funcionário"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($funcionario['nome']); ?>"
                                     required
                                 />
@@ -157,6 +159,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     name="telefone"
                                     maxlength="14"
                                     placeholder="Telefone"
+                                    class="Telefone"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($funcionario['telefone']); ?>"
                                     required
                                 />
@@ -167,6 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     type="email"
                                     name="email"
                                     placeholder="E-mail"
+                                    autocomplete=off 
                                     value="<?php echo htmlspecialchars($funcionario['email']); ?>"
                                     required
                                 />

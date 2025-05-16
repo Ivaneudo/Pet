@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form method="POST" action="">
                     <div class="pesquisa-cliente">
                         <label for="cpfCliente">Pesquisar CPF do Cliente:</label>
-                        <input type="text" name="cpfCliente" id="cpf" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" required>
+                        <input type="text" name="cpfCliente" id="cpf" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" autocomplete=off required>
                         <button type="submit" name="pesquisar">Pesquisar</button>
                     </div>
                 </form>
@@ -134,8 +134,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
-                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" required>
-                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" required min="0">
+                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" autocomplete=off required>
+
+                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" autocomplete=off required min="0">
                             </div>
 
                             <div class="coluna">
@@ -150,9 +151,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
-                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="^\d{1,3}(,\d{1,2})?$" title="Peso válido, use vírgula como separador decimal, ex: 12,34">
+                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="^\d{1,3}(,\d{1,2})?$" autocomplete=off>
 
-                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" required>
+                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" autocomplete=off required>
                             </div>
                         </div>
 
