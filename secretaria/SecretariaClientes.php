@@ -2,28 +2,24 @@
 session_start();
 include('../funcoes/conexao.php');
 
-// TODO: Verifica se o usuário é uma secretaria
+// Verifica se o usuário é uma secretaria
 if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
     header("Location: ../entrada/Entrar.php");
     exit();
 }
 
-// TODO: Guarda o nome do funcionário
+// Guarda o nome do funcionário
 $nomeFuncionario = $_SESSION['usuario'];
 
 $cpfPesquisado = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
     $cpfPesquisado = trim($_POST['cpf']);
-
-    // TODO: Consulta para buscar o cliente pelo CPF
-    $sql = "SELECT cpf, nome FROM cliente WHERE cpf = ? LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cpfPesquisado);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Redireciona para a tela de edição de cliente
+    header("Location: SecretariaEditarCliente.php?cpf=" . urlencode($cpfPesquisado));
+    exit();
 } else {
-    // TODO: Consulta para mostrar todos os clientes
+    // Consulta para mostrar todos os clientes
     $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
     $result = $conn->query($sql);
 }
@@ -45,14 +41,13 @@ if ($result === false) {
     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
     <script src="../js/mascara.js" defer></script>
     <script src="../js/excluirCliente.js" defer></script>
-    <script src="../js/SecretariaSessaoCpf.js" defer></script>
 </head>
 <body>
     <div class="container">
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
                 <a href="../funcoes/logout.php"><p>sair</p></a>
@@ -63,7 +58,8 @@ if ($result === false) {
                 <ul>
                     <li><a href="Secretaria.php">Menu</a></li>
                     <li><a href="SecretariaClientes.php">Clientes</a></li>
-                    <li><a href="SecretariaCadastrarCliente.php">Cadastrar Clientes</a></li>
+                    <li><a href="SecretariaCadastrarCliente.php">Cadastrar Cliente</a></li>
+                    <li><a href="SecretariaEditarCliente.php">Editar Cliente</a></li>
                 </ul>
             </nav>
         </div>
@@ -91,7 +87,6 @@ if ($result === false) {
                             <tr>
                                 <th>CPF</th>
                                 <th>Nome</th>
-                                <th>Editar</th>
                                 <th>Remover</th>
                             </tr>
                         </thead>
@@ -105,11 +100,8 @@ if ($result === false) {
                                         <td class="ver">
                                             <?php echo htmlspecialchars($row['nome']); ?>
                                         </td>
-                                        <td>
-                                            <a href='SecretariaEditarCliente.php' style="color: #40005C;" onclick="SessaoCpf('<?php echo htmlspecialchars($row['cpf']); ?>')">Editar</a>
-                                        </td>
                                         <td class="demitir">
-                                            <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>')">
+                                            <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>', 'SecretariaClientes.php')">
                                                 <img src="../img/lata-de-lixo.png" alt="Remover">
                                             </a>
                                         </td>
@@ -127,6 +119,4 @@ if ($result === false) {
         </div>
     </div>
 </body>
-</html>    
-
-
+</html>

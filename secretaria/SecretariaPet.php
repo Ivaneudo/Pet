@@ -129,7 +129,9 @@ if ($result === false) {
                                                 <?php echo htmlspecialchars($row['raca']); ?>
                                             </td>
                                             <td>
-                                                <a href="SecretariaEditarPet.php?id_pet=<?php echo urlencode($row['id_pet']); ?>" style="color: #40005C;">Editar</a>
+                                                <a href="SecretariaEditarPet.php?id_pet=<?php echo urlencode($row['id_pet']); ?>" style="color: #40005C;">
+                                                    <img src="../img/editar.png" alt="">
+                                                </a>
                                             </td>
                                             <td class="demitir">
                                                 <a href="javascript:void(0);" onclick="confirmarExclusao('<?php echo htmlspecialchars($row['cpf_dono']); ?>', '<?php echo $row['id_pet']; ?>', '<?php echo htmlspecialchars($row['nome_pet']); ?>')">

@@ -1,13 +1,12 @@
 <?php
 session_start();
-include('../funcoes/conexao.php'); // Inclui a conexão com o banco de dados
+include('../funcoes/conexao.php');
 
-// Captura o CPF da URL e sanitiza
 $cpf = isset($_GET['cpf']) ? trim($_GET['cpf']) : '';
 
 if (!empty($cpf)) {
     try {
-        // Deletar da tabela adm
+        // Deleta da tabela adm
         $sql1 = "DELETE FROM adm WHERE cpf = ?";
         $stmt1 = $conn->prepare($sql1);
         if (!$stmt1) {
@@ -17,7 +16,7 @@ if (!empty($cpf)) {
         $stmt1->execute();
         $stmt1->close();
 
-        // Deletar da tabela repositor
+        // Deleta da tabela repositor
         $sql2 = "DELETE FROM repositor WHERE cpf = ?";
         $stmt2 = $conn->prepare($sql2);
         if (!$stmt2) {
@@ -27,7 +26,7 @@ if (!empty($cpf)) {
         $stmt2->execute();
         $stmt2->close();
 
-        // Deletar da tabela secretaria
+        // Deleta da tabela secretaria
         $sql3 = "DELETE FROM secretaria WHERE cpf = ?";
         $stmt3 = $conn->prepare($sql3);
         if (!$stmt3) {
@@ -38,17 +37,17 @@ if (!empty($cpf)) {
         $stmt3->close();
 
         // Redireciona com mensagem de sucesso
-        header("Location: AdmFuncionarios.php?success=Funcionário excluído com sucesso.");
+        header("Location: ../adm/AdmFuncionarios.php?success=Funcionário excluído com sucesso.");
         exit();
 
     } catch (Exception $e) {
         // Redireciona com mensagem de erro
-        header("Location: AdmFuncionarios.php?error=" . urlencode($e->getMessage()));
+        header("Location: ../adm/AdmFuncionarios.php?error=" . urlencode($e->getMessage()));
         exit();
     } finally {
         if (isset($conn)) $conn->close();
     }
 } else {
-    header("Location: AdmFuncionarios.php?error=CPF não fornecido");
+    header("Location: ../adm/AdmFuncionarios.php?error=CPF não fornecido");
     exit();
 }

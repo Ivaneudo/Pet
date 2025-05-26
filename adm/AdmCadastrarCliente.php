@@ -24,19 +24,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensagem = "Por favor, preencha todos os campos obrigatórios.";
         $classeMensagem = 'erro';
     } else {
-        // Verificação do CPF (com formatação)
-        $sqlCheckCpf = "SELECT COUNT(*) as total FROM (
-                          SELECT cpf FROM adm WHERE cpf = ?
-                          UNION ALL
-                          SELECT cpf FROM cliente WHERE cpf = ?
-                          UNION ALL
-                          SELECT cpf FROM secretaria WHERE cpf = ?
-                          UNION ALL
-                          SELECT cpf FROM repositor WHERE cpf = ?
-                        ) as cpf_unico";
+        // Verificação do CPF apenas na tabela cliente
+        $sqlCheckCpf = "SELECT COUNT(*) as total FROM cliente WHERE cpf = ?";
         
         $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
-        $stmtCheckCpf->bind_param("ssss", $clienteCpf, $clienteCpf, $clienteCpf, $clienteCpf);
+        $stmtCheckCpf->bind_param("s", $clienteCpf);
         $stmtCheckCpf->execute();
         $result = $stmtCheckCpf->get_result();
         $row = $result->fetch_assoc();
@@ -44,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmtCheckCpf->close();
 
         if ($totalCpfCount > 0) {
-            $mensagem = "Este usuário já existe.";
+            $mensagem = "Este cliente já existe.";
             $classeMensagem = 'erro';
         } else {
             // Insere com CPF formatado
@@ -108,6 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <li><a href="Adm.php">Menu</a></li>
                     <li><a href="AdmClientes.php">Clientes</a></li>
                     <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
+                    <li><a href="AdmEditarCliente.php">Editar Cliente</a></li>
                 </ul>
             </nav>
         </div>
@@ -123,14 +116,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <p>Cliente:</p>
                         <div class="colunas">
                             <div class="coluna">
-                                <input type="text" name="nome" class="NomeCliente" placeholder="Nome do cliente: " value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                type="text" 
+                                name="nome" 
+                                class="NomeCliente" 
+                                placeholder="Digite o nome do cliente: " 
+                                value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
+                                autocomplete=off 
+                                required>
 
-                                <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="Digite o CPF do cliente: " value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                type="text" 
+                                id="cpf" 
+                                name="cpf" 
+                                maxlength="14" 
+                                placeholder="Digite o CPF do cliente: " 
+                                value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" 
+                                autocomplete=off 
+                                required>
                             </div>
                             <div class="coluna">
-                                <input type="text" name="Telefone" class="Telefone" maxlength="14" placeholder="Digite o telefone do cliente" value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                type="text" 
+                                name="Telefone" 
+                                class="Telefone" 
+                                maxlength="14" 
+                                placeholder="Digite o telefone do cliente" 
+                                value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
+                                autocomplete=off 
+                                required>
 
-                                <input type="email" name="email" class="Email" placeholder="Digite o e-mail do cliente: " value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                type="email" 
+                                name="email" 
+                                class="Email" 
+                                placeholder="Digite o e-mail do cliente: " 
+                                value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" 
+                                autocomplete=off 
+                                required>
                             </div>
                         </div>
                     </div>
