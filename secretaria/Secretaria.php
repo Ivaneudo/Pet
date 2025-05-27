@@ -1,14 +1,13 @@
 <?php
-    session_start();
+session_start();
 
-    // Verifica se o usuário é um secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
-        exit();
-    }
-
-    // Captura o nome do funcionário da sessão
-    $nomeFuncionario = $_SESSION['usuario'];
+// Verifica se o usuário é uma secretaria
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
+    exit();
+}
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
 ?>
 
 <!DOCTYPE html>
@@ -35,10 +34,38 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="SecretariaClientes.php">Clientes</a></li>
-                    <li><a href="SecretariaPet.php">Pets</a></li>
-                    <li><a href="SecretariaProdutos.php">Produtos</a></li>
-                    <li><a href="SecretariaServiços.php">Serviço</a></li>
+                    <li>
+                        <a href="SecretariaClientes.php">
+                            <div class="icone">
+                                <img src="../img/cliente.png" alt="Clientes">
+                                <p>Clientes</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="SecretariaPet.php">
+                            <div class="icone">
+                                <img src="../img/patinha.png" alt="Pets">
+                                <p>Pets</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="SecretariaProdutos.php">
+                            <div class="icone">
+                                <img src="../img/estoque.png" alt="Produtos">
+                                <p>Produtos</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="SecretariaServicos.php">
+                            <div class="icone">
+                                <img src="../img/caixa.png" alt="Serviços">
+                                <p>Serviços</p>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
