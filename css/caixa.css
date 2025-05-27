@@ -11,20 +11,28 @@
     --gradiente: linear-gradient(#CFE2F8, #5A799A);
     --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
     --background: #5691cf;
+    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ocupa toda a altura da tela */
 }
 
-/* TODO: estilização da borra de apresentação */
 .funcionario {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-around; /* Mantém o espaçamento original */
     align-items: center;
     width: 100vw;
     font-size: .5em;
-    gap: 55rem;
+    gap: 55rem; /* Mantém o espaçamento original */
     border-bottom: 1px solid #000;
 }
 
@@ -42,12 +50,11 @@
     font-weight: bold;
 }
 
-/* TODO: estilizando a navbar */
 .navbar {
+    flex-grow: 1; /* Permite que a navbar ocupe o espaço restante */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
 }
 
 .navbar nav {
@@ -57,28 +64,64 @@
 
 .navbar ul {
     display: flex;
-    gap: 4rem;
+    gap: 4rem; /* Ajuste o espaço entre os ícones */
     list-style: none;
-}
-
-ul {
-    padding-inline-start: 0;
+    padding: 0; /* Remove o padding padrão */
+    margin: 0; /* Remove a margem padrão */
 }
 
 .navbar ul a {
     text-decoration: none;
-    color: #fff;
-    transition: .5s;
+    color: #000; /* Cor do texto */
+    text-align: center; /* Centraliza o texto */
+    transition: color 0.3s;
+}
+
+.navbar ul a .icone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 220px;  /* Tamanho da div */
+    height: 220px; /* Tamanho da div */
+    background: var(--EfeitoVidro);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, transform 0.3s; /* Animação de hover */
+    position: relative;
+    overflow: hidden; /* bloqueia conteúdos que vazam */
+    padding: 10px; /* espaço interno para evitar conteúdo encostado */
+    box-sizing: border-box;
+}
+
+.navbar ul a .icone img {
+    max-width: 70%; /* limita tamanho da imagem dentro da div */
+    max-height: 70%;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 1rem; /* Espaço entre a imagem e o parágrafo */
+}
+
+.navbar ul a .icone p {
+    margin: 0; /* Removendo margens padrão */
+    font-size: 1.2rem; /* Tamanho legível e proporcional */
+    font-weight: 600;
+    color: #245a94;
+    line-height: 1.2em;
+    transition: color 0.3s;
+}
+
+/* Efeito hover na caixa e link */
+.navbar ul a:hover .icone {
+    background: #355f98; /* Tom azul mais forte transparente */
+    transform: scale(1.1); /* Cresce 10% */
 }
 
 .navbar ul a:hover {
-    color: var(--LinksHover);
+    color: #3b4f6b; /* Tom azul escuro para o texto */
 }
 
-.navbar ul a #selecionado {
-    color: var(--LinksHover);
-}
-
-input::placeholder {
-    color: black;
+.navbar ul a:hover .icone p {
+    color: #c0d4e2; /* Texto branco dentro da div quando hover */
 }
