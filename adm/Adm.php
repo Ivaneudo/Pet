@@ -17,11 +17,9 @@ $nomeFuncionario = $_SESSION['usuario'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <!-- TODO: link do ico -->
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
-    <!-- TODO: link do css -->
-     <link rel="stylesheet" href="../css/principal.css">
-     <link rel="stylesheet" href="../css/caixa.css">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../css/principal.css">
+    <link rel="stylesheet" href="../css/caixa.css">
 </head>
 <body>
     <div class="container">
@@ -37,13 +35,78 @@ $nomeFuncionario = $_SESSION['usuario'];
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="AdmEstoque.php">Estoque</a></li>
-                    <li><a href="AdmFuncionarios.php">Funcionarios</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
-                    <li><a href="AdmPet.php">Pets</a></li>
+                    <li>
+                        <a href="AdmEstoque.php">
+                            <div class="icone">
+                                <img src="../img/estoque.png" alt="estoque"> <!-- Imagem para Estoque -->
+                                <p>Estoque</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="AdmFuncionarios.php">
+                            <div class="icone">
+                                <img src="../img/funcionarios.png" alt="funcionarios"> <!-- Imagem para Funcionários -->
+                                <p>Funcionários</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="AdmClientes.php">
+                            <div class="icone">
+                                <img src="../img/cliente.png" alt="cliente"> <!-- Imagem para Clientes -->
+                                <p>Clientes</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="AdmPet.php">
+                            <div class="icone">
+                                <img src="../img/patinha.png" alt="patinha"> <!-- Imagem para Pets -->
+                                <p>Pets</p>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
     </div>
+    <script>
+        // Mapeia as imagens originais e as imagens de hover
+        const icons = {
+            "estoque": {
+                original: "../img/estoque.png",
+                hover: "../img/estoque-azul.png"
+            },
+            "funcionarios": {
+                original: "../img/funcionarios.png",
+                hover: "../img/funcionarios-azul.png"
+            },
+            "cliente": {
+                original: "../img/cliente.png",
+                hover: "../img/cliente-azul.png"
+            },
+            "patinha": {
+                original: "../img/patinha.png",
+                hover: "../img/patinha-azul.png"
+            }
+        };
+
+        // Função para mudar a imagem ao passar o mouse
+        function changeImage(icon, isHover) {
+            const img = icon.querySelector('img');
+            const iconName = img.alt.toLowerCase(); // Obtém o nome do ícone
+            img.src = isHover ? icons[iconName].hover : icons[iconName].original; // Troca a imagem
+        }
+
+        // Seleciona todos os ícones
+        const iconElements = document.querySelectorAll('.navbar ul a .icone');
+
+        // Adiciona eventos de mouse
+        iconElements.forEach(icon => {
+            icon.addEventListener('mouseenter', () => changeImage(icon, true)); // Muda para a imagem de hover
+            icon.addEventListener('mouseleave', () => changeImage(icon, false)); // Retorna para a imagem original
+        });
+    </script>
 </body>
 </html>
