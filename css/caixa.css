@@ -82,8 +82,8 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 220px;  /* Tamanho da div */
-    height: 220px; /* Tamanho da div */
+    width: 300px;  /* Aumentado para 300px */
+    height: 300px; /* Aumentado para 300px */
     background: var(--EfeitoVidro);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -105,7 +105,7 @@ html, body {
 
 .navbar ul a .icone p {
     margin: 0; /* Removendo margens padrão */
-    font-size: 1.2rem; /* Tamanho legível e proporcional */
+    font-size: 1.4rem; /* Aumentado para 1.4rem */
     font-weight: 600;
     color: #245a94;
     line-height: 1.2em;
