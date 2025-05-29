@@ -1,78 +1,78 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é uma secretaria
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Inicializa a variável para armazenar o resultado da pesquisa e CPF pesquisado
-$result = null;
-$cpfPesquisado = '';
-
-// Verifica se o formulário de pesquisa foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf']) && !isset($_POST['finalizar'])) {
-    $cpfPesquisado = trim($_POST['cpf']);
-
-    // Consulta para buscar os pets do dono com o CPF informado
-    $sql = "
-        SELECT p.id_pet, p.nome_pet, p.especie, p.sexo
-        FROM pet p
-        WHERE p.cpf_dono = ?
-        ORDER BY p.nome_pet ASC
-    ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cpfPesquisado);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-} elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finalizar'])) {
-    // Processa o envio do formulário com os pets e serviço selecionado
-    $cpfPesquisado = isset($_POST['cpf']) ? trim($_POST['cpf']) : '';
-    $servicos = isset($_POST['servico']) ? $_POST['servico'] : '';
-    $petsSelecionados = isset($_POST['pets_selecionados']) ? $_POST['pets_selecionados'] : [];
-
-    if (empty($petsSelecionados) || empty($servicos)) {
-        header("Location: SecretariaServiços.php?erro=Selecione um serviço e pelo menos um pet");
+    // Verifica se o usuário é uma secretaria
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php");
         exit();
     }
 
-    $valorTotal = 0;
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-    // Calcula o valor total com base nos serviços selecionados e número de pets
-    foreach ($petsSelecionados as $pet) {
-        switch ($servicos) {
-            case 'banho':
-                $valorTotal += 90;
-                break;
-            case 'tosa':
-                $valorTotal += 60;
-                break;
-            case 'banho e tosa':
-                $valorTotal += 135;
-                break;
-        }
-    }
-
-    // Armazena todos os dados na sessão
-    $_SESSION['dados_pagamento'] = [
-        'valor' => $valorTotal,
-        'cpf' => $cpfPesquisado,
-        'pets' => $petsSelecionados,
-        'servico' => $servicos
-    ];
-
-    // Redireciona sem parâmetros na URL
-    header("Location: SecretariaPagServico.php");
-    exit();
-} else {
+    // Inicializa a variável para armazenar o resultado da pesquisa e CPF pesquisado
     $result = null;
-}
+    $cpfPesquisado = '';
+
+    // Verifica se o formulário de pesquisa foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf']) && !isset($_POST['finalizar'])) {
+        $cpfPesquisado = trim($_POST['cpf']);
+
+        // Consulta para buscar os pets do dono com o CPF informado
+        $sql = "
+            SELECT p.id_pet, p.nome_pet, p.especie, p.sexo
+            FROM pet p
+            WHERE p.cpf_dono = ?
+            ORDER BY p.nome_pet ASC
+        ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $cpfPesquisado);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+    } elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finalizar'])) {
+        // Processa o envio do formulário com os pets e serviço selecionado
+        $cpfPesquisado = isset($_POST['cpf']) ? trim($_POST['cpf']) : '';
+        $servicos = isset($_POST['servico']) ? $_POST['servico'] : '';
+        $petsSelecionados = isset($_POST['pets_selecionados']) ? $_POST['pets_selecionados'] : [];
+
+        if (empty($petsSelecionados) || empty($servicos)) {
+            header("Location: SecretariaServiços.php?erro=Selecione um serviço e pelo menos um pet");
+            exit();
+        }
+
+        $valorTotal = 0;
+
+        // Calcula o valor total com base nos serviços selecionados e número de pets
+        foreach ($petsSelecionados as $pet) {
+            switch ($servicos) {
+                case 'banho':
+                    $valorTotal += 90;
+                    break;
+                case 'tosa':
+                    $valorTotal += 60;
+                    break;
+                case 'banho e tosa':
+                    $valorTotal += 135;
+                    break;
+            }
+        }
+
+        // Armazena todos os dados na sessão
+        $_SESSION['dados_pagamento'] = [
+            'valor' => $valorTotal,
+            'cpf' => $cpfPesquisado,
+            'pets' => $petsSelecionados,
+            'servico' => $servicos
+        ];
+
+        // Redireciona sem parâmetros na URL
+        header("Location: SecretariaPagServico.php");
+        exit();
+    } else {
+        $result = null;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -83,8 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf']) && !isset($_POS
     <title>Serviços</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/CaixaServico.css" />
+    <link rel="stylesheet" href="../css/caixa.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>

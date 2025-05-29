@@ -19,8 +19,8 @@
     <title>Repositor</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
-    <!-- <link rel="stylesheet" href="../css/repositor.css"> -->
     <link rel="stylesheet" href="../css/caixa.css">
+    <script src="../js/icons.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -72,42 +72,5 @@
             </nav>
         </div>
     </div>
-    <script>
-        // Mapeia as imagens originais e as imagens de hover
-        const icons = {
-            "estoque": {
-                original: "../img/estoque.png",
-                hover: "../img/estoque-azul.png"
-            },
-            "cadastrar produto": {
-                original: "../img/cad-produtos.png",
-                hover: "../img/cad-produtos-azul.png"
-            },
-            "editar produto": {
-                original: "../img/editar-produto.png",
-                hover: "../img/editar-produto-azul.png"
-            },
-            "excluir estoque": {
-                original: "../img/excluir-estoque.png",
-                hover: "../img/excluir-estoque-azul.png"
-            }
-        };
-
-        // Função para mudar a imagem ao passar o mouse
-        function changeImage(icon, isHover) {
-            const img = icon.querySelector('img');
-            const iconName = img.alt.toLowerCase(); // Obtém o nome do ícone
-            img.src = isHover ? icons[iconName].hover : icons[iconName].original; // Troca a imagem
-        }
-
-        // Seleciona todos os ícones
-        const iconElements = document.querySelectorAll('.navbar ul a .icone');
-
-        // Adiciona eventos de mouse
-        iconElements.forEach(icon => {
-            icon.addEventListener('mouseenter', () => changeImage(icon, true)); // Muda para a imagem de hover
-            icon.addEventListener('mouseleave', () => changeImage(icon, false)); // Retorna para a imagem original
-        });
-    </script>
 </body>
 </html>

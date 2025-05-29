@@ -23,16 +23,16 @@ html, body {
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Ocupa toda a altura da tela */
+    height: 100vh; 
 }
 
 .funcionario {
     display: flex;
-    justify-content: space-around; /* Mantém o espaçamento original */
+    justify-content: space-around; 
     align-items: center;
     width: 100vw;
     font-size: .5em;
-    gap: 55rem; /* Mantém o espaçamento original */
+    gap: 55rem; 
     border-bottom: 1px solid #000;
 }
 
@@ -51,7 +51,7 @@ html, body {
 }
 
 .navbar {
-    flex-grow: 1; /* Permite que a navbar ocupe o espaço restante */
+    flex-grow: 1; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -64,16 +64,16 @@ html, body {
 
 .navbar ul {
     display: flex;
-    gap: 4rem; /* Ajuste o espaço entre os ícones */
+    gap: 4rem; 
     list-style: none;
-    padding: 0; /* Remove o padding padrão */
-    margin: 0; /* Remove a margem padrão */
+    padding: 0; 
+    margin: 0;
 }
 
 .navbar ul a {
     text-decoration: none;
-    color: #000; /* Cor do texto */
-    text-align: center; /* Centraliza o texto */
+    color: #000; 
+    text-align: center; 
     transition: color 0.3s;
 }
 
@@ -82,46 +82,45 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 300px;  /* Aumentado para 300px */
-    height: 300px; /* Aumentado para 300px */
+    width: 300px; 
+    height: 300px;
     background: var(--EfeitoVidro);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s, transform 0.3s; /* Animação de hover */
+    transition: background 0.3s, transform 0.3s;
     position: relative;
-    overflow: hidden; /* bloqueia conteúdos que vazam */
-    padding: 10px; /* espaço interno para evitar conteúdo encostado */
+    overflow: hidden;
+    padding: 10px;
     box-sizing: border-box;
 }
 
 .navbar ul a .icone img {
-    max-width: 70%; /* limita tamanho da imagem dentro da div */
+    max-width: 70%;
     max-height: 70%;
     height: auto;
     width: auto;
     object-fit: contain;
-    margin-bottom: 1rem; /* Espaço entre a imagem e o parágrafo */
+    margin-bottom: 1rem; 
 }
 
 .navbar ul a .icone p {
-    margin: 0; /* Removendo margens padrão */
-    font-size: 2rem; /* Aumentado para 1.4rem */
+    margin: 0; 
+    font-size: 2rem; 
     font-weight: 600;
     color: #245a94;
     line-height: 1.2em;
     transition: color 0.3s;
 }
 
-/* Efeito hover na caixa e link */
 .navbar ul a:hover .icone {
-    background: #355f98; /* Tom azul mais forte transparente */
-    transform: scale(1.1); /* Cresce 10% */
+    background: #355f98;
+    transform: scale(1.1);
 }
 
 .navbar ul a:hover {
-    color: #3b4f6b; /* Tom azul escuro para o texto */
+    color: #3b4f6b; 
 }
 
 .navbar ul a:hover .icone p {
-    color: #c0d4e2; /* Texto branco dentro da div quando hover */
+    color: #c0d4e2; 
 }

@@ -1,38 +1,38 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um adiministrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
-    exit();
-}
+    // Verifica se o usuário é um adiministrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-// Inicializa a variável para o ID do produto pesquisado
-$idProdutoPesquisado = '';
+    // Inicializa a variável para o ID do produto pesquisado
+    $idProdutoPesquisado = '';
 
-// Verifica se o formulário de pesquisa foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
-    $idProdutoPesquisado = trim($_POST['id_produto']);
+    // Verifica se o formulário de pesquisa foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
+        $idProdutoPesquisado = trim($_POST['id_produto']);
 
-    // Consulta para buscar o produto pelo ID
-    $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $idProdutoPesquisado);
-    $stmt->execute();
-    $result = $stmt->get_result();
-} else {
-    // Consulta para mostrar todos os produtos
-    $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
-    $result = $conn->query($sql);
-}
+        // Consulta para buscar o produto pelo ID
+        $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $idProdutoPesquisado);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } else {
+        // Consulta para mostrar todos os produtos
+        $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+        $result = $conn->query($sql);
+    }
 
-if ($result === false) {
-    die("Erro na consulta: " . $conn->error);
-}
+    if ($result === false) {
+        die("Erro na consulta: " . $conn->error);
+    }
 ?>
 
 <!DOCTYPE html>

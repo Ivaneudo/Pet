@@ -1,44 +1,44 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um adm
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
-    exit();
-}
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Inicializa variáveis
-$mensagem = '';
-
-// Se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Captura os dados do formulário
-    $codigoProduto = trim($_POST['codigo']);
-    $nomeProduto = trim($_POST['nome']);
-    $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
-    $estoqueProduto = intval($_POST['estoque']);
-    $tamanhoProduto = trim($_POST['tamanho']); // Captura o tamanho do produto
-
-    // Verifica se todos os campos estão preenchidos
-    if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
-        // Insere o novo produto no banco de dados
-        $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?, ?)";
-        $stmtInsert = $conn->prepare($sqlInsert);
-        $stmtInsert->bind_param("isdis", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
-
-        if ($stmtInsert->execute()) {
-            $mensagem = "Produto cadastrado com sucesso!";
-        } else {
-            $mensagem = "Erro ao cadastrar o produto.";
-        }
-    } else {
-        $mensagem = "Por favor, preencha todos os campos corretamente.";
+    // Verifica se o usuário é um adm
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
+        exit();
     }
-}
+
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
+
+    // Inicializa variáveis
+    $mensagem = '';
+
+    // Se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Captura os dados do formulário
+        $codigoProduto = trim($_POST['codigo']);
+        $nomeProduto = trim($_POST['nome']);
+        $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
+        $estoqueProduto = intval($_POST['estoque']);
+        $tamanhoProduto = trim($_POST['tamanho']); // Captura o tamanho do produto
+
+        // Verifica se todos os campos estão preenchidos
+        if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
+            // Insere o novo produto no banco de dados
+            $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?, ?)";
+            $stmtInsert = $conn->prepare($sqlInsert);
+            $stmtInsert->bind_param("isdis", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
+
+            if ($stmtInsert->execute()) {
+                $mensagem = "Produto cadastrado com sucesso!";
+            } else {
+                $mensagem = "Erro ao cadastrar o produto.";
+            }
+        } else {
+            $mensagem = "Por favor, preencha todos os campos corretamente.";
+        }
+    }
 ?>
 
 <!DOCTYPE html>

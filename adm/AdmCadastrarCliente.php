@@ -1,62 +1,62 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verificação de admin
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
+    // Verificação de admin
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
+    }
 
-$nomeFuncionario = $_SESSION['usuario'];
-$mensagem = '';
-$classeMensagem = '';
+    $nomeFuncionario = $_SESSION['usuario'];
+    $mensagem = '';
+    $classeMensagem = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitização dos dados (mantendo a formatação do CPF)
-    $clienteNome = trim($_POST['nome'] ?? '');
-    $clienteCpf = trim($_POST['cpf'] ?? '');
-    $clienteTelefone = trim($_POST['Telefone'] ?? '');
-    $clienteEmail = trim($_POST['email'] ?? '');
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Sanitização dos dados (mantendo a formatação do CPF)
+        $clienteNome = trim($_POST['nome'] ?? '');
+        $clienteCpf = trim($_POST['cpf'] ?? '');
+        $clienteTelefone = trim($_POST['Telefone'] ?? '');
+        $clienteEmail = trim($_POST['email'] ?? '');
 
-    // Validações básicas
-    if (empty($clienteNome) || empty($clienteCpf) || empty($clienteTelefone) || empty($clienteEmail)) {
-        $mensagem = "Por favor, preencha todos os campos obrigatórios.";
-        $classeMensagem = 'erro';
-    } else {
-        // Verificação do CPF apenas na tabela cliente
-        $sqlCheckCpf = "SELECT COUNT(*) as total FROM cliente WHERE cpf = ?";
-        
-        $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
-        $stmtCheckCpf->bind_param("s", $clienteCpf);
-        $stmtCheckCpf->execute();
-        $result = $stmtCheckCpf->get_result();
-        $row = $result->fetch_assoc();
-        $totalCpfCount = $row['total'];
-        $stmtCheckCpf->close();
-
-        if ($totalCpfCount > 0) {
-            $mensagem = "Este cliente já existe.";
+        // Validações básicas
+        if (empty($clienteNome) || empty($clienteCpf) || empty($clienteTelefone) || empty($clienteEmail)) {
+            $mensagem = "Por favor, preencha todos os campos obrigatórios.";
             $classeMensagem = 'erro';
         } else {
-            // Insere com CPF formatado
-            $sqlInsertCliente = "INSERT INTO cliente (nome, cpf, telefone, email) VALUES (?, ?, ?, ?)";
-            $stmtInsert = $conn->prepare($sqlInsertCliente);
-            $stmtInsert->bind_param("ssss", $clienteNome, $clienteCpf, $clienteTelefone, $clienteEmail);
+            // Verificação do CPF apenas na tabela cliente
+            $sqlCheckCpf = "SELECT COUNT(*) as total FROM cliente WHERE cpf = ?";
+            
+            $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
+            $stmtCheckCpf->bind_param("s", $clienteCpf);
+            $stmtCheckCpf->execute();
+            $result = $stmtCheckCpf->get_result();
+            $row = $result->fetch_assoc();
+            $totalCpfCount = $row['total'];
+            $stmtCheckCpf->close();
 
-            if ($stmtInsert->execute()) {
-                $mensagem = "Cliente cadastrado com sucesso!";
-                $classeMensagem = 'sucesso';
-                // Limpa os campos
-                $clienteNome = $clienteCpf = $clienteTelefone = $clienteEmail = '';
-            } else {
-                $mensagem = "Erro ao cadastrar cliente: " . $conn->error;
+            if ($totalCpfCount > 0) {
+                $mensagem = "Este cliente já existe.";
                 $classeMensagem = 'erro';
+            } else {
+                // Insere com CPF formatado
+                $sqlInsertCliente = "INSERT INTO cliente (nome, cpf, telefone, email) VALUES (?, ?, ?, ?)";
+                $stmtInsert = $conn->prepare($sqlInsertCliente);
+                $stmtInsert->bind_param("ssss", $clienteNome, $clienteCpf, $clienteTelefone, $clienteEmail);
+
+                if ($stmtInsert->execute()) {
+                    $mensagem = "Cliente cadastrado com sucesso!";
+                    $classeMensagem = 'sucesso';
+                    // Limpa os campos
+                    $clienteNome = $clienteCpf = $clienteTelefone = $clienteEmail = '';
+                } else {
+                    $mensagem = "Erro ao cadastrar cliente: " . $conn->error;
+                    $classeMensagem = 'erro';
+                }
+                $stmtInsert->close();
             }
-            $stmtInsert->close();
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Cadastrar Clientes</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <script src="../js/mascara.js" defer></script>
     <style>

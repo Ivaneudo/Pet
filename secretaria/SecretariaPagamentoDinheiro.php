@@ -1,96 +1,96 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é uma secretaria
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
-
-// Verifica se existem dados de pagamento na sessão
-if (!isset($_SESSION['dados_pagamento'])) {
-    header("Location: SecretariaVendas.php");
-    exit();
-}
-
-// Recupera os dados da sessão
-$dadosPagamento = $_SESSION['dados_pagamento'];
-$valorTotal = $dadosPagamento['valor_total'];
-$cpfCliente = $dadosPagamento['cpf_cliente'];
-$carrinho = $dadosPagamento['carrinho'];
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Consulta para obter o ID da secretaria
-$sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
-$stmtSecretaria = $conn->prepare($sqlSecretaria);
-$stmtSecretaria->bind_param("s", $nomeFuncionario);
-$stmtSecretaria->execute();
-$resultSecretaria = $stmtSecretaria->get_result();
-$secretaria = $resultSecretaria->fetch_assoc();
-$stmtSecretaria->close();
-
-$secretariaId = $secretaria['secretaria_id'];
-
-// Consulta para obter nome do cliente
-$clienteNome = 'Cliente não informado';
-if (!empty($cpfCliente)) {
-    $sqlCliente = "SELECT nome FROM cliente WHERE cpf = ?";
-    $stmtCliente = $conn->prepare($sqlCliente);
-    $stmtCliente->bind_param("s", $cpfCliente);
-    $stmtCliente->execute();
-    $resultCliente = $stmtCliente->get_result();
-    if ($resultCliente && $resultCliente->num_rows > 0) {
-        $clienteData = $resultCliente->fetch_assoc();
-        $clienteNome = $clienteData['nome'];
+    // Verifica se o usuário é uma secretaria
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
     }
-    $stmtCliente->close();
-}
 
-$erro = '';
+    // Verifica se existem dados de pagamento na sessão
+    if (!isset($_SESSION['dados_pagamento'])) {
+        header("Location: SecretariaVendas.php");
+        exit();
+    }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $valorPago = floatval(str_replace(',', '.', $_POST['valor_pago']));
-    if ($valorPago < $valorTotal) {
-        $erro = "O valor pago deve ser igual ou maior que o valor total da compra.";
-    } else {
-        // Apenas salva na tabela vendas os campos existentes (sem valor_pago e troco)
-        if (empty($cpfCliente)) {
-            $sqlVenda = "INSERT INTO vendas (secretaria_id, valor_compra, forma_de_pagamento) VALUES (?, ?, 'Dinheiro')";
-            $stmtVenda = $conn->prepare($sqlVenda);
-            $stmtVenda->bind_param("id", $secretariaId, $valorTotal);
-        } else {
-            $sqlVenda = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento) VALUES (?, ?, ?, 'Dinheiro')";
-            $stmtVenda = $conn->prepare($sqlVenda);
-            $stmtVenda->bind_param("isd", $secretariaId, $cpfCliente, $valorTotal);
+    // Recupera os dados da sessão
+    $dadosPagamento = $_SESSION['dados_pagamento'];
+    $valorTotal = $dadosPagamento['valor_total'];
+    $cpfCliente = $dadosPagamento['cpf_cliente'];
+    $carrinho = $dadosPagamento['carrinho'];
+
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
+
+    // Consulta para obter o ID da secretaria
+    $sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
+    $stmtSecretaria = $conn->prepare($sqlSecretaria);
+    $stmtSecretaria->bind_param("s", $nomeFuncionario);
+    $stmtSecretaria->execute();
+    $resultSecretaria = $stmtSecretaria->get_result();
+    $secretaria = $resultSecretaria->fetch_assoc();
+    $stmtSecretaria->close();
+
+    $secretariaId = $secretaria['secretaria_id'];
+
+    // Consulta para obter nome do cliente
+    $clienteNome = 'Cliente não informado';
+    if (!empty($cpfCliente)) {
+        $sqlCliente = "SELECT nome FROM cliente WHERE cpf = ?";
+        $stmtCliente = $conn->prepare($sqlCliente);
+        $stmtCliente->bind_param("s", $cpfCliente);
+        $stmtCliente->execute();
+        $resultCliente = $stmtCliente->get_result();
+        if ($resultCliente && $resultCliente->num_rows > 0) {
+            $clienteData = $resultCliente->fetch_assoc();
+            $clienteNome = $clienteData['nome'];
         }
+        $stmtCliente->close();
+    }
 
-        if ($stmtVenda->execute()) {
-            // Atualiza o estoque para cada produto no carrinho
-            foreach ($carrinho as $item) {
-                $sqlAtualizaEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
-                $stmtEstoque = $conn->prepare($sqlAtualizaEstoque);
-                $stmtEstoque->bind_param("ii", $item['quantidade'], $item['id_produto']);
-                $stmtEstoque->execute();
-                $stmtEstoque->close();
+    $erro = '';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $valorPago = floatval(str_replace(',', '.', $_POST['valor_pago']));
+        if ($valorPago < $valorTotal) {
+            $erro = "O valor pago deve ser igual ou maior que o valor total da compra.";
+        } else {
+            // Apenas salva na tabela vendas os campos existentes (sem valor_pago e troco)
+            if (empty($cpfCliente)) {
+                $sqlVenda = "INSERT INTO vendas (secretaria_id, valor_compra, forma_de_pagamento) VALUES (?, ?, 'Dinheiro')";
+                $stmtVenda = $conn->prepare($sqlVenda);
+                $stmtVenda->bind_param("id", $secretariaId, $valorTotal);
+            } else {
+                $sqlVenda = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento) VALUES (?, ?, ?, 'Dinheiro')";
+                $stmtVenda = $conn->prepare($sqlVenda);
+                $stmtVenda->bind_param("isd", $secretariaId, $cpfCliente, $valorTotal);
             }
 
-            unset($_SESSION['dados_pagamento']);
-            unset($_SESSION['carrinho']);
-            header("Location: sucesso.php");
-            exit();
-        } else {
-            $erro = "Erro ao registrar a venda: " . $stmtVenda->error;
-        }
-        $stmtVenda->close();
-    }
-}
+            if ($stmtVenda->execute()) {
+                // Atualiza o estoque para cada produto no carrinho
+                foreach ($carrinho as $item) {
+                    $sqlAtualizaEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
+                    $stmtEstoque = $conn->prepare($sqlAtualizaEstoque);
+                    $stmtEstoque->bind_param("ii", $item['quantidade'], $item['id_produto']);
+                    $stmtEstoque->execute();
+                    $stmtEstoque->close();
+                }
 
-function formataMoeda($valor) {
-    return 'R$ ' . number_format($valor, 2, ',', '.');
-}
+                unset($_SESSION['dados_pagamento']);
+                unset($_SESSION['carrinho']);
+                header("Location: sucesso.php");
+                exit();
+            } else {
+                $erro = "Erro ao registrar a venda: " . $stmtVenda->error;
+            }
+            $stmtVenda->close();
+        }
+    }
+
+    function formataMoeda($valor) {
+        return 'R$ ' . number_format($valor, 2, ',', '.');
+    }
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +101,7 @@ function formataMoeda($valor) {
     <title>Pagamento em Dinheiro</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
     <script src="../js/troco.js" defer></script>
     <style>

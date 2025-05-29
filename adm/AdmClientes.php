@@ -1,32 +1,32 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
+    // Verifica se o usuário é um administrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
+    }
 
-// Guarda o nome do funcionário
-$nomeFuncionario = $_SESSION['usuario'];
+    // Guarda o nome do funcionário
+    $nomeFuncionario = $_SESSION['usuario'];
 
-$cpfPesquisado = '';
+    $cpfPesquisado = '';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
-    $cpfPesquisado = trim($_POST['cpf']);
-    // Redireciona para a tela de edição de cliente
-    header("Location: AdmEditarCliente.php?cpf=" . urlencode($cpfPesquisado));
-    exit();
-} else {
-    // Consulta para mostrar todos os clientes
-    $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
-    $result = $conn->query($sql);
-}
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
+        $cpfPesquisado = trim($_POST['cpf']);
+        // Redireciona para a tela de edição de cliente
+        header("Location: AdmEditarCliente.php?cpf=" . urlencode($cpfPesquisado));
+        exit();
+    } else {
+        // Consulta para mostrar todos os clientes
+        $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
+        $result = $conn->query($sql);
+    }
 
-if ($result === false) {
-    die("Erro na consulta: " . $conn->error);
-}
+    if ($result === false) {
+        die("Erro na consulta: " . $conn->error);
+    }
 ?>
 
 <!DOCTYPE html>

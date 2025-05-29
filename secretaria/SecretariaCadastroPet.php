@@ -1,65 +1,65 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Inicializa variáveis
-$cpfCliente = '';
-$cliente = null;
-$mensagem = '';
-
-// Se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Se o CPF do cliente foi enviado
-    if (isset($_POST['cpfCliente']) && !empty(trim($_POST['cpfCliente']))) {
-        $cpfCliente = trim($_POST['cpfCliente']);
-
-        // Busca o cliente pelo CPF
-        $sql = "SELECT * FROM cliente WHERE cpf = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $cpfCliente);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $cliente = $result->fetch_assoc();
-        } else {
-            $mensagem = "Cliente não encontrado.";
-        }
+    // Verifica se o usuário é um administrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
     }
 
-    // Se o botão de cadastrar pet foi clicado
-    if (isset($_POST['cadastrarPet']) && $cliente) {
-        $nomePet = $_POST['nomePet'];
-        $idade = $_POST['idade'];
-        $especie = $_POST['animal'];
-        $sexo = $_POST['sexo'];
-        $peso = str_replace(',', '.', $_POST['peso']); // Substitui vírgula por ponto
-        $raca = $_POST['raca'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-        // Insere os dados do pet no banco de dados
-        $sqlInsert = "INSERT INTO pet (nome_pet, idade, especie, sexo, peso, raca, cpf_dono) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmtInsert = $conn->prepare($sqlInsert);
-        $stmtInsert->bind_param("sisssss", $nomePet, $idade, $especie, $sexo, $peso, $raca, $cpfCliente);
+    // Inicializa variáveis
+    $cpfCliente = '';
+    $cliente = null;
+    $mensagem = '';
 
-        if ($stmtInsert->execute()) {
-            $mensagem = "Pet cadastrado com sucesso!";
-            // Não redireciona para manter a mensagem após cadastro
-            // Limpa os dados do formulário para novo cadastro
-            $cliente = $cliente; // Mantém o cliente para mostrar o formulário novamente
-        } else {
-            $mensagem = "Erro ao cadastrar pet: " . $stmtInsert->error;
+    // Se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Se o CPF do cliente foi enviado
+        if (isset($_POST['cpfCliente']) && !empty(trim($_POST['cpfCliente']))) {
+            $cpfCliente = trim($_POST['cpfCliente']);
+
+            // Busca o cliente pelo CPF
+            $sql = "SELECT * FROM cliente WHERE cpf = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $cpfCliente);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $cliente = $result->fetch_assoc();
+            } else {
+                $mensagem = "Cliente não encontrado.";
+            }
+        }
+
+        // Se o botão de cadastrar pet foi clicado
+        if (isset($_POST['cadastrarPet']) && $cliente) {
+            $nomePet = $_POST['nomePet'];
+            $idade = $_POST['idade'];
+            $especie = $_POST['animal'];
+            $sexo = $_POST['sexo'];
+            $peso = str_replace(',', '.', $_POST['peso']); // Substitui vírgula por ponto
+            $raca = $_POST['raca'];
+
+            // Insere os dados do pet no banco de dados
+            $sqlInsert = "INSERT INTO pet (nome_pet, idade, especie, sexo, peso, raca, cpf_dono) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmtInsert = $conn->prepare($sqlInsert);
+            $stmtInsert->bind_param("sisssss", $nomePet, $idade, $especie, $sexo, $peso, $raca, $cpfCliente);
+
+            if ($stmtInsert->execute()) {
+                $mensagem = "Pet cadastrado com sucesso!";
+                // Não redireciona para manter a mensagem após cadastro
+                // Limpa os dados do formulário para novo cadastro
+                $cliente = $cliente; // Mantém o cliente para mostrar o formulário novamente
+            } else {
+                $mensagem = "Erro ao cadastrar pet: " . $stmtInsert->error;
+            }
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Cadastro de Pets</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <script src="../js/mascara.js" defer></script>

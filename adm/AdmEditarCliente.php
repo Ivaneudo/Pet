@@ -1,75 +1,75 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
+    // Verifica se o usuário é um administrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-// Inicializa variáveis
-$cpfCliente = '';
-$cliente = null;
-$mensagem = '';
+    // Inicializa variáveis
+    $cpfCliente = '';
+    $cliente = null;
+    $mensagem = '';
 
-// Se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Se o CPF do cliente foi enviado
-    if (isset($_POST['cpf']) && !empty(trim($_POST['cpf']))) {
-        $cpfCliente = trim($_POST['cpf']);
-        $cliente = buscarCliente($conn, $cpfCliente);
+    // Se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Se o CPF do cliente foi enviado
+        if (isset($_POST['cpf']) && !empty(trim($_POST['cpf']))) {
+            $cpfCliente = trim($_POST['cpf']);
+            $cliente = buscarCliente($conn, $cpfCliente);
 
-        if (!$cliente) {
-            $mensagem = "Cliente não encontrado.";
+            if (!$cliente) {
+                $mensagem = "Cliente não encontrado.";
+            }
+        }
+
+        // Se o botão de modificar foi clicado
+        if (isset($_POST['modificar']) && $cliente) {
+            $nome = trim($_POST['nome']);
+            $telefone = trim($_POST['telefone']);
+            $email = trim($_POST['email']);
+
+            // Atualiza os dados do cliente
+            $sqlUpdateCliente = "UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE cpf = ?";
+            $stmtUpdateCliente = $conn->prepare($sqlUpdateCliente);
+            $stmtUpdateCliente->bind_param("ssss", $nome, $telefone, $email, $cpfCliente);
+            
+            if ($stmtUpdateCliente->execute()) {
+                // Armazena mensagem na sessão para exibir após redirecionamento
+                $_SESSION['message'] = "Informações atualizadas com sucesso!";
+                // Limpa os campos após a atualização
+                $cpfCliente = '';
+                $cliente = null;
+            } else {
+                die("Erro ao atualizar cliente: " . $stmtUpdateCliente->error);
+            }
         }
     }
 
-    // Se o botão de modificar foi clicado
-    if (isset($_POST['modificar']) && $cliente) {
-        $nome = trim($_POST['nome']);
-        $telefone = trim($_POST['telefone']);
-        $email = trim($_POST['email']);
-
-        // Atualiza os dados do cliente
-        $sqlUpdateCliente = "UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE cpf = ?";
-        $stmtUpdateCliente = $conn->prepare($sqlUpdateCliente);
-        $stmtUpdateCliente->bind_param("ssss", $nome, $telefone, $email, $cpfCliente);
+    // Função para buscar dados do cliente
+    function buscarCliente($conn, $cpfCliente) {
+        $sql = "SELECT * FROM cliente WHERE cpf = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $cpfCliente);
+        $stmt->execute();
+        $result = $stmt->get_result();
         
-        if ($stmtUpdateCliente->execute()) {
-            // Armazena mensagem na sessão para exibir após redirecionamento
-            $_SESSION['message'] = "Informações atualizadas com sucesso!";
-            // Limpa os campos após a atualização
-            $cpfCliente = '';
-            $cliente = null;
-        } else {
-            die("Erro ao atualizar cliente: " . $stmtUpdateCliente->error);
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
         }
+        return null;
     }
-}
 
-// Função para buscar dados do cliente
-function buscarCliente($conn, $cpfCliente) {
-    $sql = "SELECT * FROM cliente WHERE cpf = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cpfCliente);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        return $result->fetch_assoc();
+    // Mensagem de sucesso armazenada na sessão
+    if (isset($_SESSION['message'])) {
+        $mensagem = $_SESSION['message'];
+        unset($_SESSION['message']); // Limpa a mensagem após exibi-la
     }
-    return null;
-}
-
-// Mensagem de sucesso armazenada na sessão
-if (isset($_SESSION['message'])) {
-    $mensagem = $_SESSION['message'];
-    unset($_SESSION['message']); // Limpa a mensagem após exibi-la
-}
 ?>
 
 <!DOCTYPE html>
@@ -80,7 +80,7 @@ if (isset($_SESSION['message'])) {
     <title>Editar Cliente</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <script src="../js/mascara.js" defer></script>

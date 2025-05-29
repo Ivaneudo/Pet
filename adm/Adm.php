@@ -1,14 +1,14 @@
 <?php
-session_start();
+    session_start();
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
-    exit();
-}
+    // Verifica se o usuário é um administrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +17,10 @@ $nomeFuncionario = $_SESSION['usuario'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/caixa.css">
+    <script src="../js/icons.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -71,42 +72,5 @@ $nomeFuncionario = $_SESSION['usuario'];
             </nav>
         </div>
     </div>
-    <script>
-        // Mapeia as imagens originais e as imagens de hover
-        const icons = {
-            "estoque": {
-                original: "../img/estoque.png",
-                hover: "../img/estoque-azul.png"
-            },
-            "funcionarios": {
-                original: "../img/funcionarios.png",
-                hover: "../img/funcionarios-azul.png"
-            },
-            "cliente": {
-                original: "../img/cliente.png",
-                hover: "../img/cliente-azul.png"
-            },
-            "patinha": {
-                original: "../img/patinha.png",
-                hover: "../img/patinha-azul.png"
-            }
-        };
-
-        // Função para mudar a imagem ao passar o mouse
-        function changeImage(icon, isHover) {
-            const img = icon.querySelector('img');
-            const iconName = img.alt.toLowerCase(); // Obtém o nome do ícone
-            img.src = isHover ? icons[iconName].hover : icons[iconName].original; // Troca a imagem
-        }
-
-        // Seleciona todos os ícones
-        const iconElements = document.querySelectorAll('.navbar ul a .icone');
-
-        // Adiciona eventos de mouse
-        iconElements.forEach(icon => {
-            icon.addEventListener('mouseenter', () => changeImage(icon, true)); // Muda para a imagem de hover
-            icon.addEventListener('mouseleave', () => changeImage(icon, false)); // Retorna para a imagem original
-        });
-    </script>
 </body>
 </html>

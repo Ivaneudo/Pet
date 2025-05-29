@@ -1,38 +1,38 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um repositor
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
-    exit();
-}
+    // Verifica se o usuário é um repositor
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-// Inicializa a variável para o ID do produto pesquisado
-$idProdutoPesquisado = '';
+    // Inicializa a variável para o ID do produto pesquisado
+    $idProdutoPesquisado = '';
 
-// Verifica se o formulário de pesquisa foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
-    $idProdutoPesquisado = trim($_POST['id_produto']);
+    // Verifica se o formulário de pesquisa foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
+        $idProdutoPesquisado = trim($_POST['id_produto']);
 
-    // Consulta para buscar o produto pelo ID
-    $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $idProdutoPesquisado);
-    $stmt->execute();
-    $result = $stmt->get_result();
-} else {
-    // Consulta para mostrar todos os produtos
-    $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
-    $result = $conn->query($sql);
-}
+        // Consulta para buscar o produto pelo ID
+        $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $idProdutoPesquisado);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } else {
+        // Consulta para mostrar todos os produtos
+        $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+        $result = $conn->query($sql);
+    }
 
-if ($result === false) {
-    die("Erro na consulta: " . $conn->error);
-}
+    if ($result === false) {
+        die("Erro na consulta: " . $conn->error);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +44,7 @@ if ($result === false) {
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
 </head>
 <body>
     <div class="container">
@@ -59,10 +60,11 @@ if ($result === false) {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="repositorEstoque.php" id="selecionado">Estoque</a></li>
-                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
-                    <li><a href="repositorEditar.php">Editar Produto</a></li>
-                    <li><a href="repositorExcluir.php">Excluir Estoque</a></li>
+                    <li><a href="repositor.php">Menu</a></li>
+                    <li><a href="repositorEstoque.php">Estoque</a></li>
+                    <li><a href="#" class="desabilitado">Cadastrar Produto</a></li>
+                    <li><a href="#" class="desabilitado">Editar Produto</a></li>
+                    <li><a href="#" class="desabilitado">Excluir Estoque</a></li>
                 </ul>
             </nav>
         </div>

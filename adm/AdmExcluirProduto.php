@@ -1,70 +1,70 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um adm
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
-    exit();
-}
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Inicializa variáveis
-$codigoProduto = '';
-$nomeProduto = '';
-$precoProduto = '';
-$estoqueProduto = '';
-$mensagem = '';
-
-// Se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Se o código do produto foi enviado
-    if (isset($_POST['codigo']) && !empty(trim($_POST['codigo']))) {
-        $codigoProduto = trim($_POST['codigo']);
-
-        // Busca o produto pelo ID
-        $sql = "SELECT nome_produto, preco, estoque FROM produto WHERE id_produto = ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $codigoProduto);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $produto = $result->fetch_assoc();
-            $nomeProduto = $produto['nome_produto'];
-            $precoProduto = $produto['preco'];
-            $estoqueProduto = $produto['estoque'];
-        } else {
-            $mensagem = "Produto não encontrado.";
-        }
+    // Verifica se o usuário é um adm
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
+        exit();
     }
 
-    // Se o botão de subtrair estoque foi clicado
-    if (isset($_POST['subtrair'])) {
-        $quantidadeSubtrair = intval($_POST['estoque']);
-        
-        // Verifica se a quantidade a subtrair é válida
-        if ($quantidadeSubtrair > 0 && $quantidadeSubtrair <= $estoqueProduto) {
-            $novoEstoque = $estoqueProduto - $quantidadeSubtrair;
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-            // Atualiza o estoque no banco de dados
-            $sqlUpdate = "UPDATE produto SET estoque = ? WHERE id_produto = ?";
-            $stmtUpdate = $conn->prepare($sqlUpdate);
-            $stmtUpdate->bind_param("ii", $novoEstoque, $codigoProduto);
+    // Inicializa variáveis
+    $codigoProduto = '';
+    $nomeProduto = '';
+    $precoProduto = '';
+    $estoqueProduto = '';
+    $mensagem = '';
 
-            if ($stmtUpdate->execute()) {
-                $mensagem = "Estoque atualizado com sucesso!";
-                $estoqueProduto = $novoEstoque; // Atualiza a variável para refletir a nova quantidade
+    // Se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Se o código do produto foi enviado
+        if (isset($_POST['codigo']) && !empty(trim($_POST['codigo']))) {
+            $codigoProduto = trim($_POST['codigo']);
+
+            // Busca o produto pelo ID
+            $sql = "SELECT nome_produto, preco, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $codigoProduto);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $produto = $result->fetch_assoc();
+                $nomeProduto = $produto['nome_produto'];
+                $precoProduto = $produto['preco'];
+                $estoqueProduto = $produto['estoque'];
             } else {
-                $mensagem = "Erro ao atualizar o estoque.";
+                $mensagem = "Produto não encontrado.";
             }
-        } else {
-            $mensagem = "Quantidade inválida para subtrair.";
+        }
+
+        // Se o botão de subtrair estoque foi clicado
+        if (isset($_POST['subtrair'])) {
+            $quantidadeSubtrair = intval($_POST['estoque']);
+            
+            // Verifica se a quantidade a subtrair é válida
+            if ($quantidadeSubtrair > 0 && $quantidadeSubtrair <= $estoqueProduto) {
+                $novoEstoque = $estoqueProduto - $quantidadeSubtrair;
+
+                // Atualiza o estoque no banco de dados
+                $sqlUpdate = "UPDATE produto SET estoque = ? WHERE id_produto = ?";
+                $stmtUpdate = $conn->prepare($sqlUpdate);
+                $stmtUpdate->bind_param("ii", $novoEstoque, $codigoProduto);
+
+                if ($stmtUpdate->execute()) {
+                    $mensagem = "Estoque atualizado com sucesso!";
+                    $estoqueProduto = $novoEstoque; // Atualiza a variável para refletir a nova quantidade
+                } else {
+                    $mensagem = "Erro ao atualizar o estoque.";
+                }
+            } else {
+                $mensagem = "Quantidade inválida para subtrair.";
+            }
         }
     }
-}
 ?>
 
 <!DOCTYPE html>

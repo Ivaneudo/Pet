@@ -1,87 +1,87 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um administrador
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
+    // Verifica se o usuário é um administrador
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-// Inicializa variáveis para mensagens
-$mensagemSucesso = '';
-$mensagemErro = '';
+    // Inicializa variáveis para mensagens
+    $mensagemSucesso = '';
+    $mensagemErro = '';
 
-// Verifica se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Captura os dados do formulário
-    $nome = trim($_POST['nome'] ?? '');
-    $cpf = trim($_POST['cpf'] ?? '');
-    $telefone = trim($_POST['telefone'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $senha = trim($_POST['senha'] ?? '');
-    $cargo = $_POST['cargo'] ?? '';
+    // Verifica se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Captura os dados do formulário
+        $nome = trim($_POST['nome'] ?? '');
+        $cpf = trim($_POST['cpf'] ?? '');
+        $telefone = trim($_POST['telefone'] ?? '');
+        $email = trim($_POST['email'] ?? '');
+        $senha = trim($_POST['senha'] ?? '');
+        $cargo = $_POST['cargo'] ?? '';
 
-    // Validações básicas
-    if (empty($nome) || empty($cpf) || empty($telefone) || empty($email) || empty($senha) || empty($cargo)) {
-        $mensagemErro = "Por favor, preencha todos os campos.";
-    } else {
-        // Verificação do CPF em todas as tabelas
-        $sqlCheckCpf = "SELECT COUNT(*) as total FROM (
-                          SELECT cpf FROM adm WHERE cpf = ?
-                          UNION ALL
-                          SELECT cpf FROM cliente WHERE cpf = ?
-                          UNION ALL
-                          SELECT cpf FROM secretaria WHERE cpf = ?
-                          UNION ALL
-                          SELECT cpf FROM repositor WHERE cpf = ?
-                        ) as cpf_unico";
-        
-        $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
-        $stmtCheckCpf->bind_param("ssss", $cpf, $cpf, $cpf, $cpf);
-        $stmtCheckCpf->execute();
-        $result = $stmtCheckCpf->get_result();
-        $row = $result->fetch_assoc();
-        $totalCpfCount = $row['total'];
-        $stmtCheckCpf->close();
-
-        if ($totalCpfCount > 0) {
-            $mensagemErro = "Este usuário já existe.";
+        // Validações básicas
+        if (empty($nome) || empty($cpf) || empty($telefone) || empty($email) || empty($senha) || empty($cargo)) {
+            $mensagemErro = "Por favor, preencha todos os campos.";
         } else {
-            // Prepara a consulta de inserção com base no cargo selecionado
-            if ($cargo === 'secretaria') {
-                $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-            } elseif ($cargo === 'repositor') {
-                $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-            } elseif ($cargo === 'adm') {
-                $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-            } else {
-                $mensagemErro = "Cargo inválido.";
-            }
+            // Verificação do CPF em todas as tabelas
+            $sqlCheckCpf = "SELECT COUNT(*) as total FROM (
+                            SELECT cpf FROM adm WHERE cpf = ?
+                            UNION ALL
+                            SELECT cpf FROM cliente WHERE cpf = ?
+                            UNION ALL
+                            SELECT cpf FROM secretaria WHERE cpf = ?
+                            UNION ALL
+                            SELECT cpf FROM repositor WHERE cpf = ?
+                            ) as cpf_unico";
+            
+            $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
+            $stmtCheckCpf->bind_param("ssss", $cpf, $cpf, $cpf, $cpf);
+            $stmtCheckCpf->execute();
+            $result = $stmtCheckCpf->get_result();
+            $row = $result->fetch_assoc();
+            $totalCpfCount = $row['total'];
+            $stmtCheckCpf->close();
 
-            if (empty($mensagemErro)) {
-                // Prepara e executa a consulta
-                $stmt = $conn->prepare($sql);
-                if ($stmt) {
-                    $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
-                    if ($stmt->execute()) {
-                        $mensagemSucesso = "Funcionário cadastrado com sucesso.";
-                        // Limpa os campos do formulário
-                        $nome = $cpf = $telefone = $email = $senha = $cargo = '';
-                    } else {
-                        $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
-                    }
-                    $stmt->close();
+            if ($totalCpfCount > 0) {
+                $mensagemErro = "Este usuário já existe.";
+            } else {
+                // Prepara a consulta de inserção com base no cargo selecionado
+                if ($cargo === 'secretaria') {
+                    $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+                } elseif ($cargo === 'repositor') {
+                    $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+                } elseif ($cargo === 'adm') {
+                    $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
                 } else {
-                    $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+                    $mensagemErro = "Cargo inválido.";
+                }
+
+                if (empty($mensagemErro)) {
+                    // Prepara e executa a consulta
+                    $stmt = $conn->prepare($sql);
+                    if ($stmt) {
+                        $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+                        if ($stmt->execute()) {
+                            $mensagemSucesso = "Funcionário cadastrado com sucesso.";
+                            // Limpa os campos do formulário
+                            $nome = $cpf = $telefone = $email = $senha = $cargo = '';
+                        } else {
+                            $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
+                        }
+                        $stmt->close();
+                    } else {
+                        $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+                    }
                 }
             }
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Cadastrar Funcionários</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/caixa.css" />
+    <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <script src="../js/mascara.js" defer></script>
     <style>

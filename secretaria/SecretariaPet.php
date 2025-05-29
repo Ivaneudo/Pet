@@ -1,50 +1,50 @@
 <?php
-session_start();
-include('../funcoes/conexao.php'); // Inclua a conexão com o banco
+    session_start();
+    include('../funcoes/conexao.php'); // Inclua a conexão com o banco
 
-// Verifica se o usuário é uma secretaria
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
-    exit();
-}
+    // Verifica se o usuário é uma secretaria
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
+        exit();
+    }
 
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
 
-// Inicializa a variável para armazenar o resultado da pesquisa
-$result = null;
+    // Inicializa a variável para armazenar o resultado da pesquisa
+    $result = null;
 
-// Verifica se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
-    $cpfPesquisado = trim($_POST['cpf']);
+    // Verifica se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
+        $cpfPesquisado = trim($_POST['cpf']);
 
-    // Consulta para buscar os pets do dono com o CPF informado
-    $sql = "
-        SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
-        FROM pet p
-        JOIN cliente c ON p.cpf_dono = c.cpf
-        WHERE p.cpf_dono = ?
-        ORDER BY c.nome ASC
-    ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $cpfPesquisado);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-} else {
-    // Consulta para buscar todos os pets se nenhum CPF for pesquisado
-    $sql = "
-        SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
-        FROM pet p
-        JOIN cliente c ON p.cpf_dono = c.cpf
-        ORDER BY c.nome, p.nome_pet ASC
-    ";
-    $result = $conn->query($sql);
-}
+        // Consulta para buscar os pets do dono com o CPF informado
+        $sql = "
+            SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
+            FROM pet p
+            JOIN cliente c ON p.cpf_dono = c.cpf
+            WHERE p.cpf_dono = ?
+            ORDER BY c.nome ASC
+        ";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $cpfPesquisado);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+    } else {
+        // Consulta para buscar todos os pets se nenhum CPF for pesquisado
+        $sql = "
+            SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
+            FROM pet p
+            JOIN cliente c ON p.cpf_dono = c.cpf
+            ORDER BY c.nome, p.nome_pet ASC
+        ";
+        $result = $conn->query($sql);
+    }
 
-if ($result === false) {
-    die("Erro na consulta: " . $conn->error);
-}
+    if ($result === false) {
+        die("Erro na consulta: " . $conn->error);
+    }
 ?>
 
 <!DOCTYPE html>

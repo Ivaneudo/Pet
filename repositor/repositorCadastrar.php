@@ -1,44 +1,44 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é um repositor
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
-    header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
-    exit();
-}
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Inicializa variáveis
-$mensagem = '';
-
-// Se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Captura os dados do formulário
-    $codigoProduto = trim($_POST['codigo']);
-    $nomeProduto = trim($_POST['nome']);
-    $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
-    $estoqueProduto = intval($_POST['estoque']);
-    $tamanhoProduto = trim($_POST['tamanho']); // Captura o tamanho do produto
-
-    // Verifica se todos os campos estão preenchidos
-    if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
-        // Insere o novo produto no banco de dados
-        $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?, ?)";
-        $stmtInsert = $conn->prepare($sqlInsert);
-        $stmtInsert->bind_param("isdis", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
-
-        if ($stmtInsert->execute()) {
-            $mensagem = "Produto cadastrado com sucesso!";
-        } else {
-            $mensagem = "Erro ao cadastrar o produto.";
-        }
-    } else {
-        $mensagem = "Por favor, preencha todos os campos corretamente.";
+    // Verifica se o usuário é um repositor
+    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+        exit();
     }
-}
+
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
+
+    // Inicializa variáveis
+    $mensagem = '';
+
+    // Se o formulário foi enviado
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Captura os dados do formulário
+        $codigoProduto = trim($_POST['codigo']);
+        $nomeProduto = trim($_POST['nome']);
+        $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
+        $estoqueProduto = intval($_POST['estoque']);
+        $tamanhoProduto = trim($_POST['tamanho']); // Captura o tamanho do produto
+
+        // Verifica se todos os campos estão preenchidos
+        if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
+            // Insere o novo produto no banco de dados
+            $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?, ?)";
+            $stmtInsert = $conn->prepare($sqlInsert);
+            $stmtInsert->bind_param("isdis", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
+
+            if ($stmtInsert->execute()) {
+                $mensagem = "Produto cadastrado com sucesso!";
+            } else {
+                $mensagem = "Erro ao cadastrar o produto.";
+            }
+        } else {
+            $mensagem = "Por favor, preencha todos os campos corretamente.";
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -50,6 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
 </head>
 <body>
     <div class="container">
@@ -65,10 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="repositorEstoque.php">Estoque</a></li>
-                    <li><a href="repositorCadastrar.php" id="selecionado">Cadastrar Produto</a></li>
-                    <li><a href="repositorEditar.php">Editar Produto</a></li>
-                    <li><a href="repositorExcluir.php">Excluir Estoque</a></li>
+                    <li><a href="repositor.php">Menu</a></li>
+                    <li><a href="#" class="desabilitado">Estoque</a></li>
+                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
+                    <li><a href="#" class="desabilitado">Editar Produto</a></li>
+                    <li><a href="#" class="desabilitado">Excluir Estoque</a></li>
                 </ul>
             </nav>
         </div>
