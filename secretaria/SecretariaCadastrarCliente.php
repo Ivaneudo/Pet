@@ -75,7 +75,7 @@
     <title>Cadastrar Clientes</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
-    <link rel="stylesheet" href="../css/repositor.css" />
+    <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <script src="../js/mascara.js" defer></script>
     <style>
@@ -107,7 +107,8 @@
                 <ul>
                     <li><a href="Secretaria.php">Menu</a></li>
                     <li><a href="SecretariaClientes.php">Clientes</a></li>
-                    <li><a href="SecretariaCadastrarCliente.php">Cadastrar Clientes</a></li>
+                    <li><a href="SecretariaCadastrarCliente.php">Cadastrar Cliente</a></li>
+                    <li><a href="SecretariaEditarCliente.php">Editar Cliente</a></li>
                 </ul>
             </nav>
         </div>

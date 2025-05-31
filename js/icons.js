@@ -26,6 +26,10 @@ const icons = {
     "excluir estoque": {
         original: "../img/excluir-estoque.png",
         hover: "../img/excluir-estoque-azul.png"
+    },
+    "caixa":{
+        original: "../img/caixa.png",
+        hover: "../img/caixa-azul.png"
     }
 }
 
