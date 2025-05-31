@@ -23,7 +23,6 @@ body {
 /* ========== LAYOUT PRINCIPAL ========== */
 .container {
     width: 100%;
-    max-width: 1400px;
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -31,6 +30,11 @@ body {
 /* ========== CABEÇALHO ========== */
 header {
     padding: 1.2rem 0;
+}
+
+.funci p {
+    align-items: center;
+    padding-top: 1rem;
 }
 
 .header-content {

@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <div class="entrar">
             <div class="instrucoes">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Adicione seu <strong>CPF</strong> no campo de usuário e sua <strong>senha</strong> no campo de senha. Tenha um bom dia de trabalho.</p>
+                <p>Olá, seja bem vindo(a)! Adicione o seu <strong>CPF</strong> no campo de login e a sua <strong>SENHA</strong> no campo de senha.A Domínio Pet deseja um ótimo dia de trabalho.</p>
             </div>
             <div class="form">
                 <form method="POST" action="">
