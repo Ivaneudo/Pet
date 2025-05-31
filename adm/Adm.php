@@ -20,6 +20,7 @@
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/icons.js" defer></script>
 </head>
 <body>

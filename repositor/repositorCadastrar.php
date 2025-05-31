@@ -51,6 +51,7 @@
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
     <link rel="stylesheet" href="../css/Vendas.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
 </head>
 <body>
     <div class="container">

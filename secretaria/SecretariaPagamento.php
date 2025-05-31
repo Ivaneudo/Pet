@@ -114,6 +114,7 @@
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
+    <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/pagamentoCredito.js" defer></script>
     <style>
         .info-resumo p {

@@ -64,10 +64,13 @@ html, body {
 
 .navbar ul {
     display: flex;
-    gap: 4rem; 
+    flex-wrap: wrap;          /* Permite que os ícones quebrem para a próxima linha se necessário */
+    justify-content: center;  /* Centraliza os ícones */
+    gap: 2vw;                /* Espaçamento proporcional entre os ícones */
     list-style: none;
     padding: 0; 
     margin: 0;
+    max-width: 90vw;         /* Limita a largura máxima do container */
 }
 
 .navbar ul a {
@@ -75,6 +78,9 @@ html, body {
     color: #000; 
     text-align: center; 
     transition: color 0.3s;
+    flex: 1 1 25%;           /* Permite que cada ícone ocupe no mínimo 25% da largura do container */
+    max-width: 250px;        /* Limita a largura máxima de cada ícone */
+    box-sizing: border-box;
 }
 
 .navbar ul a .icone {
@@ -82,11 +88,11 @@ html, body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 300px; 
-    height: 300px;
+    width: 100%;             /* Para preencher o container pai flexível */
+    aspect-ratio: 1 / 1;     /* Mantém a proporção quadrada */
     background: var(--EfeitoVidro);
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     transition: background 0.3s, transform 0.3s;
     position: relative;
     overflow: hidden;
@@ -95,17 +101,15 @@ html, body {
 }
 
 .navbar ul a .icone img {
-    max-width: 70%;
-    max-height: 70%;
-    height: auto;
-    width: auto;
-    object-fit: contain;
+    max-width: 80%;          /* Ajusta a imagem para ocupar até 80% da largura do ícone */
+    height: auto;            /* Mantém a proporção da imagem */
+    object-fit: contain;     /* Garante que a imagem se ajuste dentro do espaço */
     margin-bottom: 1rem; 
 }
 
 .navbar ul a .icone p {
     margin: 0; 
-    font-size: 2rem; 
+    font-size: 1.5rem;       /* Ajusta o tamanho da fonte */
     font-weight: 600;
     color: #245a94;
     line-height: 1.2em;
@@ -114,9 +118,16 @@ html, body {
 
 .navbar ul a:hover .icone {
     background: #245a94;
-    transform: scale(1.1);
+    transform: scale(1.1);  /* Leve aumento ao passar o mouse */
 }
 
 .navbar ul a:hover .icone p {
     color: #c0d4e2; 
+}
+
+/* Para telas pequenas, reduzir a fonte */
+@media (max-width: 480px) {
+    .navbar ul a .icone p {
+        font-size: 1rem;       /* Reduz o tamanho da fonte em telas pequenas */
+    }
 }

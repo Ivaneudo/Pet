@@ -88,6 +88,7 @@
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
+    <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>

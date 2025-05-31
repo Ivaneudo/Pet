@@ -44,6 +44,7 @@
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
 </head>
 <body>
     <div class="container">

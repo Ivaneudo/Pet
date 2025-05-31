@@ -1,0 +1,300 @@
+/* ========== ESTRUTURA RESPONSIVA ========== */
+/* Mantém todas as funcionalidades responsivas anteriores */
+/* Remove apenas declarações de cores desnecessárias */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ========== LAYOUT PRINCIPAL ========== */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* ========== CABEÇALHO ========== */
+header {
+    padding: 1.2rem 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0.5rem 0;
+}
+
+.user-info {
+    font-weight: bold;
+    margin-left: auto;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    padding: 0.75rem 0;
+    display: block;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* ========== CONTEÚDO PRINCIPAL ========== */
+.main-content {
+    flex: 1;
+    padding: 2rem 0;
+}
+
+/* ========== FORMULÁRIOS ========== */
+.form-container {
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 800px;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.btn {
+    display: inline-block;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* ========== TABELAS ========== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+.data-table th {
+    font-weight: bold;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 20px;
+}
+
+/* ========== CARDS ========== */
+.card {
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+/* ========== GRID ========== */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+/* ========== PAINEL ADMIN ========== */
+.admin-panel {
+    display: flex;
+    min-height: calc(100vh - 120px);
+}
+
+.admin-menu {
+    width: 250px;
+    padding: 20px 0;
+}
+
+.admin-menu a {
+    text-decoration: none;
+    display: block;
+    padding: 12px 20px;
+}
+
+.admin-content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* ========== MEDIA QUERIES ========== */
+@media (max-width: 1200px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .admin-menu {
+        width: 220px;
+    }
+}
+
+@media (max-width: 992px) {
+    .admin-panel {
+        flex-direction: column;
+    }
+    
+    .admin-menu {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px 0;
+    }
+    
+    .admin-menu a {
+        padding: 10px 15px;
+        flex: 1 0 auto;
+        text-align: center;
+    }
+    
+    .user-info {
+        margin: 1rem auto;
+        order: 2;
+        width: auto;
+    }
+    
+    .header-content {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .logo {
+        margin-bottom: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    nav ul {
+        margin-top: 1rem;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    nav ul li {
+        margin: 0 0.5rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .data-table {
+        font-size: 13px;
+    }
+    
+    .data-table th, 
+    .data-table td {
+        padding: 10px 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    nav ul {
+        flex-direction: column;
+    }
+    
+    nav ul li {
+        margin: 0.25rem 0;
+    }
+    
+    .admin-menu {
+        flex-direction: column;
+    }
+    
+    .admin-menu a {
+        text-align: left;
+        padding: 10px 20px;
+    }
+}

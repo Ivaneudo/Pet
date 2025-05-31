@@ -79,6 +79,7 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
+    <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>

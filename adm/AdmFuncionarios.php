@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
     <link rel="stylesheet" href="../css/AdmFuncionarios.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/mascara.js" defer></script>
     <script src="../js/excluirFuncionario.js" defer></script>
 </head>

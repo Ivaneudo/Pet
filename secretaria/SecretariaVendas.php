@@ -192,6 +192,7 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/produtos.css" />
     <link rel="stylesheet" href="../css/Vendas.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/cancelarCompra.js" defer></script>
     <script src="../js/CaixaProdutos.js" defer></script>
     <script src="../js/mascara.js" defer></script>
