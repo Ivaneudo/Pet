@@ -46,6 +46,10 @@ html, body {
     margin: 0 1rem .2rem 0;
 }
 
+.sair img {
+    width: 40px;
+}
+
 #colaborador {
     font-weight: bold;
 }

@@ -12,7 +12,7 @@
     --gradiente: linear-gradient(#CFE2F8, #5A799A);
     --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
     --background: #5691cf;
-    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+    --EfeitoVidro: #ffffff77;
 }
 
 .produtos {
