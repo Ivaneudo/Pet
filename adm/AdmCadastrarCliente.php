@@ -70,19 +70,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
-    <style>
-        .mensagem-erro{ 
-            color: #CD0000; 
-            font-weight: bold;
-            text-align: left;
-        }
-        .mensagem-sucesso{ 
-            color: #008B00; 
-            font-weight: bold; 
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
     <div class="container">

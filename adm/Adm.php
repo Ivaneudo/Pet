@@ -40,7 +40,7 @@
                     <li>
                         <a href="AdmEstoque.php">
                             <div class="icone">
-                                <img src="../img/estoque.png" alt="estoque"> <!-- Imagem para Estoque -->
+                                <img src="../img/estoque.png" alt="estoque">
                                 <p>Estoque</p>
                             </div>
                         </a>
@@ -48,7 +48,7 @@
                     <li>
                         <a href="AdmFuncionarios.php">
                             <div class="icone">
-                                <img src="../img/funcionarios.png" alt="funcionarios"> <!-- Imagem para Funcionários -->
+                                <img src="../img/funcionarios.png" alt="funcionarios">
                                 <p>Funcionários</p>
                             </div>
                         </a>
@@ -56,7 +56,7 @@
                     <li>
                         <a href="AdmClientes.php">
                             <div class="icone">
-                                <img src="../img/cliente.png" alt="cliente"> <!-- Imagem para Clientes -->
+                                <img src="../img/cliente.png" alt="cliente">
                                 <p>Clientes</p>
                             </div>
                         </a>
@@ -64,7 +64,7 @@
                     <li>
                         <a href="AdmPet.php">
                             <div class="icone">
-                                <img src="../img/patinha.png" alt="patinha"> <!-- Imagem para Pets -->
+                                <img src="../img/patinha.png" alt="patinha">
                                 <p>Pets</p>
                             </div>
                         </a>

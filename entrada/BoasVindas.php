@@ -16,7 +16,7 @@
         <div>
             <div class="bemvindo">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <h1>Obrigado pelo o dia de hoje! A Domínio Pet agradece pelos seus serviços.</h1>
+                <h1>Tenha um bom dia de trabalho! A Domínio Pet agradece pelos seus serviços.</h1>
             </div>
             <div class="logar">
                 <button id="entrar">Entrar</button>

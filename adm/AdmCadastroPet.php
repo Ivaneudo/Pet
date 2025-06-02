@@ -15,6 +15,7 @@
     $cpfCliente = '';
     $cliente = null;
     $mensagem = '';
+    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
 
     // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -33,6 +34,7 @@
                 $cliente = $result->fetch_assoc();
             } else {
                 $mensagem = "Cliente não encontrado.";
+                $classeMensagem = 'erro'; // Define a classe de erro
             }
         }
 
@@ -52,11 +54,13 @@
 
             if ($stmtInsert->execute()) {
                 $mensagem = "Pet cadastrado com sucesso!";
+                $classeMensagem = 'sucesso'; // Define a classe de sucesso
                 // Não redireciona para manter a mensagem após cadastro
                 // Limpa os dados do formulário para novo cadastro
                 $cliente = $cliente; // Mantém o cliente para mostrar o formulário novamente
             } else {
                 $mensagem = "Erro ao cadastrar pet: " . $stmtInsert->error;
+                $classeMensagem = 'erro'; // Define a classe de erro
             }
         }
     }
@@ -68,12 +72,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cadastrar Pets</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
@@ -108,9 +113,9 @@
                 </form>
 
                 <?php if ($mensagem): ?>
-                    <strong><p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'; ?>">
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
-                    </p></strong>
+                    </div>
                 <?php endif; ?>
 
                 <?php if ($cliente): ?>
@@ -128,32 +133,92 @@
                         <div class="animais">
                             <div class="coluna">
                                 <div class="AnimalTipo">
-                                    <input type="radio" class="tipo" name="animal" value="Gato" id="gato" required>
+                                    <input 
+                                        type="radio" 
+                                        class="tipo" 
+                                        name="animal" 
+                                        value="Gato" 
+                                        id="gato" 
+                                        required>
                                     <label for="gato">Gato</label>
 
-                                    <input type="radio" class="tipo" name="animal" value="Cachorro" id="cachorro" required>
+                                    <input 
+                                        type="radio" 
+                                        class="tipo" 
+                                        name="animal" 
+                                        value="Cachorro" 
+                                        id="cachorro" 
+                                        required>
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
-                                <input type="text" name="nomePet" class="nomePet" placeholder="Nome do animal" autocomplete=off required>
-                                <input type="number" name="idade" class="idade" placeholder="Idade do animal" autocomplete=off required min="0">
+                                <input 
+                                    type="text" 
+                                    name="nomePet" 
+                                    class="nomePet" 
+                                    placeholder="Nome do animal" 
+                                    autocomplete=off 
+                                    required>
+
+                                <input 
+                                    type="number" 
+                                    name="idade" 
+                                    class="idade" 
+                                    placeholder="Idade do animal" 
+                                    autocomplete=off 
+                                    required 
+                                    min="0">
                             </div>
 
                             <div class="coluna">
                                 <div class="AnimalTipo">
-                                    <input type="radio" class="tipo" name="sexo" value="macho" id="sexoMacho" autocomplete=off required>
+                                    <input 
+                                        type="radio" 
+                                        class="tipo" 
+                                        name="sexo" 
+                                        value="macho" 
+                                        id="sexoMacho" 
+                                        autocomplete=off 
+                                        required>
                                     <label for="sexoMacho">M</label>
                                     
-                                    <input type="radio" class="tipo" name="sexo" value="femea" id="sexoFemea" autocomplete=off required>
+                                    <input 
+                                        type="radio" 
+                                        class="tipo" 
+                                        name="sexo" 
+                                        value="femea" 
+                                        id="sexoFemea" 
+                                        autocomplete=off 
+                                        required>
                                     <label for="sexoFemea">F</label>
 
-                                    <input type="radio" class="tipo" name="sexo" value="intersexo" id="sexoIntersexo" autocomplete=off required>
+                                    <input 
+                                        type="radio" 
+                                        class="tipo" 
+                                        name="sexo" 
+                                        value="intersexo" 
+                                        id="sexoIntersexo" 
+                                        autocomplete=off 
+                                        required>
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
-                                <input type="text" name="peso" class="peso" placeholder="Peso" required pattern="^\d{1,3}(,\d{1,2})?$" autocomplete=off>
+                                <input 
+                                    type="text" 
+                                    name="peso" 
+                                    class="peso" 
+                                    placeholder="Peso" 
+                                    required 
+                                    pattern="^\d{1,3}(,\d{1,2})?$" 
+                                    autocomplete=off>
 
-                                <input type="text" name="raca" class="raca" placeholder="Digite a raça" autocomplete=off required>
+                                <input 
+                                    type="text" 
+                                    name="raca" 
+                                    class="raca" 
+                                    placeholder="Digite a raça" 
+                                    autocomplete=off 
+                                    required>
                             </div>
                         </div>
 

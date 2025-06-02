@@ -1,66 +1,66 @@
 <?php 
-require_once('../funcoes/conexao.php');
-session_start();
+    require_once('../funcoes/conexao.php');
+    session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-$message = '';
+    $message = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $cpf = $_POST['cpf'];
-    $senha = $_POST['senha'];
-    
-    if (!$conn){
-        die("Conexão falhou: " . mysqli_connect_error());
+    if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $cpf = $_POST['cpf'];
+        $senha = $_POST['senha'];
+        
+        if (!$conn){
+            die("Conexão falhou: " . mysqli_connect_error());
+        }
+        
+        // TODO: Verifica se o CPF e a senha pertencem ao administrador
+        $stmt = $conn->prepare("SELECT * FROM adm WHERE cpf = ? AND senha = ?");
+        $stmt->bind_param("ss", $cpf, $senha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0){
+            $usuario = $result->fetch_assoc();
+            $_SESSION['usuario'] = $usuario['nome'];
+            $_SESSION['tipo_usuario'] = 'admin';
+            header("Location: ../adm/Adm.php");
+            exit();
+        }
+        
+        // TODO: Verifica se o CPF e a senha pertencem ao repositor
+        $stmt = $conn->prepare("SELECT * FROM repositor WHERE cpf = ? AND senha = ?");
+        $stmt->bind_param("ss", $cpf, $senha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0){
+            $usuario = $result->fetch_assoc();
+            $_SESSION['usuario'] = $usuario['nome'];
+            $_SESSION['tipo_usuario'] = 'repositor';
+            header("Location: ../repositor/repositor.php");
+            exit();
+        } 
+        
+        // TODO: Verifica se o CPF e a senha pertencem a secretaria
+        $stmt = $conn->prepare("SELECT * FROM secretaria WHERE cpf = ? AND senha = ?");
+        $stmt->bind_param("ss", $cpf, $senha);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0){
+            $usuario = $result->fetch_assoc();
+            $_SESSION['usuario'] = $usuario['nome'];
+            $_SESSION['tipo_usuario'] = 'secretaria';
+            header("Location: ../secretaria/Secretaria.php");
+            exit();
+        } 
+        if ($result->num_rows == 0){
+            $message = "Usuário não encontrado.";
+        }
+        $stmt->close();
     }
-    
-    // TODO: Verifica se o CPF e a senha pertencem ao administrador
-    $stmt = $conn->prepare("SELECT * FROM adm WHERE cpf = ? AND senha = ?");
-    $stmt->bind_param("ss", $cpf, $senha);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0){
-        $usuario = $result->fetch_assoc();
-        $_SESSION['usuario'] = $usuario['nome'];
-        $_SESSION['tipo_usuario'] = 'admin';
-        header("Location: ../adm/Adm.php");
-        exit();
-    }
-    
-    // TODO: Verifica se o CPF e a senha pertencem ao repositor
-    $stmt = $conn->prepare("SELECT * FROM repositor WHERE cpf = ? AND senha = ?");
-    $stmt->bind_param("ss", $cpf, $senha);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0){
-        $usuario = $result->fetch_assoc();
-        $_SESSION['usuario'] = $usuario['nome'];
-        $_SESSION['tipo_usuario'] = 'repositor';
-        header("Location: ../repositor/repositor.php");
-        exit();
-    } 
-    
-    // TODO: Verifica se o CPF e a senha pertencem a secretaria
-    $stmt = $conn->prepare("SELECT * FROM secretaria WHERE cpf = ? AND senha = ?");
-    $stmt->bind_param("ss", $cpf, $senha);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0){
-        $usuario = $result->fetch_assoc();
-        $_SESSION['usuario'] = $usuario['nome'];
-        $_SESSION['tipo_usuario'] = 'secretaria';
-        header("Location: ../secretaria/Secretaria.php");
-        exit();
-    } 
-    if ($result->num_rows == 0){
-        $message = "Usuário não encontrado.";
-    }
-    $stmt->close();
-}
 ?>
 
 <!DOCTYPE html>
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <div class="entrar">
             <div class="instrucoes">
                 <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá, seja bem vindo(a)! Adicione o seu <strong>CPF</strong> no campo de login e a sua <strong>SENHA</strong> no campo de senha.A Domínio Pet deseja um ótimo dia de trabalho.</p>
+                <p>Olá, seja bem vindo(a)! Adicione o seu <strong>CPF</strong> no campo de login e a sua <strong>SENHA</strong> no campo de senha. A Domínio Pet deseja um ótimo dia de trabalho.</p>
             </div>
             <div class="form">
                 <form method="POST" action="">
@@ -100,7 +100,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                         type="password"
                         class="senha"
                         name="senha"
-                        placeholder="Digite sua senha: " required>
+                        placeholder="Digite sua senha: " 
+                        required>
+                        
                     <button class="enviar">Entrar</button>                 
                 </form>
             </div>
