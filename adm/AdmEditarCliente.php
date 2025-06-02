@@ -15,6 +15,7 @@
     $cpfCliente = '';
     $cliente = null;
     $mensagem = '';
+    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
 
     // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -25,6 +26,7 @@
 
             if (!$cliente) {
                 $mensagem = "Cliente não encontrado.";
+                $classeMensagem = 'erro'; // Define a classe de erro
             }
         }
 
@@ -42,6 +44,7 @@
             if ($stmtUpdateCliente->execute()) {
                 // Armazena mensagem na sessão para exibir após redirecionamento
                 $_SESSION['message'] = "Informações atualizadas com sucesso!";
+                $classeMensagem = 'sucesso'; // Define a classe de sucesso
                 // Limpa os campos após a atualização
                 $cpfCliente = '';
                 $cliente = null;
@@ -68,6 +71,7 @@
     // Mensagem de sucesso armazenada na sessão
     if (isset($_SESSION['message'])) {
         $mensagem = $_SESSION['message'];
+        $classeMensagem = 'sucesso'; // Define a classe de sucesso
         unset($_SESSION['message']); // Limpa a mensagem após exibi-la
     }
 ?>
@@ -78,12 +82,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Editar Cliente</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
@@ -110,7 +115,7 @@
         <div class="cadastrar">
             <div class="cadastro">
                 <?php if($mensagem): ?>
-                    <div class="alert alert-success" style="color: #008B00; font-weight: bold; text-align: left;">
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>

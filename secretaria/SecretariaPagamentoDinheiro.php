@@ -105,11 +105,22 @@
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/troco.js" defer></script>
-    <style>
-        .info-resumo p { color: #6c6b6b; font-size: 1em; }
-        .desabilitado { cursor: not-allowed; }
-        .erro { color: #b00020; font-weight: bold; margin-bottom: 10px; }
-        input[readonly] { background-color: #f0f0f0; }
+    <style>        
+        .info-resumo p{ 
+            color: #6c6b6b; 
+            font-size: 1em; 
+        }
+        .desabilitado{ 
+            cursor: not-allowed; 
+        }
+        .erro{ 
+            color: #b00020; 
+            font-weight: bold; 
+            margin-bottom: 10px; 
+        }
+        input[readonly]{ 
+            background-color: #f0f0f0; 
+        }
     </style>
 </head>
 <body>

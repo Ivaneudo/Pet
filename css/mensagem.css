@@ -1,0 +1,10 @@
+.mensagem-erro{ 
+    color: #CD0000; 
+    font-weight: bold;
+    text-align: left;
+}
+.mensagem-sucesso{ 
+    color: #008B00; 
+    font-weight: bold; 
+    text-align: left;
+}

@@ -13,6 +13,7 @@
 
     // Inicializa variáveis
     $mensagem = '';
+    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
 
     // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -32,11 +33,14 @@
 
             if ($stmtInsert->execute()) {
                 $mensagem = "Produto cadastrado com sucesso!";
+                $classeMensagem = 'sucesso'; // Define a classe de sucesso
             } else {
                 $mensagem = "Erro ao cadastrar o produto.";
+                $classeMensagem = 'erro'; // Define a classe de erro
             }
         } else {
             $mensagem = "Por favor, preencha todos os campos corretamente.";
+            $classeMensagem = 'erro'; // Define a classe de erro
         }
     }
 ?>
@@ -47,10 +51,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar produto</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
 </head>
 <body>
     <div class="container">
@@ -78,9 +83,9 @@
             <div class="cadastro">
 
                 <?php if ($mensagem): ?>
-                    <strong><p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'); ?>">
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
-                    </p></strong>
+                    </div>
                 <?php endif; ?>
 
                 <form method="POST" action="">
