@@ -78,119 +78,120 @@
     <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/Vendas.css">
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
 </head>
 <body>
-<div class="container">
-    <div class="funcionario">
-        <div class="funci">
-            <img src="../img/Logo-Pethop-250px.png" alt="">
-            <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
+    <div class="container">
+        <div class="funcionario">
+            <div class="funci">
+                <img src="../img/Logo-Pethop-250px.png" alt="">
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
+            </div>
+            <div class="sair">
+                <a href="../funcoes/logout.php"><p>sair</p></a>
+            </div>
         </div>
-        <div class="sair">
-            <a href="../funcoes/logout.php"><p>sair</p></a>
+        <div class="navbar">
+            <nav>
+                <ul>
+                    <li><a href="repositor.php">Menu</a></li>
+                    <li><a href="#" class="desabilitado">Estoque</a></li>
+                    <li><a href="#" class="desabilitado">Cadastrar Produto</a></li>
+                    <li><a href="#" class="desabilitado">Editar Produto</a></li>
+                    <li><a href="repositorExcluir.php">Excluir Estoque</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
-    <div class="navbar">
-        <nav>
-            <ul>
-                <li><a href="repositor.php">Menu</a></li>
-                <li><a href="#" class="desabilitado">Estoque</a></li>
-                <li><a href="#" class="desabilitado">Cadastrar Produto</a></li>
-                <li><a href="#" class="desabilitado">Editar Produto</a></li>
-                <li><a href="repositorExcluir.php">Excluir Estoque</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="cadastrar">
-        <div class="cadastro">
-        <?php if ($mensagem): ?>
-                <strong><p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'); ?>">
-                    <?php echo htmlspecialchars($mensagem); ?>
-                </p></strong>
-            <?php endif; ?>
-            <form method="POST" action="">
-                <div class="pesquisa-produto">
-                    <label for="codigo">Pesquisar ID do Produto:</label>
-                    <input
-                        type="text"
-                        name="codigo"
-                        id="codigo"
-                        placeholder="Digite o ID do produto"
-                        autocomplete=off 
-                        value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                        required
-                    >
-                    <button type="submit">Buscar</button>
-                </div>
-            </form>
-
-            <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
-                <form method="POST" action="">
-                    <div class="cliente">
-                        <p>Subtrair Estoque:</p>
-                        <div class="colunas">
-                            <div class="coluna">
-                                <input
-                                    type="text"
-                                    name="codigo"
-                                    class="NomeCliente"
-                                    placeholder="Código do Produto:"
-                                    autocomplete=off 
-                                    value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                                    readonly
-                                >
-                                <input
-                                    type="text"
-                                    id="preco"
-                                    name="preco"
-                                    placeholder="Preço do Produto: "
-                                    autocomplete=off
-                                    value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
-                                    disabled
-                                >
-                            </div>
-
-                            <div class="coluna">
-                                <input
-                                    type="text"
-                                    name="nome"
-                                    class="Telefone"
-                                    placeholder="Nome do produto: "
-                                    autocomplete=off 
-                                    value="<?php echo htmlspecialchars($nomeProduto); ?>"
-                                    disabled
-                                >
-                                <input
-                                    type="number"
-                                    name="estoque"
-                                    class="Email"
-                                    placeholder="Quantidade para subtrair:"
-                                    autocomplete=off 
-                                    value=""
-                                    min="1"
-                                    max="<?php echo htmlspecialchars($estoqueProduto); ?>"
-                                    required
-                                >
-                            </div>
-                        </div>
+        <div class="cadastrar">
+            <div class="cadastro">
+                <?php if ($mensagem): ?>
+                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
+                        <?php echo htmlspecialchars($mensagem); ?>
                     </div>
-                    <div class="botoes">
-                        <div>
-                            <a href="repositor.php">
-                                <button class="voltar" id="volt" type="button">Voltar</button>
-                            </a>
-                        </div>
-                        <div>
-                            <button id="cade" type="submit" name="subtrair">
-                                <img src="../img/lata-de-lixo.png" alt="">
-                            </button>
-                        </div>
+                <?php endif; ?>
+                <form method="POST" action="">
+                    <div class="pesquisa-produto">
+                        <label for="codigo">Pesquisar ID do Produto:</label>
+                        <input
+                            type="text"
+                            name="codigo"
+                            id="codigo"
+                            placeholder="Digite o ID do produto"
+                            autocomplete=off 
+                            value="<?php echo htmlspecialchars($codigoProduto); ?>"
+                            required
+                        >
+                        <button type="submit">Buscar</button>
                     </div>
                 </form>
-            <?php endif; ?>
 
+                <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
+                    <form method="POST" action="">
+                        <div class="cliente">
+                            <p>Subtrair Estoque:</p>
+                            <div class="colunas">
+                                <div class="coluna">
+                                    <input
+                                        type="text"
+                                        name="codigo"
+                                        class="NomeCliente"
+                                        placeholder="Código do Produto:"
+                                        autocomplete=off 
+                                        value="<?php echo htmlspecialchars($codigoProduto); ?>"
+                                        readonly
+                                    >
+                                    <input
+                                        type="text"
+                                        id="preco"
+                                        name="preco"
+                                        placeholder="Preço do Produto: "
+                                        autocomplete=off
+                                        value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
+                                        disabled
+                                    >
+                                </div>
+
+                                <div class="coluna">
+                                    <input
+                                        type="text"
+                                        name="nome"
+                                        class="Telefone"
+                                        placeholder="Nome do produto: "
+                                        autocomplete=off 
+                                        value="<?php echo htmlspecialchars($nomeProduto); ?>"
+                                        disabled
+                                    >
+                                    <input
+                                        type="number"
+                                        name="estoque"
+                                        class="Email"
+                                        placeholder="Quantidade para subtrair:"
+                                        autocomplete=off 
+                                        value=""
+                                        min="1"
+                                        max="<?php echo htmlspecialchars($estoqueProduto); ?>"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="botoes">
+                            <div>
+                                <a href="repositor.php">
+                                    <button class="voltar" id="volt" type="button">Voltar</button>
+                                </a>
+                            </div>
+                            <div>
+                                <button id="cade" type="submit" name="subtrair">
+                                    <img src="../img/lata-de-lixo.png" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                <?php endif; ?>
+
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

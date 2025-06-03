@@ -78,19 +78,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
-    <style>
-        .mensagem-erro{ 
-            color: #CD0000; 
-            font-weight: bold;
-            text-align: left;
-        }
-        .mensagem-sucesso{ 
-            color: #008B00; 
-            font-weight: bold; 
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -125,14 +114,44 @@
                         <p>Cliente:</p>
                         <div class="colunas">
                             <div class="coluna">
-                                <input type="text" name="nome" class="NomeCliente" placeholder="Nome do cliente: " value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                    type="text" 
+                                    name="nome" 
+                                    class="NomeCliente" 
+                                    placeholder="Nome do cliente: " 
+                                    value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
+                                    autocomplete=off 
+                                    required>
 
-                                <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="Digite o CPF do cliente: " value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                    type="text" 
+                                    id="cpf" 
+                                    name="cpf" 
+                                    maxlength="14" 
+                                    placeholder="Digite o CPF do cliente: " 
+                                    value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" 
+                                    autocomplete=off 
+                                    required>
                             </div>
                             <div class="coluna">
-                                <input type="text" name="Telefone" class="Telefone" maxlength="14" placeholder="Digite o telefone do cliente" value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                    type="text" 
+                                    name="Telefone" 
+                                    class="Telefone" 
+                                    maxlength="14" 
+                                    placeholder="Digite o telefone do cliente" 
+                                    value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
+                                    autocomplete=off 
+                                    required>
 
-                                <input type="email" name="email" class="Email" placeholder="Digite o e-mail do cliente: " value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" autocomplete=off required>
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    class="Email" 
+                                    placeholder="Digite o e-mail do cliente: " 
+                                    value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" 
+                                    autocomplete=off 
+                                    required>
                             </div>
                         </div>
                     </div>

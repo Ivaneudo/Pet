@@ -1,8 +1,3 @@
-/* ========== ESTRUTURA RESPONSIVA ========== */
-/* Mantém todas as funcionalidades responsivas anteriores */
-/* Remove apenas declarações de cores desnecessárias */
-
-
 * {
     margin: 0;
     padding: 0;
@@ -20,14 +15,12 @@ body {
     overflow-x: hidden;
 }
 
-/* ========== LAYOUT PRINCIPAL ========== */
 .container {
     width: 100%;
     margin: 0 auto;
     padding: 0 15px;
 }
 
-/* ========== CABEÇALHO ========== */
 header {
     padding: 1.2rem 0;
 }
@@ -85,13 +78,11 @@ nav ul li a {
     align-items: center;
 }
 
-/* ========== CONTEÚDO PRINCIPAL ========== */
 .main-content {
     flex: 1;
     padding: 2rem 0;
 }
 
-/* ========== FORMULÁRIOS ========== */
 .form-container {
     border-radius: 8px;
     padding: 2rem;
@@ -133,7 +124,6 @@ nav ul li a {
     width: 100%;
 }
 
-/* ========== TABELAS ========== */
 .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -160,7 +150,6 @@ nav ul li a {
     margin-bottom: 20px;
 }
 
-/* ========== CARDS ========== */
 .card {
     border-radius: 8px;
     padding: 1.5rem;
@@ -173,7 +162,6 @@ nav ul li a {
     padding-bottom: 0.5rem;
 }
 
-/* ========== GRID ========== */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -181,7 +169,6 @@ nav ul li a {
     margin: 1.5rem 0;
 }
 
-/* ========== PAINEL ADMIN ========== */
 .admin-panel {
     display: flex;
     min-height: calc(100vh - 120px);
@@ -203,7 +190,6 @@ nav ul li a {
     padding: 20px;
 }
 
-/* ========== MEDIA QUERIES ========== */
 @media (max-width: 1200px) {
     html {
         font-size: 15px;

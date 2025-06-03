@@ -79,6 +79,7 @@
     <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/Vendas.css">
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
 </head>
 <body>
     <div class="container">
@@ -104,10 +105,10 @@
         </div>
         <div class="cadastrar">
             <div class="cadastro">
-            <?php if ($mensagem): ?>
-                    <strong><p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'; ?>">
+                <?php if ($mensagem): ?>
+                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
-                    </p></strong>
+                    </div>
                 <?php endif; ?>
 
                 <form method="POST" action="">
@@ -146,7 +147,7 @@
                                         type="text"
                                         id="preco"
                                         name="preco"
-                                        placeholder="Preço do prdouto: "
+                                        placeholder="Preço do produto: "
                                         autocomplete=off 
                                         value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                     >
@@ -193,4 +194,4 @@
         </div>
     </div>
 </body>
-</html> 
+</html>

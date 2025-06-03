@@ -78,12 +78,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Editar Cliente</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
@@ -110,7 +111,7 @@
         <div class="cadastrar">
             <div class="cadastro">
                 <?php if($mensagem): ?>
-                    <div class="alert alert-success" style="color: #008B00; font-weight: bold; text-align: left;">
+                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>

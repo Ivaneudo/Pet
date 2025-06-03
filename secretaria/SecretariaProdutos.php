@@ -81,6 +81,7 @@
                             placeholder="Digite o ID do produto: "
                             autocomplete="off"
                             value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
+                            
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>

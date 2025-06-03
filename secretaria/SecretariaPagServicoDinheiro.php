@@ -93,7 +93,7 @@
 
     function formataMoeda($valor) {
         return 'R$ ' . number_format($valor, 2, ',', '.');
-}
+    }
 ?>
 
 <!DOCTYPE html>
@@ -107,33 +107,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
     <script src="../js/troco.js" defer></script>
-    <style>
-        .info-resumo p {
-            color: #6c6b6b;
-            font-size: 1em;
-            margin: 4px 0;
-        }
-
-        .info-resumo {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-        }
-        
-        .desabilitado{
-            cursor: not-allowed;
-        }
-
-        .erro {
-            color: #b00020;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        input[readonly] {
-            background-color: #f0f0f0;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -183,10 +158,21 @@
                     <div class="lin">
                         <div class="PrimLin">
                             <div class="valor">
-                                <input type="text" id="valor" placeholder="Valor: " value="<?php echo formataMoeda($valorTotal); ?>" readonly data-valor="<?php echo $valorTotal; ?>">
+                                <input 
+                                    type="text" 
+                                    id="valor" 
+                                    placeholder="Valor: " 
+                                    value="<?php echo formataMoeda($valorTotal); ?>" 
+                                    readonly 
+                                    data-valor="<?php echo $valorTotal; ?>">
                             </div>
                             <div class="valor">
-                                <input type="text" id="troco" placeholder="Troco: " value="" readonly>
+                                <input 
+                                    type="text" 
+                                    id="troco" 
+                                    placeholder="Troco: " 
+                                    value="" 
+                                    readonly>
                             </div>
                         </div>
                         <div class="SecundLin">

@@ -115,28 +115,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
     <script src="../js/pagamentoCredito.js" defer></script>
-    <style>
-        .info-resumo p {
-            color: #6c6b6b;
-            font-size: 1em;
-        }
-        #parcelasContainer {
-            display: none;
-            margin-top: 10px;
-        }
-        .desabilitado {
-            cursor: not-allowed;
-        }
-        .erro {
-            color: #b00020;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        input[readonly] {
-            background-color: #f0f0f0;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -175,18 +155,42 @@
                     <div class="erro"><?php echo htmlspecialchars($erro); ?></div>
                 <?php endif; ?>
                 <form method="POST" action="">
-                    <input type="hidden" name="valor" value="<?php echo htmlspecialchars($valorCompra); ?>" />
-                    <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfCliente); ?>" />
+                    <input 
+                        type="hidden" 
+                        name="valor" 
+                        value="<?php echo htmlspecialchars($valorCompra); ?>" />
+                    
+                    <input 
+                        type="hidden" 
+                        name="cpf" 
+                        value="<?php echo htmlspecialchars($cpfCliente); ?>" />
+
                     <div class="CredDeb">
-                        <input type="radio" name="cartao" id="credito" value="Crédito" required>
+                        <input 
+                            type="radio" 
+                            name="cartao" 
+                            id="credito" 
+                            value="Crédito" 
+                            required>
                         <label for="credito">Crédito</label>
-                        <input type="radio" name="cartao" id="debito" value="Débito">
+
+                        <input 
+                            type="radio" 
+                            name="cartao" 
+                            id="debito" 
+                            value="Débito">
                         <label for="debito">Débito</label>
                     </div>
+
                     <div class="lin">
                         <div class="PrimLin">
                             <div class="valor">
-                                <input type="text" name="valor_display" placeholder="Valor:" value="R$ <?php echo number_format($valorCompra, 2, ',', '.'); ?>" readonly>
+                                <input 
+                                    type="text" 
+                                    name="valor_display" 
+                                    placeholder="Valor:" 
+                                    value="R$ <?php echo number_format($valorCompra, 2, ',', '.'); ?>" 
+                                    readonly>
                             </div>
                             <div class="valor" id="parcelasContainer">
                                 <select name="parcelas" id="parcelas">
@@ -202,6 +206,7 @@
                     </div>
                     <div class="botoes" style="margin-top:15px; display:flex; gap:10px;">
                         <button type="button" class="voltar" id="volt" onclick="window.location.href='cancelarPagamento.php'">Cancelar</button>
+
                         <button type="submit" id="cade">Finalizar</button>
                     </div>
                 </form>

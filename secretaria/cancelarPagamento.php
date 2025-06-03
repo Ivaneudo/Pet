@@ -94,30 +94,34 @@
 
                 <form method="POST" action="">
                     <div class="campo">
-                        <p for="cpf">CPF do Administrador:</p>
+                        <p for="cpf"><strong>Login:</strong></p>
                         <input type="text" 
                         name="cpf" 
                         id="cpf" 
                         maxlength=14 
                         autocomplete=off
+                        placeholder="Informe o CPF do Adm"
                         required>
                     </div>
                     <div class="campo">
-                        <p for="senha">Senha do Administrador:</p>
+                        <p for="senha"><strong>Senha:</strong></p>
                         <input type="password" 
                         name="senha" 
                         id="senha" 
+                        placeholder="Informe a senha do Adm"
                         required>
                     </div>
+
                     <?php if (!empty($erro)): ?>
                         <p style="color:red;"><?php echo $erro; ?></p>
                     <?php endif; ?>
+
                     <div class="botoes">
                         <button type="button" onclick="window.history.back();" class="voltar" id="volt">Voltar</button>
+
                         <button type="submit" id="cade">Cancelar Pagamento</button>
                     </div>
                 </form>
-
                 <?php endif; ?>
             </div>
         </div>

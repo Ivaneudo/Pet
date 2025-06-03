@@ -187,7 +187,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Produtos</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/produtos.css" />
@@ -198,121 +198,125 @@
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
-<div class="container">
-    <div class="funcionario">
-        <div class="funci">
-            <img src="../img/Logo-Pethop-250px.png" alt="" />
-            <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+    <div class="container">
+        <div class="funcionario">
+            <div class="funci">
+                <img src="../img/Logo-Pethop-250px.png" alt="" />
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+            </div>
+            <div class="sair">
+                <a href="../funcoes/logout.php"><p>sair</p></a>
+            </div>
         </div>
-        <div class="sair">
-            <a href="../funcoes/logout.php"><p>sair</p></a>
+        <div class="navbar">
+            <nav>
+                <ul>
+                    <li><a href="#" class="desabilitado">Menu</a></li>
+                    <li><a href="#" class="desabilitado">Caixa</a></li>
+                    <li><a href="#" class="desabilitado">Serviço</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
-    <div class="navbar">
-        <nav>
-            <ul>
-                <li><a href="#" class="desabilitado">Menu</a></li>
-                <li><a href="#" class="desabilitado">Caixa</a></li>
-                <li><a href="#" class="desabilitado">Serviço</a></li>
-            </ul>
-        </nav>
-    </div>
 
-    <div class="produtos">
-        <div class="bloco">
-            
-            <form method="POST" action="" aria-label="Adicionar produto">
-                <div class="pesquisa">
-                    <div class="campo">
-                        <input
-                            type="text"
-                            name="codigo_produto"
-                            placeholder="Digite o código do produto: "
-                            maxlength="20"
-                            pattern="^\d+(x\d+)?$"
-                            required
-                            autocomplete="off"
-                        />
-                        <button type="submit" name="adicionar" aria-label="Adicionar produto" style="background:none; border:none; cursor:pointer;">
-                            <img src="../img/search-svgrepo-com.svg" alt="Adicionar" style="width:24px; height:24px;" />
-                        </button>
+        <div class="produtos">
+            <div class="bloco">
+                
+                <form method="POST" action="" aria-label="Adicionar produto">
+                    <div class="pesquisa">
+                        <div class="campo">
+                            <input
+                                type="text"
+                                name="codigo_produto"
+                                placeholder="Digite o código do produto: "
+                                maxlength="20"
+                                pattern="^\d+(x\d+)?$"
+                                required
+                                autocomplete="off"
+                            />
+                            
+                            <button type="submit" name="adicionar" aria-label="Adicionar produto" style="background:none; border:none; cursor:pointer;">
+                                <img src="../img/search-svgrepo-com.svg" alt="Adicionar" style="width:24px; height:24px;" />
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+                
                 <?php if ($mensagem): ?>
-                    <div class="mensagem" role="alert" style="color:#008B00; margin-top: 15px;font-weight: bold;">
+                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>
                 <?php if ($erro): ?>
-                    <div class="erro" role="alert" style="color:#CD0000; margin-top: 15px; font-weight: bold;">
+                    <div class="mensagem-erro">
                         <?php echo htmlspecialchars($erro); ?>
                     </div>
                 <?php endif; ?>
 
-            <form method="POST" action="" aria-label="Carrinho de compras" id="formCarrinho">
-                <div class="compras">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Nome do produto</th>
-                                <th>Valor</th>
-                                <th>Quantidade</th>
-                                <th>Excluir</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (count($_SESSION['carrinho']) === 0): ?>
+                <form method="POST" action="" aria-label="Carrinho de compras" id="formCarrinho">
+                    <div class="compras">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <td colspan="4" style="text-align:center;">Nenhum produto no carrinho</td>
+                                    <th>Nome do produto</th>
+                                    <th>Valor</th>
+                                    <th>Quantidade</th>
+                                    <th>Excluir</th>
                                 </tr>
-                            <?php else: ?>
-                                <?php foreach ($_SESSION['carrinho'] as $item): ?>
+                            </thead>
+                            <tbody>
+                                <?php if (count($_SESSION['carrinho']) === 0): ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($item['nome_produto']); ?></td>
-                                        <td>R$: <?php echo number_format($item['preco'], 2, ',', '.'); ?></td>
-                                        <td><?php echo (int)$item['quantidade']; ?></td>
-                                        <td>
-                                            <button type="submit" name="excluir" value="1" class="excluir" aria-label="Excluir <?php echo htmlspecialchars($item['nome_produto']); ?>" style="background:none; border:none; color:red; font-weight:bold; cursor:pointer;">
-                                                <img src="../img/lata-de-lixo.png" alt="Remover" />
-                                            </button>
-                                            <input type="hidden" name="id_produto_excluir" value="<?php echo $item['id_produto']; ?>" />
-                                        </td>
+                                        <td colspan="4" style="text-align:center;">Nenhum produto no carrinho</td>
                                     </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                    <table class="final">
-                        <tr>
-                            <td>Valor final da compra</td>
-                            <td>R$: <span><?php echo number_format($valorTotal, 2, ',', '.'); ?></span></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="pesquisa" id="Pcpf" style="margin-top: 15px;">
-                    <div id="Cpf" class="<?php echo ($mostrarCpf) ? 'Aparece' : 'Escondido'; ?>">
-                        <input
-                            type="text"
-                            id="cpf"
-                            name="cpf_cliente"
-                            maxlength="14"
-                            placeholder="CPF do cliente: "
-                            autocomplete="off"
-                            <?php echo ($mostrarCpf) ? '' : 'disabled'; ?>
-                        />
+                                <?php else: ?>
+                                    <?php foreach ($_SESSION['carrinho'] as $item): ?>
+                                        <tr>
+                                            <td><?php echo htmlspecialchars($item['nome_produto']); ?></td>
+                                            <td>R$: <?php echo number_format($item['preco'], 2, ',', '.'); ?></td>
+                                            <td><?php echo (int)$item['quantidade']; ?></td>
+                                            <td>
+                                                <button type="submit" name="excluir" value="1" class="excluir" aria-label="Excluir <?php echo htmlspecialchars($item['nome_produto']); ?>" style="background:none; border:none cursor:pointer;">
+                                                    <img src="../img/lata-de-lixo.png" alt="Remover" />
+                                                </button>
+                                                <input type="hidden" name="id_produto_excluir" value="<?php echo $item['id_produto']; ?>" />
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                        <table class="final">
+                            <tr>
+                                <td>Valor final da compra</td>
+                                <td>R$: <span><?php echo number_format($valorTotal, 2, ',', '.'); ?></span></td>
+                            </tr>
+                        </table>
                     </div>
-                </div>
 
-                <div class="botoes" style="margin-top: 15px; display: flex; gap: 10px;">
-                    <button type="button" class="voltar" onclick="confirmarCancelamento(event);">Cancelar Compra</button>
-                    <button type="submit" name="pontuar" id="pont">Pontuar</button>
-                    <button type="submit" name="finalizar">Finalizar</button>
-                </div>
-            </form>
+                    <div class="pesquisa" id="Pcpf" style="margin-top: 15px;">
+                        <div id="Cpf" class="<?php echo ($mostrarCpf) ? 'Aparece' : 'Escondido'; ?>">
+                            <input
+                                type="text"
+                                id="cpf"
+                                name="cpf_cliente"
+                                maxlength="14"
+                                placeholder="CPF do cliente: "
+                                autocomplete="off"
+                                <?php echo ($mostrarCpf) ? '' : 'disabled'; ?>
+                            />
+                        </div>
+                    </div>
+
+                    <div class="botoes" style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button type="button" class="voltar" onclick="confirmarCancelamento(event);">Cancelar Compra</button>
+
+                        <button type="submit" name="pontuar" id="pont">Pontuar</button>
+                        
+                        <button type="submit" name="finalizar">Finalizar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

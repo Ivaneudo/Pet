@@ -15,7 +15,7 @@
             die("Conexão falhou: " . mysqli_connect_error());
         }
         
-        // TODO: Verifica se o CPF e a senha pertencem ao administrador
+        // Verifica se o CPF e a senha pertencem ao administrador
         $stmt = $conn->prepare("SELECT * FROM adm WHERE cpf = ? AND senha = ?");
         $stmt->bind_param("ss", $cpf, $senha);
         $stmt->execute();
@@ -29,7 +29,7 @@
             exit();
         }
         
-        // TODO: Verifica se o CPF e a senha pertencem ao repositor
+        // Verifica se o CPF e a senha pertencem ao repositor
         $stmt = $conn->prepare("SELECT * FROM repositor WHERE cpf = ? AND senha = ?");
         $stmt->bind_param("ss", $cpf, $senha);
         $stmt->execute();
@@ -43,7 +43,7 @@
             exit();
         } 
         
-        // TODO: Verifica se o CPF e a senha pertencem a secretaria
+        // Verifica se o CPF e a senha pertencem a secretaria
         $stmt = $conn->prepare("SELECT * FROM secretaria WHERE cpf = ? AND senha = ?");
         $stmt->bind_param("ss", $cpf, $senha);
         $stmt->execute();
@@ -72,6 +72,7 @@
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/entrar.css">
+    <link rel="stylesheet" href="../css/mensagem.css"> 
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
@@ -84,8 +85,9 @@
             <div class="form">
                 <form method="POST" action="">
                     <?php if (!empty($message)): ?>
-                        <div class="message" style="display: flex; font-size: .8em; color: red; margin-left: 4.2rem">
-                            <?php echo $message; ?>
+                        <div class="mensagem-erro" 
+                        style="margin-left: 4.5rem;">
+                            <?php echo htmlspecialchars($message); ?>
                         </div>
                     <?php endif; ?>
                     <input 

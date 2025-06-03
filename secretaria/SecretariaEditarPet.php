@@ -2,7 +2,7 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // TODO: Verifica se o usuário é uma secretaria
+    // Verifica se o usuário é uma secretaria
     if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
         header("Location: ../entrada/Entrar.php");
         exit();
@@ -29,7 +29,7 @@
         }
     }
 
-    // TODO: Quando o formulário for enviado:
+    // Quando o formulário for enviado:
     if ($_SERVER["REQUEST_METHOD"] == "POST" && $pet) {
         $nomePet = $_POST['nomePet'];
         $idade = $_POST['idade'];
@@ -38,7 +38,7 @@
         $peso = str_replace(',', '.', $_POST['peso']);
         $raca = $_POST['raca'];
 
-        // TODO: Atualiza os dados do pet no banco de dados
+        // Atualiza os dados do pet no banco de dados
         $sqlUpdate = "UPDATE pet SET nome_pet = ?, idade = ?, especie = ?, sexo = ?, peso = ?, raca = ? WHERE id_pet = ?";
         $stmtUpdate = $conn->prepare($sqlUpdate);
         $stmtUpdate->bind_param("sissssi", $nomePet, $idade, $especie, $sexo, $peso, $raca, $idPet);
@@ -50,7 +50,7 @@
         }
     }
 
-    // TODO: Busca o nome do dono do pet
+    // Busca o nome do dono do pet
     $nomeDono = '';
     if ($pet) {
         $sqlDono = "SELECT nome FROM cliente WHERE cpf = ?";
@@ -74,12 +74,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Editar Pet</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
@@ -106,9 +107,9 @@
         <div class="cadastrar">
             <div class="cadastro">
                 <?php if ($mensagem): ?>
-                    <strong><p style="color: <?php echo strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'; ?>">
+                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
-                    </p></strong>
+                    </div>
                 <?php endif; ?>
 
                 <?php if ($pet): ?>

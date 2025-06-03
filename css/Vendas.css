@@ -10,8 +10,28 @@ button {
     display: block;
 }
 
-.desabilitado{
+.info-resumo p {
+    color: #6c6b6b;
+    font-size: 1em;
+}
+
+#parcelasContainer {
+    display: none;
+    margin-top: 10px;
+}
+
+.desabilitado {
     cursor: not-allowed;
+}
+
+.erro {
+    color: #b00020;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+input[readonly] {
+    background-color: #f0f0f0;
 }
 
 button img{

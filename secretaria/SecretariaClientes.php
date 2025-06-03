@@ -76,6 +76,7 @@
                             placeholder="Digite o cpf do cliente: "
                             autocomplete="off"
                             value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                            
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>
