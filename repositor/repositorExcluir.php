@@ -91,6 +91,45 @@
     </script>
 </head>
 <body>
+<div class="container">
+    <div class="funcionario">
+        <div class="funci">
+            <img src="../img/Logo-Pethop-250px.png" alt="">
+            <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
+        </div>
+        <div class="sair">
+            <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
+        </div>
+    </div>
+    <div class="cadastrar">
+        <div class="cadastro">
+        <?php if ($mensagem): ?>
+                <strong><p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'); ?>">
+                    <?php echo htmlspecialchars($mensagem); ?>
+                </p></strong>
+            <?php endif; ?>
+            <form method="POST" action="">
+                <div class="pesquisa-produto">
+                    <label for="codigo">Pesquisar ID do Produto:</label>
+                    <input
+                        type="text"
+                        name="codigo"
+                        id="codigo"
+                        placeholder="Digite o ID do produto"
+                        autocomplete=off 
+                        value="<?php echo htmlspecialchars($codigoProduto); ?>"
+                        required
+                    >
+                    <button type="submit">Buscar</button>
+                </div>
+                <div class="botoes">
+                    <div class='voltarSome'>
+                        <a href="repositor.php">
+                            <button class="voltar" id="volt" type="button">Voltar</button>
+                        </a>
+                    </div>
+                </div>
+            </form>
     <div class="container">
         <div class="funcionario">
             <div class="funci">

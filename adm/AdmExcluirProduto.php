@@ -80,49 +80,49 @@
     <link rel="stylesheet" href="../css/mensagem.css">
 </head>
 <body>
-    <div class="container">
-        <div class="funcionario">
-            <div class="funci">
-                <img src="../img/Logo-Pethop-250px.png" alt="">
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
-            </div>
-            <div class="sair">
-                <a href="../funcoes/logout.php"><p>sair</p></a>
-            </div>
+<div class="container">
+    <div class="funcionario">
+        <div class="funci">
+            <img src="../img/Logo-Pethop-250px.png" alt="">
+            <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
         </div>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="Adm.php" id="selecionado">Menu</a></li>
-                    <li><a href="AdmEstoque.php" id="selecionado">Estoque</a></li>
-                    <li><a href="AdmCadastrarProduto.php">Cadastrar Produto</a></li>
-                    <li><a href="AdmEditarProduto.php">Editar Produto</a></li>
-                    <li><a href="AdmExcluirProduto.php">Excluir Estoque</a></li>
-                </ul>
-            </nav>
+        <div class="sair">
+            <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
         </div>
-        <div class="cadastrar">
-            <div class="cadastro">
-                <?php if ($mensagem): ?>
-                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
-                        <?php echo htmlspecialchars($mensagem); ?>
-                    </div>
-                <?php endif; ?>
-                <form method="POST" action="">
-                    <div class="pesquisa-produto">
-                        <label for="codigo">Pesquisar ID do Produto:</label>
-                        <input
-                            type="text"
-                            name="codigo"
-                            id="codigo"
-                            placeholder="Digite o ID do produto"
-                            autocomplete=off 
-                            value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                            required
-                        >
-                        <button type="submit">Buscar</button>
-                    </div>
-                </form>
+    </div>
+    <div class="navbar">
+        <nav>
+            <ul>
+                <li><a href="Adm.php" id="selecionado">Menu</a></li>
+                <li><a href="AdmEstoque.php" id="selecionado">Estoque</a></li>
+                <li><a href="AdmCadastrarProduto.php">Cadastrar Produto</a></li>
+                <li><a href="AdmEditarProduto.php">Editar Produto</a></li>
+                <li><a href="AdmExcluirProduto.php">Excluir Estoque</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="cadastrar">
+        <div class="cadastro">
+        <?php if ($mensagem): ?>
+                <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
+                    <?php echo htmlspecialchars($mensagem); ?>
+                </div>
+            <?php endif; ?>
+            <form method="POST" action="">
+                <div class="pesquisa-produto">
+                    <label for="codigo">Pesquisar ID do Produto:</label>
+                    <input
+                        type="text"
+                        name="codigo"
+                        id="codigo"
+                        placeholder="Digite o ID do produto"
+                        autocomplete=off 
+                        value="<?php echo htmlspecialchars($codigoProduto); ?>"
+                        required
+                    >
+                    <button type="submit">Buscar</button>
+                </div>
+            </form>
 
                 <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
                     <form method="POST" action="">

@@ -81,10 +81,10 @@
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../funcoes/logout.php"><p>sair</p></a>
+                <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
             </div>
         </div>
-        <div class="navbar">
+        <div class="Navbar">
             <nav>
                 <ul>
                     <li><a href="Adm.php">Menu</a></li>

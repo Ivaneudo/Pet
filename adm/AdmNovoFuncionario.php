@@ -97,26 +97,26 @@
     <script src="../js/mascara.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="funcionario">
-            <div class="funci">
-                <img src="../img/Logo-Pethop-250px.png" alt="" />
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
-            </div>
-            <div class="sair">
-                <a href="../funcoes/logout.php"><p>sair</p></a>
-            </div>
+<div class="container">
+    <div class="funcionario">
+        <div class="funci">
+            <img src="../img/Logo-Pethop-250px.png" alt="" />
+            <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
         </div>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmFuncionarios.php">Funcionários</a></li>
-                    <li><a href="AdmNovoFuncionario.php">Cadastrar funcionário</a></li>
-                    <li><a href="AdmEditarFuncionario.php">Editar funcionário</a></li>
-                </ul>
-            </nav>
+        <div class="sair">
+            <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
         </div>
+    </div>
+    <div class="navbar">
+        <nav>
+            <ul>
+                <li><a href="Adm.php">Menu</a></li>
+                <li><a href="AdmFuncionarios.php">Funcionários</a></li>
+                <li><a href="AdmNovoFuncionario.php">Cadastrar funcionário</a></li>
+                <li><a href="AdmEditarFuncionario.php">Editar funcionário</a></li>
+            </ul>
+        </nav>
+    </div>
 
         <div class="cadastrar">
             <div class="cadastro">
