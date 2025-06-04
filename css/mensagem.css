@@ -2,9 +2,11 @@
     color: #CD0000; 
     font-weight: bold;
     text-align: left;
+    margin-bottom: 1.5rem;
 }
 .mensagem-sucesso{ 
     color: #008B00; 
     font-weight: bold; 
     text-align: left;
+    margin-bottom: 1.5rem;
 }

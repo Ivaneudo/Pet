@@ -60,13 +60,6 @@
     <link rel="stylesheet" href="../css/responsivo.css">
     <script src="../js/mascara.js" defer></script>
     <script src="../js/excluirPet.js" defer></script>
-    <script>
-        function confirmarExclusao(cpf, petId, petNome) {
-            if (confirm("Tem certeza que deseja remover o pet '" + petNome + "' do dono com CPF " + cpf + "?")) {
-                window.location.href = "excluirPet.php?cpf=" + encodeURIComponent(cpf) + "&petId=" + encodeURIComponent(petId);
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="container">
@@ -93,7 +86,13 @@
                         <form method="POST" action="">
                             <div class="pesquisa">
                                 <div class="campo">
-                                    <input type="text" name="cpf" id="cpf" placeholder="Digite o CPF do dono: " maxlength="14" autocomplete="off" value="<?php echo isset($cpfPesquisado) ? htmlspecialchars($cpfPesquisado) : ''; ?>"/>
+                                    <input 
+                                        type="text" 
+                                        name="cpf" id="cpf" 
+                                        placeholder="Digite o CPF do dono: " 
+                                        maxlength="14" 
+                                        autocomplete="off" 
+                                        value="<?php echo isset($cpfPesquisado) ? htmlspecialchars($cpfPesquisado) : ''; ?>"/>
                                     <button type="submit" style="background: none; border: none; cursor: pointer;">
                                         <img src="../img/search-svgrepo-com.svg" alt="Buscar">
                                     </button>

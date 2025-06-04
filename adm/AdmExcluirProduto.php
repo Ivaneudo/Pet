@@ -77,6 +77,7 @@
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/repositor.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
 </head>
 <body>
 <div class="container">
@@ -103,9 +104,9 @@
     <div class="cadastrar">
         <div class="cadastro">
         <?php if ($mensagem): ?>
-                <strong><p style="color: <?php echo (strpos($mensagem, 'sucesso') !== false ? '#008B00' : '#CD0000'); ?>">
+                <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
                     <?php echo htmlspecialchars($mensagem); ?>
-                </p></strong>
+                </div>
             <?php endif; ?>
             <form method="POST" action="">
                 <div class="pesquisa-produto">
@@ -123,76 +124,75 @@
                 </div>
             </form>
 
-            <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
-                <form method="POST" action="">
-                    <div class="cliente">
-                        <p>Subtrair Estoque:</p>
-                        <div class="colunas">
-                            <div class="coluna">
-                                <input
-                                    type="text"
-                                    name="codigo"
-                                    class="NomeCliente"
-                                    placeholder="Código"
-                                    autocomplete=off 
-                                    value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                                    readonly
-                                    style="color: #6c6b6b; cursor: not-allowed;"
-                                >
-                                <input
-                                    type="text"
-                                    id="preco"
-                                    name="preco"
-                                    placeholder="Preço"
-                                    autocomplete=off 
-                                    value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
-                                    disabled
-                                    style="color: #6c6b6b; cursor: not-allowed;"
-                                >
-                            </div>
+                <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
+                    <form method="POST" action="">
+                        <div class="cliente">
+                            <p>Subtrair Estoque:</p>
+                            <div class="colunas">
+                                <div class="coluna">
+                                    <input
+                                        type="text"
+                                        name="codigo"
+                                        class="NomeCliente"
+                                        placeholder="Código"
+                                        autocomplete=off 
+                                        value="<?php echo htmlspecialchars($codigoProduto); ?>"
+                                        readonly
+                                        style="color: #6c6b6b; cursor: not-allowed;"
+                                    >
+                                    <input
+                                        type="text"
+                                        id="preco"
+                                        name="preco"
+                                        placeholder="Preço"
+                                        autocomplete=off 
+                                        value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
+                                        disabled
+                                        style="color: #6c6b6b; cursor: not-allowed;"
+                                    >
+                                </div>
 
-                            <div class="coluna">
-                                <input
-                                    type="text"
-                                    name="nome"
-                                    class="Telefone"
-                                    placeholder="Nome do produto"
-                                    autocomplete=off 
-                                    value="<?php echo htmlspecialchars($nomeProduto); ?>"
-                                    disabled
-                                    style="color: #6c6b6b; cursor: not-allowed;"
-                                >
-                                <input
-                                    type="number"
-                                    name="estoque"
-                                    class="Email"
-                                    placeholder="Quantidade para subtrair"
-                                    value=""
-                                    min="1"
-                                    autocomplete=off 
-                                    max="<?php echo htmlspecialchars($estoqueProduto); ?>"
-                                    required
-                                >
+                                <div class="coluna">
+                                    <input
+                                        type="text"
+                                        name="nome"
+                                        class="Telefone"
+                                        placeholder="Nome do produto"
+                                        autocomplete=off 
+                                        value="<?php echo htmlspecialchars($nomeProduto); ?>"
+                                        disabled
+                                        style="color: #6c6b6b; cursor: not-allowed;"
+                                    >
+                                    <input
+                                        type="number"
+                                        name="estoque"
+                                        class="Email"
+                                        placeholder="Quantidade para subtrair"
+                                        value=""
+                                        min="1"
+                                        autocomplete=off 
+                                        max="<?php echo htmlspecialchars($estoqueProduto); ?>"
+                                        required
+                                    >
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="botoes">
-                        <div>
-                            <a href="AdmEstoque.php">
-                                <button class="voltar" id="volt" type="button">Voltar</button>
-                            </a>
+                        <div class="botoes">
+                            <div>
+                                <a href="AdmEstoque.php">
+                                    <button class="voltar" id="volt" type="button">Voltar</button>
+                                </a>
+                            </div>
+                            <div>
+                                <button id="cade" type="submit" name="subtrair">
+                                    <img src="../img/lata-de-lixo.png" alt="">
+                                </button>
+                            </div>
                         </div>
-                        <div>
-                            <button id="cade" type="submit" name="subtrair">
-                                <img src="../img/lata-de-lixo.png" alt="">
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            <?php endif; ?>
-
+                    </form>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

@@ -39,7 +39,7 @@
                     <li>
                         <a href="SecretariaClientes.php">
                             <div class="icone">
-                                <img src="../img/cliente.png" alt="cliente"> <!-- Alterado -->
+                                <img src="../img/cliente.png" alt="cliente">
                                 <p>Clientes</p>
                             </div>
                         </a>
@@ -47,7 +47,7 @@
                     <li>
                         <a href="SecretariaPet.php">
                             <div class="icone">
-                                <img src="../img/patinha.png" alt="patinha"> <!-- Alterado -->
+                                <img src="../img/patinha.png" alt="patinha">
                                 <p>Pets</p>
                             </div>
                         </a>
@@ -55,7 +55,7 @@
                     <li>
                         <a href="SecretariaProdutos.php">
                             <div class="icone">
-                                <img src="../img/estoque.png" alt="estoque"> <!-- Alterado -->
+                                <img src="../img/estoque.png" alt="estoque">
                                 <p>Produtos</p>
                             </div>
                         </a>

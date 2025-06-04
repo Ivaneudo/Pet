@@ -104,24 +104,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
     <script src="../js/troco.js" defer></script>
-    <style>        
-        .info-resumo p{ 
-            color: #6c6b6b; 
-            font-size: 1em; 
-        }
-        .desabilitado{ 
-            cursor: not-allowed; 
-        }
-        .erro{ 
-            color: #b00020; 
-            font-weight: bold; 
-            margin-bottom: 10px; 
-        }
-        input[readonly]{ 
-            background-color: #f0f0f0; 
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -161,10 +145,21 @@
                     <div class="lin">
                         <div class="PrimLin">
                             <div class="valor">
-                                <input type="text" id="valor" placeholder="Valor:" value="<?php echo formataMoeda($valorTotal); ?>" readonly data-valor="<?php echo $valorTotal; ?>" />
+                                <input 
+                                    type="text" 
+                                    id="valor" 
+                                    placeholder="Valor:" 
+                                    value="<?php echo formataMoeda($valorTotal); ?>" 
+                                    readonly 
+                                    data-valor="<?php echo $valorTotal; ?>" />
                             </div>
                             <div class="valor">
-                                <input type="text" id="troco" placeholder="Troco:" value="" readonly />
+                                <input 
+                                    type="text" 
+                                    id="troco" 
+                                    placeholder="Troco:" 
+                                    value="" 
+                                    readonly />
                             </div>
                         </div>
                         <div class="SecundLin">
@@ -184,6 +179,7 @@
                     </div>
                     <div class="botoes" style="margin-top:15px; display:flex; gap:10px;">
                         <button type="button" class="voltar" onclick="window.location.href='cancelarPagamento.php'">Cancelar</button>
+                        
                         <button type="submit">Finalizar</button>
                     </div>
                 </form>

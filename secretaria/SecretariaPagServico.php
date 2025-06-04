@@ -87,22 +87,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
     <script src="../js/pagamentoCredito.js" defer></script>
-    <style>
-        .info-resumo p {
-            color: #6c6b6b;
-            font-size: 1em;
-        }
-
-        #parcelasContainer {
-            display: none; 
-            margin-top: 10px;
-        }
-        
-        .desabilitado{
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -156,15 +142,40 @@
                 </div>
                 
                 <form method="POST" action="">
-                    <input type="hidden" name="valor" value="<?php echo htmlspecialchars($valorCompra); ?>" />
-                    <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfCliente); ?>" />
-                    <input type="hidden" name="pets" value="<?php echo htmlspecialchars(implode(',', $petsSelecionados)); ?>" />
-                    <input type="hidden" name="servico" value="<?php echo htmlspecialchars($servico); ?>" />
+                    <input 
+                        type="hidden" 
+                        name="valor" 
+                        value="<?php echo htmlspecialchars($valorCompra); ?>" />
+                    
+                    <input 
+                        type="hidden" 
+                        name="cpf" 
+                        value="<?php echo htmlspecialchars($cpfCliente); ?>" />
+                    
+                    <input 
+                        type="hidden" 
+                        name="pets" 
+                        value="<?php echo htmlspecialchars(implode(',', $petsSelecionados)); ?>" />
+                    
+                    <input 
+                        type="hidden" 
+                        name="servico" 
+                        value="<?php echo htmlspecialchars($servico); ?>" />
                     
                     <div class="CredDeb">
-                        <input type="radio" name="cartao" id="credito" value="Crédito" required>
+                        <input 
+                            type="radio" 
+                            name="cartao" 
+                            id="credito" 
+                            value="Crédito" 
+                            required>
                         <label for="credito">Crédito</label>
-                        <input type="radio" name="cartao" id="debito" value="Débito">
+                        
+                        <input 
+                            type="radio" 
+                            name="cartao" 
+                            id="debito" 
+                            value="Débito">
                         <label for="debito">Débito</label>
                     </div>
                     

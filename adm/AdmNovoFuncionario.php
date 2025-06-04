@@ -93,19 +93,8 @@
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/responsivo.css">
+    <link rel="stylesheet" href="../css/mensagem.css">
     <script src="../js/mascara.js" defer></script>
-    <style>
-        .mensagem-erro{ 
-            color: #CD0000; 
-            font-weight: bold;
-            text-align: left;
-        }
-        .mensagem-sucesso{ 
-            color: #008B00; 
-            font-weight: bold; 
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
 <div class="container">
@@ -129,92 +118,92 @@
         </nav>
     </div>
 
-    <div class="cadastrar">
-        <div class="cadastro">
-            <?php if (!empty($mensagemSucesso)): ?>
-                <div class="mensagem-sucesso"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
-            <?php elseif (!empty($mensagemErro)): ?>
-                <div class="mensagem-erro"><?php echo htmlspecialchars($mensagemErro); ?></div>
-            <?php endif; ?>
+        <div class="cadastrar">
+            <div class="cadastro">
+                <?php if (!empty($mensagemSucesso)): ?>
+                    <div class="mensagem-sucesso"><?php echo htmlspecialchars($mensagemSucesso); ?></div>
+                <?php elseif (!empty($mensagemErro)): ?>
+                    <div class="mensagem-erro"><?php echo htmlspecialchars($mensagemErro); ?></div>
+                <?php endif; ?>
 
-            <form action="" method="POST">
-                <div class="cliente">
-                    <p>Novo Funcionário:</p>
-                    <div class="colunas">
-                        <div class="coluna">
-                            <input 
-                                type="text" 
-                                name="nome" 
-                                class="NomeCliente" 
-                                placeholder="Digite o nome do funcionário: " 
-                                value="<?php echo isset($nome) ? htmlspecialchars($nome) : ''; ?>" 
-                                autocomplete="off" 
-                                required />
+                <form action="" method="POST">
+                    <div class="cliente">
+                        <p>Novo Funcionário:</p>
+                        <div class="colunas">
+                            <div class="coluna">
+                                <input 
+                                    type="text" 
+                                    name="nome" 
+                                    class="NomeCliente" 
+                                    placeholder="Digite o nome do funcionário: " 
+                                    value="<?php echo isset($nome) ? htmlspecialchars($nome) : ''; ?>" 
+                                    autocomplete="off" 
+                                    required />
 
-                            <input 
+                                <input 
+                                    type="text" 
+                                    name="cpf" 
+                                    id="cpf" 
+                                    placeholder="Digite o CPF do funcionário: " 
+                                    value="<?php echo isset($cpf) ? htmlspecialchars($cpf): ''; ?>" 
+                                    maxlength="14" 
+                                    autocomplete="off" 
+                                    required />
+
+                                <input 
+                                    type="password" 
+                                    name="senha" 
+                                    id="senha" 
+                                    placeholder="Digite a senha do funcionário: " 
+                                    autocomplete="off" 
+                                    required />
+                            </div>
+                            <div class="coluna">
+                                <input 
                                 type="text" 
-                                name="cpf" 
-                                id="cpf" 
-                                placeholder="Digite o CPF do funcionário: " 
-                                value="<?php echo isset($cpf) ? htmlspecialchars($cpf): ''; ?>" 
+                                name="telefone" 
+                                class="Telefone" 
                                 maxlength="14" 
+                                placeholder="Digite o telefone do funcionário" 
+                                value="<?php echo isset($telefone) ? htmlspecialchars($telefone) : ''; ?>" 
                                 autocomplete="off" 
                                 required />
 
-                            <input 
-                                type="password" 
-                                name="senha" 
-                                id="senha" 
-                                placeholder="Digite a senha do funcionário: " 
+                                <input 
+                                type="email" 
+                                name="email" 
+                                class="Email" 
+                                placeholder="Digite o e-mail do funcionário: " 
+                                value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" 
                                 autocomplete="off" 
                                 required />
-                        </div>
-                        <div class="coluna">
-                            <input 
-                            type="text" 
-                            name="telefone" 
-                            class="Telefone" 
-                            maxlength="14" 
-                            placeholder="Digite o telefone do funcionário" 
-                            value="<?php echo isset($telefone) ? htmlspecialchars($telefone) : ''; ?>" 
-                            autocomplete="off" 
-                            required />
 
-                            <input 
-                            type="email" 
-                            name="email" 
-                            class="Email" 
-                            placeholder="Digite o e-mail do funcionário: " 
-                            value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" 
-                            autocomplete="off" 
-                            required />
+                                <select name="cargo" required>
+                                    <option value="" disabled <?php echo !isset($cargo) ? 'selected' : ''; ?>>Cargo do Funcionário</option>
 
-                            <select name="cargo" required>
-                                <option value="" disabled <?php echo !isset($cargo) ? 'selected' : ''; ?>>Cargo do Funcionário</option>
+                                    <option value="secretaria" <?php echo (isset($cargo) && $cargo === "secretaria") ? 'selected' : ''; ?>>Secretaria</option>
 
-                                <option value="secretaria" <?php echo (isset($cargo) && $cargo === "secretaria") ? 'selected' : ''; ?>>Secretaria</option>
-
-                                <option value="repositor" <?php echo (isset($cargo) && $cargo === "repositor") ? 'selected' : ''; ?>>Repositor</option>
-                                
-                                <option value="adm" <?php echo (isset($cargo) && $cargo === "adm") ? 'selected' : ''; ?>>Administrador</option>
-                            </select>
+                                    <option value="repositor" <?php echo (isset($cargo) && $cargo === "repositor") ? 'selected' : ''; ?>>Repositor</option>
+                                    
+                                    <option value="adm" <?php echo (isset($cargo) && $cargo === "adm") ? 'selected' : ''; ?>>Administrador</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="botoes">
-                    <div>
-                        <a href="AdmFuncionarios.php" class="voltar">
-                            <button type="button" class="voltar">Voltar</button>
-                        </a>
+                    <div class="botoes">
+                        <div>
+                            <a href="AdmFuncionarios.php" class="voltar">
+                                <button type="button" class="voltar">Voltar</button>
+                            </a>
+                        </div>
+                        <div>
+                            <button type="submit" id="cade">Cadastrar</button>
+                        </div>
                     </div>
-                    <div>
-                        <button type="submit" id="cade">Cadastrar</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

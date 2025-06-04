@@ -122,6 +122,7 @@
                                 value="<?php echo htmlspecialchars($cpfPesquisado); ?>"
                                 required
                             />
+
                             <button type="submit" aria-label="Pesquisar" style="background:none; border:none; cursor:pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="Pesquisar" style="width: 24px; height: 24px;" />
                             </button>
@@ -174,6 +175,7 @@
 
                     <div class="botoes" style="margin-top: 15px; display: flex; gap: 10px;">
                         <button type="button" class="voltar" onclick="window.location.href='Secretaria.php'">Cancelar Serviço</button>
+
                         <button type="submit" name="finalizar">Pagar</button>
                     </div>
                     <?php endif; ?>
@@ -183,14 +185,14 @@
     </div>
 
     <script>
-    document.getElementById('formServico').addEventListener('submit', function(e) {
-        const pets = document.querySelectorAll('input[name="pets_selecionados[]"]:checked');
-        if (pets.length === 0) {
-            alert('Por favor, selecione ao menos um pet.');
-            e.preventDefault();
-            return false;
-        }
-    });
+        document.getElementById('formServico').addEventListener('submit', function(e) {
+            const pets = document.querySelectorAll('input[name="pets_selecionados[]"]:checked');
+            if (pets.length === 0) {
+                alert('Por favor, selecione ao menos um pet.');
+                e.preventDefault();
+                return false;
+            }
+        });
     </script>
 </body>
 </html>
