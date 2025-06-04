@@ -13,6 +13,7 @@ button {
 .info-resumo p {
     color: #6c6b6b;
     font-size: 1em;
+    margin-bottom: 1.1rem;
 }
 
 #parcelasContainer {
