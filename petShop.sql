@@ -55,15 +55,17 @@ CREATE TABLE pet (
 );
 
 CREATE TABLE vendas (
+	id_venda INT PRIMARY KEY,
     secretaria_id INT,
     id_produto INT,
-    id_cliente INT,
+    cpf_cliente CHAR(14),
     valor_compra DECIMAL(10,2),
     forma_de_pagamento ENUM('Crédito', 'Débito', 'Dinheiro'),
-    data_venda TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_venda DATE,
+    quant_produto INT,
     FOREIGN KEY (secretaria_id) REFERENCES secretaria(secretaria_id),
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto),
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+    FOREIGN KEY (cpf_cliente) REFERENCES cliente(cpf)
 );
 
 CREATE TABLE servico(
@@ -110,24 +112,8 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 
 select * from servico;
 
-SHOW CREATE TABLE vendas;
-
-ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_3;
-
-ALTER TABLE vendas CHANGE id_cliente cpf_cliente CHAR(14);
-
-ALTER TABLE vendas ADD FOREIGN KEY (cpf_cliente) REFERENCES cliente(cpf);
-
-ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_2;
-
-ALTER TABLE vendas DROP COLUMN id_produto;
-
 select * from vendas;
 
-ALTER TABLE vendas ADD COLUMN id_venda INT PRIMARY KEY AUTO_INCREMENT;
+ALTER TABLE vendas CHANGE id_venda id_venda INT AUTO_INCREMENT;
 
-ALTER TABLE vendas ADD COLUMN id_produto INT;
-
-ALTER TABLE vendas ADD FOREIGN KEY (id_produto) REFERENCES produto(id_produto);
-
-ALTER TABLE vendas ADD COLUMN quant_produto INT;
+DESCRIBE vendas;

@@ -8,28 +8,36 @@ if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') 
     exit();
 }
 
+// Verifica conexão com o banco de dados
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+
+// DEBUG: Verificar se a tabela vendas tem registros
+$check_vendas = $conn->query("SELECT COUNT(*) as total FROM vendas");
+$total_vendas = $check_vendas->fetch_assoc()['total'];
+echo "<!-- DEBUG: Total de vendas no banco: $total_vendas -->";
+
 // Guarda o nome do funcionário
 $nomeFuncionario = $_SESSION['usuario'] ?? 'Usuário';
 
 // Inicializa variáveis de filtro
-$filtro_data = '';
-$filtro_secretaria = '';
+$filtro_data = $_POST['data_venda'] ?? '';
+$filtro_secretaria = $_POST['secretaria_id'] ?? '';
 
 $whereClauses = [];
 $params = [];
 $paramTypes = '';
 
 // Filtro por data_venda (YYYY-MM-DD)
-if (!empty($_POST['data_venda'])) {
-    $filtro_data = $_POST['data_venda'];
+if (!empty($filtro_data)) {
     $whereClauses[] = "DATE(v.data_venda) = ?";
     $paramTypes .= 's';
     $params[] = $filtro_data;
 }
 
 // Filtro por secretaria_id
-if (!empty($_POST['secretaria_id'])) {
-    $filtro_secretaria = $_POST['secretaria_id'];
+if (!empty($filtro_secretaria)) {
     $whereClauses[] = "v.secretaria_id = ?";
     $paramTypes .= 'i';
     $params[] = $filtro_secretaria;
@@ -40,46 +48,39 @@ if (count($whereClauses) > 0) {
     $whereSQL = 'WHERE ' . implode(' AND ', $whereClauses);
 }
 
-// Consulta SQL para selecionar vendas com produtos, secretaria e cliente
+// Consulta SQL revisada com LEFT JOIN para garantir que mostre vendas mesmo se algum relacionamento falhar
 $sql = "
     SELECT 
         v.data_venda,
         s.nome AS secretaria_nome,
         c.nome AS cliente_nome,
         p.nome_produto,
-        v.quant_produto,
+        v.quant_produto AS quantidade,
         v.valor_compra,
         v.forma_de_pagamento
     FROM vendas v
-    INNER JOIN secretaria s ON v.secretaria_id = s.secretaria_id
-    INNER JOIN produto p ON v.id_produto = p.id_produto
-    INNER JOIN cliente c ON v.cpf_cliente = c.cpf
+    LEFT JOIN secretaria s ON v.secretaria_id = s.secretaria_id
+    LEFT JOIN produto p ON v.id_produto = p.id_produto
+    LEFT JOIN cliente c ON v.cpf_cliente = c.cpf
     $whereSQL
     ORDER BY v.data_venda DESC
 ";
+
+// DEBUG: Mostrar consulta SQL
+echo "<!-- DEBUG SQL: $sql -->";
 
 $stmt = $conn->prepare($sql);
 if ($stmt === false) {
     die("Erro na preparação da consulta: " . $conn->error);
 }
 
-// Função para fazer bind_param dinâmico com referências
-function refValues($arr) {
-    $refs = [];
-    foreach ($arr as $key => $value) {
-        $refs[$key] = &$arr[$key];
-    }
-    return $refs;
-}
-
 if (count($params) > 0) {
-    // Preparar array para bind_param
-    array_unshift($params, $paramTypes);
-    call_user_func_array([$stmt, 'bind_param'], refValues($params));
+    $stmt->bind_param($paramTypes, ...$params);
 }
 
 $stmt->execute();
 $result = $stmt->get_result();
+
 if ($result === false) {
     die("Erro na execução da consulta: " . $conn->error);
 }
@@ -92,17 +93,15 @@ if ($result_secretarias) {
     while ($row = $result_secretarias->fetch_assoc()) {
         $secretarias[] = $row;
     }
-} else {
-    die("Erro na consulta de secretarias: " . $conn->error);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <title>Relatório de Vendas - PetShop</title>
     <style>
         :root {
@@ -113,6 +112,7 @@ if ($result_secretarias) {
             --Cinza: #6c6b6b;
             --CinzaClarinho: #cecece;
             --Laranja: #FF9800;
+            --LaranjaHover: #ec9108;
             --LinksHover: #40005C;
             --gradiente: linear-gradient(#CFE2F8, #5A799A);
             --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
@@ -174,7 +174,7 @@ if ($result_secretarias) {
             margin-bottom: 30px;
         }
 
-        form > div {
+        form>div {
             display: flex;
             flex-direction: column;
             min-width: 150px;
@@ -210,7 +210,7 @@ if ($result_secretarias) {
         }
 
         button {
-            background: var(--Botoes);
+            background: var(--Laranja);
             color: #fff;
             font-weight: 600;
             font-size: 16px;
@@ -221,12 +221,12 @@ if ($result_secretarias) {
             align-self: flex-end;
             user-select: none;
             transition: background 0.3s ease;
-            box-shadow: 0 4px 10px rgba(90, 121, 154, 0.6);
+            box-shadow: 0 4px 10px rgba(163, 98, 24, 0.6);
         }
 
         button:hover {
-            background: var(--LinksHover);
-            box-shadow: 0 6px 15px rgba(64, 0, 92, 0.8);
+            background: var(--LaranjaHover);
+            box-shadow: 0 6px 15px rgba(168, 81, 9, 0.8);
         }
 
         table {
@@ -296,7 +296,7 @@ if ($result_secretarias) {
                 flex-direction: column;
             }
 
-            form > div {
+            form>div {
                 flex: none;
                 width: 100%;
             }
@@ -382,7 +382,7 @@ if ($result_secretarias) {
                         <td data-label="Secretaria"><?php echo htmlspecialchars($row['secretaria_nome'], ENT_QUOTES, 'UTF-8'); ?></td>
                         <td data-label="Cliente"><?php echo htmlspecialchars($row['cliente_nome'], ENT_QUOTES, 'UTF-8'); ?></td>
                         <td data-label="Produto"><?php echo htmlspecialchars($row['nome_produto'], ENT_QUOTES, 'UTF-8'); ?></td>
-                        <td data-label="Quantidade"><?php echo (int)$row['quant_produto']; ?></td>
+                        <td data-label="Quantidade"><?php echo (int)$row['quantidade']; ?></td>
                         <td data-label="Valor da Compra">R$ <?php echo number_format($row['valor_compra'], 2, ',', '.'); ?></td>
                         <td data-label="Forma de Pagamento"><?php echo htmlspecialchars($row['forma_de_pagamento'], ENT_QUOTES, 'UTF-8'); ?></td>
                     </tr>

@@ -41,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($valorPago < $valorTotal) {
         $erro = "O valor pago deve ser igual ou maior que o valor total da compra.";
     } else {
-        // Preparar inserção para cada produto no carrinho na tabela vendas
-        $sqlInsert = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento, id_produto, quant_produto) VALUES (?, ?, ?, 'Dinheiro', ?, ?)";
+        // Preparar inserção para cada produto no carrinho na tabela vendas com data atual
+        $sqlInsert = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento, id_produto, quant_produto, data_venda) VALUES (?, ?, ?, 'Dinheiro', ?, ?, CURDATE())";
         $stmtInsert = $conn->prepare($sqlInsert);
         if (!$stmtInsert) {
             die("Erro na preparação da inserção das vendas: " . $conn->error);

@@ -64,9 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($formaPagamento)) {
         $erro = "Por favor, selecione a forma de pagamento.";
     } else {
-
-        // Para cada produto no carrinho, inserir uma linha na tabela vendas
-        $sqlInsert = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento, id_produto, quant_produto) VALUES (?, ?, ?, ?, ?, ?)";
+        // Para cada produto no carrinho, inserir uma linha na tabela vendas com a data da venda (CURDATE())
+        $sqlInsert = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento, id_produto, quant_produto, data_venda) VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
         $stmtInsert = $conn->prepare($sqlInsert);
         if (!$stmtInsert) {
             die("Erro na preparação da inserção das vendas: " . $conn->error);
