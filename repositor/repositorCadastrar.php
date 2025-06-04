@@ -64,17 +64,6 @@
                 <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
             </div>
         </div>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="repositor.php">Menu</a></li>
-                    <li><a href="#" class="desabilitado">Estoque</a></li>
-                    <li><a href="repositorCadastrar.php">Cadastrar Produto</a></li>
-                    <li><a href="#" class="desabilitado">Editar Produto</a></li>
-                    <li><a href="#" class="desabilitado">Excluir Estoque</a></li>
-                </ul>
-            </nav>
-        </div>
         <div class="cadastrar">
             <div class="cadastro">
 

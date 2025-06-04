@@ -91,17 +91,6 @@
                 <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
             </div>
         </div>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="repositor.php">Menu</a></li>
-                    <li><a href="#" class="desabilitado">Estoque</a></li>
-                    <li><a href="#" class="desabilitado">Cadastrar Produto</a></li>
-                    <li><a href="repositorEditar.php">Editar Produto</a></li>
-                    <li><a href="#" class="desabilitado">Excluir Estoque</a></li>
-                </ul>
-            </nav>
-        </div>
         <div class="cadastrar">
             <div class="cadastro">
             <?php if ($mensagem): ?>
@@ -123,6 +112,13 @@
                             required
                         >
                         <button type="submit">Buscar</button>
+                    </div>
+                    <div class="botoes">
+                        <div class='voltarSome'>
+                            <a href="repositor.php">
+                                <button class="voltar" id="volt" type="button">Voltar</button>
+                            </a>
+                        </div>
                     </div>
                 </form>
 

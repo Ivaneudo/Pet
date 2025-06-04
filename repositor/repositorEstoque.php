@@ -58,20 +58,9 @@
                 <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
             </div>
         </div>
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="repositor.php">Menu</a></li>
-                    <li><a href="repositorEstoque.php">Estoque</a></li>
-                    <li><a href="#" class="desabilitado">Cadastrar Produto</a></li>
-                    <li><a href="#" class="desabilitado">Editar Produto</a></li>
-                    <li><a href="#" class="desabilitado">Excluir Estoque</a></li>
-                </ul>
-            </nav>
-        </div>
         <div class="estoque">
             <div class="esto">
-                <form method="POST" action="">
+                <form method="POST" action="" class='formnovo'>
                     <div class="pesquisa">
                         <div class="campo">
                             <input
@@ -85,6 +74,13 @@
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>
                         </div>
+                    </div>
+                    <div class="Navbar">
+                        <nav>
+                            <ul>
+                                <li><a href="repositor.php">Voltar</a></li>
+                            </ul>
+                        </nav>
                     </div>
                 </form>
                 <div class="produtos">

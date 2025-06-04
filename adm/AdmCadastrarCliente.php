@@ -84,7 +84,7 @@
                 <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
             </div>
         </div>
-        <div class="navbar">
+        <div class="Navbar">
             <nav>
                 <ul>
                     <li><a href="Adm.php">Menu</a></li>

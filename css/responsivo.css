@@ -24,7 +24,6 @@ body {
 .container {
     width: 100%;
     margin: 0 auto;
-    padding: 0 15px;
 }
 
 /* ========== CABEÇALHO ========== */
@@ -35,6 +34,10 @@ header {
 .funci p {
     align-items: center;
     padding-top: 1rem;
+}
+
+.sair img {
+    width: 40px;
 }
 
 .header-content {
@@ -70,10 +73,6 @@ nav ul {
     list-style: none;
     flex-wrap: wrap;
     align-items: center;
-}
-
-nav ul li {
-    margin-left: 1.5rem;
 }
 
 nav ul li a {
