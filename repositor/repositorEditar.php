@@ -80,7 +80,7 @@
     <link rel="stylesheet" href="../css/Vendas.css">
     <link rel="stylesheet" href="../css/responsivo.css">
     <link rel="stylesheet" href="../css/mensagem.css">
-    <script defer>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const codigoProduto = "<?php echo $codigoProduto; ?>";
             const voltarSomeDiv = document.querySelector('.voltarSome');
@@ -99,7 +99,7 @@
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
+                <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
         <div class="cadastrar">
@@ -124,6 +124,12 @@
                         >
                         <button type="submit">Buscar</button>
                     </div>
+                    <div class="botoes">
+                        <div class='voltarSome'>
+                            <a href="repositor.php">
+                                <button class="voltar" id="volt" type="button">Voltar</button>
+                            </a>
+                        </div>
                 </form>
 
                 <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
