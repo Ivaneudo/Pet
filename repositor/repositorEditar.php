@@ -80,6 +80,16 @@
     <link rel="stylesheet" href="../css/Vendas.css">
     <link rel="stylesheet" href="../css/responsivo.css">
     <link rel="stylesheet" href="../css/mensagem.css">
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            const codigoProduto = "<?php echo $codigoProduto; ?>";
+            const voltarSomeDiv = document.querySelector('.voltarSome');
+            
+            if (codigoProduto && voltarSomeDiv) {
+                voltarSomeDiv.style.display = 'none';
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -125,6 +135,12 @@
                         >
                         <button type="submit">Buscar</button>
                     </div>
+                    <div class="botoes">
+                        <div class='voltarSome'>
+                            <a href="repositor.php">
+                                <button class="voltar" id="volt" type="button">Voltar</button>
+                            </a>
+                        </div>
                 </form>
 
                 <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>

@@ -123,3 +123,11 @@ ALTER TABLE vendas DROP FOREIGN KEY vendas_ibfk_2;
 ALTER TABLE vendas DROP COLUMN id_produto;
 
 select * from vendas;
+
+ALTER TABLE vendas ADD COLUMN id_venda INT PRIMARY KEY AUTO_INCREMENT;
+
+ALTER TABLE vendas ADD COLUMN id_produto INT;
+
+ALTER TABLE vendas ADD FOREIGN KEY (id_produto) REFERENCES produto(id_produto);
+
+ALTER TABLE vendas ADD COLUMN quant_produto INT;

@@ -40,6 +40,10 @@
     margin: 0 1rem .2rem 0;
 }
 
+.sair img {
+    width: 40px;
+}
+
 #colaborador {
     font-weight: bold;
 }
@@ -81,17 +85,58 @@ ul {
     color: var(--LinksHover);
 }
 
+/* TODO: estilizando a navbar do Estoque */
+
+.Navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--CinzaClarinho);
+    padding: 0 1rem;
+    border-radius: 1rem;
+}
+
+.Navbar nav {
+    margin: 0;
+    padding: 0;
+}
+
+.Navbar ul {
+    display: flex;
+    gap: 4rem;
+    list-style: none;
+}
+
+.Navbar ul {
+    padding-inline-start: 0;
+}
+
+.Navbar ul a {
+    text-decoration: none;
+    color: #fff;
+    transition: .5s;
+}
+
+.Navbar ul a:hover {
+    color: var(--LinksHover);
+}
+
+.Navbar ul a #selecionado {
+    color: var(--LinksHover);
+}
+
 /* TODO: estilo do estoque */
 .estoque {
     display: flex;
     justify-content: center;
     width: 100vw;
+    min-height: 600px;
     align-items: center;
+    margin-top: 20px;
 }
 
 .esto {
     background-color: var(--EfeitoVidro);
-    width: 550px;
     padding: 1rem;
     border-radius: 13px;
 }
@@ -136,15 +181,18 @@ table {
 }
 
 table td, th{
+    font-size: 15pt;
     border: 1px solid black;
+    padding: .1rem 1rem;
 }
 
 /* TODO: estilização do formulário de cadastro */
 .cadastrar {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100vw;
-    height: 600px;
+    min-height: 600px;
     align-items: center;
 }
 
@@ -184,6 +232,13 @@ input, select{
 
 select, input:focus {
     outline: none;
+}
+
+/* TODO: Estilizando o sair/menu */
+.formnovo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* TODO: estilizando o tipo */
@@ -238,4 +293,15 @@ button:hover {
 
 .voltar:hover {
     background-color: var(--Cinza);
+}
+
+/* Estilo para a div voltarSome */
+.voltarSome {
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+/* Classe para esconder o botão voltar */
+.voltarSome.hidden {
+    display: none;
 }
