@@ -114,6 +114,7 @@
                     <li><a href="AdmFuncionarios.php">Funcionários</a></li>
                     <li><a href="AdmNovoFuncionario.php">Cadastrar Funcionário</a></li>
                     <li><a href="AdmEditarFuncionario.php">Editar Funcionário</a></li>
+                    <li><a href="AdmVendas.php">Vendas</a></li>
                 </ul>
             </nav>
         </div>

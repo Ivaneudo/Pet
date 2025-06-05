@@ -117,6 +117,7 @@ if ($result_secretarias) {
             --gradiente: linear-gradient(#CFE2F8, #5A799A);
             --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
             --background: #5691cf;
+            --EfeitoVidro: #ffffff77;
         }
 
         /* Reset e base */
@@ -139,7 +140,7 @@ if ($result_secretarias) {
         .container {
             width: 90%;
             max-width: 960px;
-            background: rgba(230, 242, 255, 0.6); /* AzulCarinho com transparência */
+            background: var(--EfeitoVidro);
             border-radius: 16px;
             padding: 30px 35px;
             margin: 40px 0;
@@ -245,7 +246,7 @@ if ($result_secretarias) {
         }
 
         thead {
-            background: var(--gradiente);
+            background: var(--Botoes);
             user-select: none;
             color: white;
         }
