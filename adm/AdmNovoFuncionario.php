@@ -39,42 +39,46 @@
                             ) as cpf_unico";
             
             $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
-            $stmtCheckCpf->bind_param("ssss", $cpf, $cpf, $cpf, $cpf);
-            $stmtCheckCpf->execute();
-            $result = $stmtCheckCpf->get_result();
-            $row = $result->fetch_assoc();
-            $totalCpfCount = $row['total'];
-            $stmtCheckCpf->close();
-
-            if ($totalCpfCount > 0) {
-                $mensagemErro = "Este usuário já existe.";
+            if (!$stmtCheckCpf) {
+                $mensagemErro = "Erro ao preparar a verificação de CPF: " . $conn->error;
             } else {
-                // Prepara a consulta de inserção com base no cargo selecionado
-                if ($cargo === 'secretaria') {
-                    $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-                } elseif ($cargo === 'repositor') {
-                    $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-                } elseif ($cargo === 'adm') {
-                    $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
-                } else {
-                    $mensagemErro = "Cargo inválido.";
-                }
+                $stmtCheckCpf->bind_param("sss", $cpf, $cpf, $cpf);
+                $stmtCheckCpf->execute();
+                $result = $stmtCheckCpf->get_result();
+                $row = $result->fetch_assoc();
+                $totalCpfCount = $row['total'];
+                $stmtCheckCpf->close();
 
-                if (empty($mensagemErro)) {
-                    // Prepara e executa a consulta
-                    $stmt = $conn->prepare($sql);
-                    if ($stmt) {
-                        $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
-                        if ($stmt->execute()) {
-                            $mensagemSucesso = "Funcionário cadastrado com sucesso.";
-                            // Limpa os campos do formulário
-                            $nome = $cpf = $telefone = $email = $senha = $cargo = '';
-                        } else {
-                            $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
-                        }
-                        $stmt->close();
+                if ($totalCpfCount > 0) {
+                    $mensagemErro = "Este usuário já existe.";
+                } else {
+                    // Prepara a consulta de inserção com base no cargo selecionado
+                    if ($cargo === 'secretaria') {
+                        $sql = "INSERT INTO secretaria (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+                    } elseif ($cargo === 'repositor') {
+                        $sql = "INSERT INTO repositor (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
+                    } elseif ($cargo === 'adm') {
+                        $sql = "INSERT INTO adm (nome, cpf, telefone, email, senha) VALUES (?, ?, ?, ?, ?)";
                     } else {
-                        $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+                        $mensagemErro = "Cargo inválido.";
+                    }
+
+                    if (empty($mensagemErro)) {
+                        // Prepara e executa a consulta
+                        $stmt = $conn->prepare($sql);
+                        if ($stmt) {
+                            $stmt->bind_param("sssss", $nome, $cpf, $telefone, $email, $senha);
+                            if ($stmt->execute()) {
+                                $mensagemSucesso = "Funcionário cadastrado com sucesso.";
+                                // Limpa os campos do formulário
+                                $nome = $cpf = $telefone = $email = $senha = $cargo = '';
+                            } else {
+                                $mensagemErro = "Erro ao cadastrar funcionário: " . $stmt->error;
+                            }
+                            $stmt->close();
+                        } else {
+                            $mensagemErro = "Erro ao preparar a consulta: " . $conn->error;
+                        }
                     }
                 }
             }
