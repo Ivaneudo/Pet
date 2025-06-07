@@ -57,10 +57,10 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Secretaria.php">Menu</a></li>
-                    <li><a href="SecretariaClientes.php">Clientes</a></li>
-                    <li><a href="SecretariaCadastrarCliente.php">Cadastrar Cliente</a></li>
-                    <li><a href="SecretariaEditarCliente.php">Editar Cliente</a></li>
+                    <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="SecretariaClientes.php"><span class="icons"><img src="../img/clientes.png" alt=""></span>Clientes</a></li>
+                    <li><a href="SecretariaCadastrarCliente.php"><span class="icons"><img src="../img/cadastrar.png" alt=""></span>Cadastrar Cliente</a></li>
+                    <li><a href="SecretariaEditarCliente.php"><span class="icons"><img src="../img/editarPessoa.png" alt=""></span>Editar Cliente</a></li>
                 </ul>
             </nav>
         </div>

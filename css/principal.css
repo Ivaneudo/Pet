@@ -13,7 +13,7 @@ body {
     --Cinza: #6c6b6b;
     --CinzaClarinho: #cecece;
     --Laranja: #FF9800;
-    --LinksHover: #40005C;
+    --LinksHover: ##797979;
     --gradiente: linear-gradient(#CFE2F8, #5A799A);
     --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
     --background: #5691cf;
@@ -33,6 +33,11 @@ body {
 .container p {
     color: white;
     font-size: 2em;
+}
+
+.icons img {
+    width: 20px;
+    margin-right: .5rem;
 }
 
 button {

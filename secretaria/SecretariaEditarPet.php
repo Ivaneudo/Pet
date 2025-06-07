@@ -97,9 +97,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmPet.php">Pets</a></li>
-                    <li><a href="AdmCadastroPet.php">Cadastrar Pet</a></li>
+                    <li><a href="Secretaria.php">Menu</a></li>
+                    <li><a href="SecretariaPet.php">Pets</a></li>
+                    <li><a href="SecretariaCadastroPet.php">Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>

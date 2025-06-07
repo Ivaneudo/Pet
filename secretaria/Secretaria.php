@@ -53,14 +53,6 @@
                         </a>
                     </li>
                     <li>
-                        <a href="SecretariaProdutos.php">
-                            <div class="icone">
-                                <img src="../img/estoque.png" alt="estoque">
-                                <p>Produtos</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
                         <a href="SecretariaServiços.php">
                             <div class="icone">
                                 <img src="../img/caixa.png" alt="caixa">

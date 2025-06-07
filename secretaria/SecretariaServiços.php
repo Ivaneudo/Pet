@@ -102,9 +102,10 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Secretaria.php">Menu</a></li>
-                    <li><a href="SecretariaVendas.php">Caixa</a></li>
-                    <li><a href="SecretariaServiços.php">Serviço</a></li>
+                    <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="SecretariaVendas.php"><span class="icons"><img src="../img/compra.png" alt=""></span>Caixa</a></li>
+                    <li><a href="SecretariaServiços.php"><span class="icons"><img src="../img/servicos.png" alt=""></span>Serviço</a></li>
+                    <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Produtos</a></li>
                 </ul>
             </nav>
         </div>

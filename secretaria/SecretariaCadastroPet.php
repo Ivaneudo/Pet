@@ -91,9 +91,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Secretaria.php">Menu</a></li>
-                    <li><a href="SecretariaPet.php">Pets</a></li>
-                    <li><a href="SecretariaCadastroPet.php">Cadastrar Pet</a></li>
+                    <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="SecretariaPet.php"><span class="icons"><img src="../img/pets.png" alt=""></span>Pets</a></li>
+                    <li><a href="SecretariaCadastroPet.php"><span class="icons"><img src="../img/paw.png" alt=""></span>Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>
