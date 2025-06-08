@@ -110,11 +110,11 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmFuncionarios.php">Funcionários</a></li>
-                    <li><a href="AdmNovoFuncionario.php">Cadastrar Funcionário</a></li>
-                    <li><a href="AdmEditarFuncionario.php">Editar Funcionário</a></li>
-                    <li><a href="AdmVendas.php">Vendas</a></li>
+                    <li><a href="Adm.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="AdmFuncionarios.php"><span class="icons"><img src="../img/funci.png" alt=""></span>Funcionários</a></li>
+                    <li><a href="AdmNovoFuncionario.php"><span class="icons"><img src="../img/novo-funci.png" alt=""></span>Cadastrar funcionário</a></li>
+                    <li><a href="AdmEditarFuncionario.php"><span class="icons"><img src="../img/editarPessoa.png" alt=""></span>Editar funcionário</a></li>
+                    <li><a href="AdmVendas.php"><span class="icons"><img src="../img/vendas.png" alt=""></span>Vendas</a></li>
                 </ul>
             </nav>
         </div>

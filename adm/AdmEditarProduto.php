@@ -94,11 +94,11 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php" id="selecionado">Menu</a></li>
-                    <li><a href="AdmEstoque.php" id="selecionado">Estoque</a></li>
-                    <li><a href="AdmCadastrarProduto.php">Cadastrar Produto</a></li>
-                    <li><a href="AdmEditarProduto.php">Editar Produto</a></li>
-                    <li><a href="AdmExcluirProduto.php">Excluir Estoque</a></li>
+                    <li><a href="Adm.php" id="selecionado"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="AdmEstoque.php" id="selecionado"><span class="icons"><img src="../img/produtos.png" alt=""></span>Estoque</a></li>
+                    <li><a href="AdmCadastrarProduto.php"><span class="icons"><img src="../img/novo-produto.png" alt=""></span>Cadastrar Produto</a></li>
+                    <li><a href="AdmEditarProduto.php"><span class="icons"><img src="../img/editar-prod.png" alt=""></span>Editar Produto</a></li>
+                    <li><a href="AdmExcluirProduto.php"><span class="icons"><img src="../img/remover-produto.png" alt=""></span>Excluir Estoque</a></li>
                 </ul>
             </nav>
         </div>
