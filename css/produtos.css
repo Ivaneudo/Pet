@@ -88,30 +88,57 @@
 }
 
 /* TODO: estilizando a tabela */
+
 table {
-    padding: 4rem;
-    width: 100%;
-    border: 1px solid black;
+    margin-top: 1rem;
     border-collapse: collapse;
-    margin-top: 2rem;
+    font-size: 15px;
+    color: var(--Cinza);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow:
+    0 2px 8px rgba(90, 121, 154, 0.15),
+    inset 0 0 0 1px rgba(229, 232, 235, 0.8);
+    background-color: rgba(255 255 255 / 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 100%;
+}
+table thead {
+    background: var(--Botoes);
+    user-select: none;
+    color: white;
 }
 
-th, td {
-    border: 1px solid black;
+table thead th {
+    padding: 10px 14px;
+    text-align: left;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+table thead th:last-child {
+    border-right: none;
+}
+tbody tr {
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+tbody tr:nth-child(even) {
+    background: var(--gradiente2);
+    color: #6C6864;
+}
+
+tbody td {
+    padding: 5px 10px;
+    border-right: 1px solid var(--CinzaClarinho);
+}
+
+tbody td:last-child {
+    border-right: none;
 }
 
 table th {
     background-color: var(--TabelaTh);
-}
-
-.excluir {
-    color: red;
-    cursor: pointer;
-}
-
-table .final {
-    /* margin-top: 0; */
-    border-top: none;
 }
 
 .valor {
