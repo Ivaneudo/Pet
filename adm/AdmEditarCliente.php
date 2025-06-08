@@ -105,10 +105,10 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmClientes.php">Clientes</a></li>
-                    <li><a href="AdmCadastrarCliente.php">Cadastrar Cliente</a></li>
-                    <li><a href="AdmEditarCliente.php">Editar Cliente</a></li>
+                    <li><a href="Adm.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="AdmClientes.php"><span class="icons"><img src="../img/clientes.png" alt=""></span>Clientes</a></li>
+                    <li><a href="AdmCadastrarCliente.php"><span class="icons"><img src="../img/novo-funci.png" alt=""></span>Cadastrar Cliente</a></li>
+                    <li><a href="AdmEditarCliente.php"><span class="icons"><img src="../img/editarPessoa.png" alt=""></span>Editar Cliente</a></li>
                 </ul>
             </nav>
         </div>

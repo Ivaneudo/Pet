@@ -13,6 +13,7 @@
     --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
     --background: #5691cf;
     --EfeitoVidro: #ffffff77;
+    --TabelaTh: #5a799a;
 }
 
 .produtos {
@@ -63,7 +64,7 @@
 
 #Cpf {
     margin-top: 1rem;
-    margin-left: 23rem;
+    margin-left: 19rem;
 }
 
 .campo img {
@@ -97,6 +98,10 @@ table {
 
 th, td {
     border: 1px solid black;
+}
+
+table th {
+    background-color: var(--TabelaTh);
 }
 
 .excluir {

@@ -13,6 +13,7 @@
     --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
     --background: #5691cf;
     --EfeitoVidro: rgba(255, 255, 255, 0.466);
+    --TabelaTh: #5a799a;
 }
 
 .container {
@@ -68,7 +69,7 @@
 }
 
 ul {
-    padding-inline-start: 0;
+    padding-inline-start: 0
 }
 
 .navbar ul a {
@@ -79,6 +80,7 @@ ul {
 
 .navbar ul a:hover {
     color: var(--LinksHover);
+
 }
 
 .navbar ul a #selecionado {
@@ -125,6 +127,10 @@ ul {
     color: var(--LinksHover);
 }
 
+.icons img {
+    width: 20px;
+    margin-right: .5rem;
+}
 /* TODO: estilo do estoque */
 .estoque {
     display: flex;
@@ -184,6 +190,19 @@ table td, th{
     font-size: 15pt;
     border: 1px solid black;
     padding: .1rem 1rem;
+}
+
+table th {
+    background-color: var(--TabelaTh);
+}
+
+table tr:nth-child(even) {
+  background-color: transparent; /* Cor para linhas pares */
+} 
+
+
+table tr:nth-child(odd) {
+  background-color: var(--AzulCarinho); /* Cor para linhas ímpares (opcional) */
 }
 
 /* TODO: estilização do formulário de cadastro */

@@ -311,9 +311,10 @@ foreach ($_SESSION['carrinho'] as $item) {
                 <div class="botoes" style="margin-top: 15px; display: flex; gap: 10px;">
                     <button type="button" class="voltar" onclick="confirmarCancelamento(event);">Cancelar Compra</button>
 
-                    <button type="submit" name="pontuar" id="pont">Pontuar</button>
-                    
-                    <button type="submit" name="finalizar">Finalizar</button>
+                    <div>
+                        <button type="submit" name="pontuar" id="pont">Pontuar</button>
+                        <button type="submit" name="finalizar">Finalizar</button>
+                    </div>
                 </div>
             </form>
         </div>

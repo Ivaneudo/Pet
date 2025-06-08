@@ -75,9 +75,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmPet.php">Pets</a></li>
-                    <li><a href="AdmCadastroPet.php">Cadastrar Pet</a></li>
+                    <li><a href="Adm.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="AdmPet.php"><span class="icons"><img src="../img/pets.png" alt=""></span>Pets</a></li>
+                    <li><a href="AdmCadastroPet.php"><span class="icons"><img src="../img/paw.png" alt=""></span>Cadastrar Pet</a></li>
                 </ul>
                 </nav>
                 </div>

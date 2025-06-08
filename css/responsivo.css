@@ -1,3 +1,20 @@
+:root {
+    --input: #E5E8EB;
+    --AzulCarinho: #E6F2FF;     
+    --Botões: #5A799A;
+    --Verde: #4CAF50;
+    --Cinza: #6c6b6b;
+    --CinzaClarinho: #ab9c9c;
+    --Laranja: #FF9800;
+    --LaranjaHover: #ec9108;
+    --LinksHover: #797979;
+    --Links: #797979;
+    --gradiente: linear-gradient(#CFE2F8, #5A799A);
+    --gradiente2: linear-gradient(150deg, #e5dcdc, #d2caca);
+    --background: #5691cf;
+    --EfeitoVidro: rgba(255, 255, 255, 0.466);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -63,6 +80,8 @@ header {
 
 nav ul {
     display: flex;
+    justify-content: center;
+    gap: 4rem;
     list-style: none;
     flex-wrap: wrap;
     align-items: center;
@@ -71,10 +90,14 @@ nav ul {
 nav ul li a {
     text-decoration: none;
     padding: 0.75rem 0;
-    display: block;
     height: 100%;
     display: flex;
     align-items: center;
+}
+
+.icons img {
+    width: 20px;
+    margin-right: .5rem;
 }
 
 .main-content {
