@@ -274,12 +274,7 @@
 
         tbody tr:nth-child(even) {
             background: var(--gradiente2);
-            color: var(--background);
-        }
-
-        tbody tr:hover {
-            background-color: var(--background);
-            color: white;
+            color: #6C6865;
         }
 
         tbody td {

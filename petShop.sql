@@ -55,7 +55,7 @@ CREATE TABLE pet (
 );
 
 CREATE TABLE vendas (
-	id_venda INT PRIMARY KEY,
+	id_venda INT PRIMARY KEY AUTO_INCREMENT,
     secretaria_id INT,
     id_produto INT,
     cpf_cliente CHAR(14),
@@ -114,6 +114,6 @@ select * from servico;
 
 select * from vendas;
 
-ALTER TABLE vendas CHANGE id_venda id_venda INT AUTO_INCREMENT;
-
 DESCRIBE vendas;
+
+DROP TABLE vendas;
