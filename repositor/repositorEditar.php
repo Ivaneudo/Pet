@@ -120,8 +120,7 @@
                             placeholder="Digite o ID do produto"
                             autocomplete=off 
                             value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                            required
-                        >
+                            required>
                         <button type="submit">Buscar</button>
                     </div>
                     <div class="botoes">
@@ -140,22 +139,25 @@
 
                                 <div class="coluna">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="codigo"
                                         class="NomeCliente"
                                         placeholder="Código do Produto: "
-                                        autocomplete=off 
+                                        autocomplete=off
+                                        min="1"
+                                        max="999"
+                                        maxlength="3"
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                                        readonly
-                                    >
+                                        readonly>
                                     <input
-                                        type="text"
+                                        type="number"
                                         id="preco"
                                         name="preco"
                                         placeholder="Preço do produto: "
-                                        autocomplete=off 
+                                        autocomplete=off
+                                        min="0"
                                         value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
-                                    >
+                                        required>
                                 </div>
 
                                 <div class="coluna">
@@ -174,8 +176,8 @@
                                         class="Email"
                                         placeholder="Estoque: "
                                         autocomplete=off 
-                                        value="<?php echo htmlspecialchars($estoqueProduto); ?>"
                                         min="0"
+                                        value="<?php echo htmlspecialchars($estoqueProduto); ?>"
                                         required
                                     >
                                 </div>

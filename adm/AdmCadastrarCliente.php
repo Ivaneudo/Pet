@@ -105,43 +105,43 @@
                         <div class="colunas">
                             <div class="coluna">
                                 <input 
-                                type="text" 
-                                name="nome" 
-                                class="NomeCliente" 
-                                placeholder="Digite o nome do cliente: " 
-                                value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
-                                autocomplete=off 
-                                required>
+                                    type="text" 
+                                    name="nome" 
+                                    class="NomeCliente" 
+                                    placeholder="Digite o nome do cliente: " 
+                                    autocomplete=off 
+                                    value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
+                                    required>
 
                                 <input 
-                                type="text" 
-                                id="cpf" 
-                                name="cpf" 
-                                maxlength="14" 
-                                placeholder="Digite o CPF do cliente: " 
-                                value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" 
-                                autocomplete=off 
-                                required>
+                                    type="text" 
+                                    id="cpf" 
+                                    name="cpf" 
+                                    maxlength="14" 
+                                    placeholder="Digite o CPF do cliente: " 
+                                    autocomplete=off 
+                                    value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" 
+                                    required>
                             </div>
                             <div class="coluna">
                                 <input 
-                                type="text" 
-                                name="Telefone" 
-                                class="Telefone" 
-                                maxlength="14" 
-                                placeholder="Digite o telefone do cliente" 
-                                value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
-                                autocomplete=off 
-                                required>
+                                    type="text" 
+                                    name="Telefone" 
+                                    class="Telefone" 
+                                    maxlength="14" 
+                                    placeholder="Digite o telefone do cliente" 
+                                    autocomplete=off 
+                                    value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
+                                    required>
 
                                 <input 
-                                type="email" 
-                                name="email" 
-                                class="Email" 
-                                placeholder="Digite o e-mail do cliente: " 
-                                value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" 
-                                autocomplete=off 
-                                required>
+                                    type="email" 
+                                    name="email" 
+                                    class="Email" 
+                                    placeholder="Digite o e-mail do cliente: " 
+                                    autocomplete=off 
+                                    value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" 
+                                    required>
                             </div>
                         </div>
                     </div>

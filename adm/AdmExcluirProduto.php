@@ -131,11 +131,14 @@
                             <div class="colunas">
                                 <div class="coluna">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="codigo"
                                         class="NomeCliente"
-                                        placeholder="Código"
+                                        placeholder="Código: "
                                         autocomplete=off 
+                                        max="999"
+                                        min="1"
+                                        maxlength="3"
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
                                         style="color: #4d4848; cursor: not-allowed;"

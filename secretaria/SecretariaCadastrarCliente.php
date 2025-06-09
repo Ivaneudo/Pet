@@ -119,8 +119,8 @@
                                     name="nome" 
                                     class="NomeCliente" 
                                     placeholder="Nome do cliente: " 
-                                    value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
                                     autocomplete=off 
+                                    value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
                                     required>
 
                                 <input 
@@ -129,8 +129,8 @@
                                     name="cpf" 
                                     maxlength="14" 
                                     placeholder="Digite o CPF do cliente: " 
-                                    value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" 
                                     autocomplete=off 
+                                    value="<?php echo htmlspecialchars($_POST['cpf'] ?? ''); ?>" 
                                     required>
                             </div>
                             <div class="coluna">
@@ -140,8 +140,8 @@
                                     class="Telefone" 
                                     maxlength="14" 
                                     placeholder="Digite o telefone do cliente" 
-                                    value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
                                     autocomplete=off 
+                                    value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
                                     required>
 
                                 <input 
@@ -149,8 +149,8 @@
                                     name="email" 
                                     class="Email" 
                                     placeholder="Digite o e-mail do cliente: " 
-                                    value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" 
                                     autocomplete=off 
+                                    value="<?php echo htmlspecialchars($clienteEmail ?? ''); ?>" 
                                     required>
                             </div>
                         </div>

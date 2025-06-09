@@ -133,13 +133,16 @@
 
                                 <div class="coluna">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="codigo"
                                         class="NomeCliente"
                                         placeholder="Código: "
+                                        autocomplete=off 
+                                        max="999"
+                                        min="1"
+                                        maxlength="3"
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
-                                        autocomplete=off 
                                         style="color: #4d4848; cursor: not-allowed;"
                                     >
                                     <input
@@ -169,7 +172,7 @@
                                         placeholder="Estoque"
                                         autocomplete=off 
                                         value="<?php echo htmlspecialchars($estoqueProduto); ?>"
-                                        min="0"
+                                        min="1"
                                         required
                                     >
                                 </div>

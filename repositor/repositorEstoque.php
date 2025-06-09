@@ -77,6 +77,7 @@ if ($result === false) {
                                 id="id_produto"
                                 placeholder="Digite o ID do produto: "
                                 autocomplete="off"
+                                maxlength="3"
                                 value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
                                 
                             <button type="submit" style="background: none; border: none; cursor: pointer;">

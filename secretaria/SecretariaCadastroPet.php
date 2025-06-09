@@ -170,8 +170,8 @@
                                     class="idade" 
                                     placeholder="Idade do animal" 
                                     autocomplete=off 
-                                    required 
-                                    min="0">
+                                    min="0"
+                                    required>
                             </div>
 
                             <div class="coluna">
@@ -209,9 +209,10 @@
                                     name="peso" 
                                     class="peso" 
                                     placeholder="Peso" 
-                                    required 
+                                    autocomplete=off
+                                    min="0"
                                     pattern="^\d{1,3}(,\d{1,2})?$" 
-                                    autocomplete=off>
+                                    required>
 
                                 <input 
                                     type="text" 

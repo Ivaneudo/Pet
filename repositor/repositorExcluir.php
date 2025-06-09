@@ -116,7 +116,8 @@
                             name="codigo"
                             id="codigo"
                             placeholder="Digite o ID do produto"
-                            autocomplete=off 
+                            autocomplete=off
+                            maxlength="3"
                             value="<?php echo htmlspecialchars($codigoProduto); ?>"
                             required
                         >
@@ -138,16 +139,19 @@
                             <div class="colunas">
                                 <div class="coluna">
                                     <input
-                                        type="text"
+                                        type="number"
                                         name="codigo"
                                         class="NomeCliente"
                                         placeholder="Código do Produto:"
-                                        autocomplete=off 
+                                        autocomplete=off
+                                        min="1"
+                                        max="999"
+                                        maxlength="3"
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
                                     >
                                     <input
-                                        type="text"
+                                        type="number"
                                         id="preco"
                                         name="preco"
                                         placeholder="Preço do Produto: "

@@ -132,7 +132,7 @@
                                     name="estoque"
                                     class="Email"
                                     placeholder="Estoque"
-                                    min="0"
+                                    min="1"
                                     autocomplete=off 
                                     required
                                 >

@@ -142,41 +142,45 @@
                             <div class="coluna">
                                 <p><strong>CPF:</strong></p>
                                 <input
-                                type="text" 
-                                name="cpf_display" 
-                                class="CPFCliente" 
-                                placeholder="CPF do cliente" 
-                                value="<?php echo htmlspecialchars($cpfCliente); ?>" 
-                                style="color: #6c6b6b; cursor: not-allowed;"
-                                disabled>
+                                    type="text" 
+                                    name="cpf_display" 
+                                    class="CPFCliente" 
+                                    placeholder="CPF do cliente" 
+                                    value="<?php echo htmlspecialchars($cpfCliente); ?>" 
+                                    style="color: #6c6b6b; cursor: not-allowed;"
+                                    disabled>
                                 
                                 <p><strong>Telefone:</strong></p>
-                                <input type="text" 
-                                name="telefone" 
-                                class="Telefone" 
-                                maxlength="14" 
-                                placeholder="Telefone do cliente" 
-                                autocomplete="off" 
-                                value="<?php echo htmlspecialchars($cliente['telefone']); ?>" required>
+                                <input 
+                                    type="text" 
+                                    name="telefone" 
+                                    class="Telefone" 
+                                    maxlength="14" 
+                                    placeholder="Telefone do cliente" 
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($cliente['telefone']); ?>" 
+                                    required>
                             </div>
                             <div class="coluna">
                                 <p><strong>Nome:</strong></p>
                                 <input 
-                                type="text" 
-                                name="nome" 
-                                class="NomeCliente" 
-                                placeholder="Nome do cliente" 
-                                autocomplete="off" 
-                                value="<?php echo htmlspecialchars($cliente['nome']); ?>" required>
+                                    type="text" 
+                                    name="nome" 
+                                    class="NomeCliente" 
+                                    placeholder="Nome do cliente" 
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($cliente['nome']); ?>" 
+                                    required>
                                 
                                 <p><strong>E-mail:</strong></p>
                                 <input 
-                                type="email" 
-                                name="email" 
-                                class="Email" 
-                                placeholder="E-mail do cliente" 
-                                autocomplete="off" 
-                                value="<?php echo htmlspecialchars($cliente['email']); ?>" required>
+                                    type="email" 
+                                    name="email" 
+                                    class="Email" 
+                                    placeholder="E-mail do cliente" 
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($cliente['email']); ?>" 
+                                    required>
                             </div>
                         </div>
 

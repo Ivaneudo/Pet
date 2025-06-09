@@ -125,94 +125,98 @@
                             <div class="coluna">
                                 <div class="AnimalTipo">
                                     <input 
-                                    type="radio" 
-                                    class="tipo" 
-                                    id="gato" 
-                                    name="animal" 
-                                    value="Gato" 
-                                    <?php echo ($pet['especie'] === 'Gato') ? 'checked' : ''; ?> 
-                                    required>
+                                        type="radio" 
+                                        class="tipo" 
+                                        id="gato" 
+                                        name="animal" 
+                                        value="Gato" 
+                                        <?php echo ($pet['especie'] === 'Gato') ? 'checked' : ''; ?> 
+                                        required>
                                     <label for="gato">Gato</label>
 
-                                    <input type="radio" 
-                                    class="tipo" 
-                                    id="cachorro" 
-                                    name="animal" 
-                                    value="Cachorro" 
-                                    <?php echo ($pet['especie'] === 'Cachorro') ? 'checked' : ''; ?> 
-                                    required>
+                                    <input 
+                                        type="radio" 
+                                        class="tipo" 
+                                        id="cachorro" 
+                                        name="animal" 
+                                        value="Cachorro" 
+                                        <?php echo ($pet['especie'] === 'Cachorro') ? 'checked' : ''; ?> 
+                                        required>
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
-                                <input type="text" 
-                                name="nomePet" 
-                                class="nomePet" 
-                                placeholder="Nome do animal" 
-                                value="<?php echo htmlspecialchars($pet['nome_pet']); ?>" 
-                                autocomplete=off 
-                                required>
+                                <input 
+                                    type="text" 
+                                    name="nomePet" 
+                                    class="nomePet" 
+                                    placeholder="Nome do animal" 
+                                    value="<?php echo htmlspecialchars($pet['nome_pet']); ?>" 
+                                    autocomplete=off 
+                                    required>
 
                                 <input 
-                                type="number" 
-                                name="idade" 
-                                class="idade" 
-                                placeholder="Idade do animal" 
-                                min="0" 
-                                value="<?php echo htmlspecialchars($pet['idade']); ?>" 
-                                autocomplete=off 
-                                required>
+                                    type="number" 
+                                    name="idade" 
+                                    class="idade" 
+                                    placeholder="Idade do animal" 
+                                    min="0" 
+                                    value="<?php echo htmlspecialchars($pet['idade']); ?>" 
+                                    autocomplete=off 
+                                    required>
                             </div>
 
                             <div class="coluna">
                                 <div class="AnimalTipo">
                                     <input 
-                                    type="radio" 
-                                    class="tipo" 
-                                    id="sexoMacho" 
-                                    name="sexo" 
-                                    value="macho" 
-                                    <?php echo ($pet['sexo'] === 'macho') ? 'checked' : ''; ?> 
-                                    required>
+                                        type="radio" 
+                                        class="tipo" 
+                                        id="sexoMacho" 
+                                        name="sexo" 
+                                        value="macho" 
+                                        <?php echo ($pet['sexo'] === 'macho') ? 'checked' : ''; ?> 
+                                        required>
                                     <label for="sexoMacho">M</label>
                                     
                                     <input 
-                                    type="radio" 
-                                    class="tipo" 
-                                    id="sexoFemea" 
-                                    name="sexo" 
-                                    value="femea" 
-                                    <?php echo ($pet['sexo'] === 'femea') ? 'checked' : ''; ?> 
-                                    required>
+                                        type="radio" 
+                                        class="tipo" 
+                                        id="sexoFemea" 
+                                        name="sexo" 
+                                        value="femea" 
+                                        <?php echo ($pet['sexo'] === 'femea') ? 'checked' : ''; ?> 
+                                        required>
                                     <label for="sexoFemea">F</label>
 
                                     <input 
-                                    type="radio" 
-                                    class="tipo" 
-                                    name="sexo" 
-                                    value="intersexo" 
-                                    id="sexoIntersexo" 
-                                    <?php echo ($pet['sexo'] === 'intersexo') ? 'checked' : ''; ?> 
-                                    required>
+                                        type="radio" 
+                                        class="tipo" 
+                                        name="sexo" 
+                                        value="intersexo" 
+                                        id="sexoIntersexo" 
+                                        <?php echo ($pet['sexo'] === 'intersexo') ? 'checked' : ''; ?> 
+                                        required>
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
-                                <input type="text" 
-                                name="peso" 
-                                class="peso" 
-                                placeholder="Peso" 
-                                autocomplete=off 
-                                pattern="^\d{1,3}(,\d{1,2})?$" 
-                                value="<?php echo htmlspecialchars(str_replace('.', ',', $pet['peso'])); ?>" 
-                                required>
+                                <input 
+                                    type="number" 
+                                    name="peso" 
+                                    class="peso" 
+                                    placeholder="Peso" 
+                                    autocomplete=off 
+                                    min="0"
+                                    pattern="^\d{1,3}(,\d{1,2})?$" 
+                                    value="<?php echo htmlspecialchars(str_replace('.', ',', $pet['peso'])); ?>" 
+                                    required>
 
                                 <input 
-                                type="text" 
-                                name="raca" 
-                                class="raca" 
-                                placeholder="Digite a raça" 
-                                autocomplete=off 
-                                value="<?php echo htmlspecialchars($pet['raca']); ?>" 
-                                required>
+                                    type="text" 
+                                    name="raca" 
+                                    class="raca" 
+                                    placeholder="Digite a raça" 
+                                    autocomplete=off 
+                                    value="<?php echo htmlspecialchars($pet['raca']); ?>" 
+                                    required>
                             </div>
                         </div>
 

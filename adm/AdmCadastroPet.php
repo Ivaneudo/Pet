@@ -204,13 +204,14 @@
                                 </div>
 
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     name="peso" 
                                     class="peso" 
                                     placeholder="Peso" 
-                                    required 
+                                    autocomplete=off
+                                    min="0"
                                     pattern="^\d{1,3}(,\d{1,2})?$" 
-                                    autocomplete=off>
+                                    required>
 
                                 <input 
                                     type="text" 
