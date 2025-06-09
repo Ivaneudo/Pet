@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um adiministrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
+    // Verifica se o usuário é um admin
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
         exit();
     }
 
@@ -18,10 +18,18 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
         $idProdutoPesquisado = trim($_POST['id_produto']);
 
-        // Consulta para buscar o produto pelo ID
-        $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        // Se o campo de pesquisa estiver vazio, busca todos os produtos
+        if ($idProdutoPesquisado === '') {
+            $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+        } else {
+            // Consulta para buscar o produto pelo ID
+            $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        }
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $idProdutoPesquisado);
+        if ($idProdutoPesquisado !== '') {
+            $stmt->bind_param("i", $idProdutoPesquisado);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
     } else {
@@ -74,12 +82,13 @@
                     <div class="pesquisa">
                         <div class="campo">
                             <input
-                            type="text"
-                            name="id_produto"
-                            id="id_produto"
-                            placeholder="Digite o ID do produto: "
-                            autocomplete="off"
-                            value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
+                                type="text"
+                                name="id_produto"
+                                id="id_produto"
+                                placeholder="Digite o ID do produto: "
+                                autocomplete="off"
+                                value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
+                                
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>

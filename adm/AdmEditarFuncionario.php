@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php");
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
@@ -151,7 +151,6 @@
                         <p><strong>Editar Funcionário:</strong></p>
                         <div class="colunas">
                             <div class="coluna">
-                                <p><strong>Nome:</strong></p>
                                 <input
                                     type="text"
                                     name="nome"
@@ -160,7 +159,6 @@
                                     value="<?php echo htmlspecialchars($funcionario['nome']); ?>"
                                     required
                                 />
-                                <p><strong>Telefone:</strong></p>
                                 <input
                                     type="text"
                                     name="telefone"
@@ -173,7 +171,6 @@
                                 />
                             </div>
                             <div class="coluna">
-                                <p><strong>E-mail:</strong></p>
                                 <input
                                     type="email"
                                     name="email"
@@ -182,7 +179,6 @@
                                     value="<?php echo htmlspecialchars($funcionario['email']); ?>"
                                     required
                                 />
-                                <p><strong>Cargo:</strong></p>
                                 <input type="text" value="<?php echo ucfirst(htmlspecialchars($funcionario['cargo'])); ?>" disabled style="color: #6c6b6b; cursor: not-allowed;">
                             </div>
                         </div>

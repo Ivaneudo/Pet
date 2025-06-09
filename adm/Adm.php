@@ -1,13 +1,13 @@
 <?php
     session_start();
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
-    // Captura o nome do funcionário da sessão
+    // ! Guarda o nome do funcionário da sessão
     $nomeFuncionario = $_SESSION['usuario'];
 ?>
 

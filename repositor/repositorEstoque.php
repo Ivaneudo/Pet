@@ -1,38 +1,46 @@
 <?php
-    session_start();
-    include('../funcoes/conexao.php');
+session_start();
+include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um repositor
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
-        exit();
-    }
+// Verifica se o usuário é um repositor
+if ($_SESSION['tipo_usuario'] !== 'repositor') {
+    header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+    exit();
+}
 
-    // Captura o nome do funcionário da sessão
-    $nomeFuncionario = $_SESSION['usuario'];
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
 
-    // Inicializa a variável para o ID do produto pesquisado
-    $idProdutoPesquisado = '';
+// Inicializa a variável para o ID do produto pesquisado
+$idProdutoPesquisado = '';
 
-    // Verifica se o formulário de pesquisa foi enviado
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
-        $idProdutoPesquisado = trim($_POST['id_produto']);
+// Verifica se o formulário de pesquisa foi enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
+    $idProdutoPesquisado = trim($_POST['id_produto']);
 
+    // Se o campo de pesquisa estiver vazio, busca todos os produtos
+    if ($idProdutoPesquisado === '') {
+        $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+    } else {
         // Consulta para buscar o produto pelo ID
         $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $idProdutoPesquisado);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    } else {
-        // Consulta para mostrar todos os produtos
-        $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
-        $result = $conn->query($sql);
     }
 
-    if ($result === false) {
-        die("Erro na consulta: " . $conn->error);
+    $stmt = $conn->prepare($sql);
+    if ($idProdutoPesquisado !== '') {
+        $stmt->bind_param("i", $idProdutoPesquisado);
     }
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // Consulta para mostrar todos os produtos
+    $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+    $result = $conn->query($sql);
+}
+
+if ($result === false) {
+    die("Erro na consulta: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -64,12 +72,13 @@
                     <div class="pesquisa">
                         <div class="campo">
                             <input
-                            type="text"
-                            name="id_produto"
-                            id="id_produto"
-                            placeholder="Digite o ID do produto: "
-                            autocomplete="off"
-                            value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
+                                type="text"
+                                name="id_produto"
+                                id="id_produto"
+                                placeholder="Digite o ID do produto: "
+                                autocomplete="off"
+                                value="<?php echo htmlspecialchars($idProdutoPesquisado); ?>">
+                                
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>

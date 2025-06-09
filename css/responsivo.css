@@ -15,7 +15,7 @@
     --EfeitoVidro: rgba(255, 255, 255, 0.466);
 }
 
-* {
+html, body, header, nav, ul, li, a {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -43,7 +43,7 @@ header {
 
 .funci p {
     align-items: center;
-    padding-top: 1rem;
+    padding-top: 0.1rem;
 }
 
 .sair img {
@@ -212,6 +212,14 @@ nav ul li a {
     padding: 20px;
 }
 
+.cadastro .animais {
+    gap: 2rem;
+}
+
+.cadastro .coluna {
+    flex: 1;
+}
+
 @media (max-width: 1200px) {
     html {
         font-size: 15px;
@@ -288,6 +296,11 @@ nav ul li a {
     .data-table th, 
     .data-table td {
         padding: 10px 12px;
+    }
+
+    .cadastro .animais {
+        flex-direction: column;
+        gap: 1rem;
     }
 }
 

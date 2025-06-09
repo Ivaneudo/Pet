@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verifica se o usuário é uma secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    if ($_SESSION['tipo_usuario'] !== 'secretaria') {
         header("Location: ../entrada/Entrar.php");
         exit();
     }
@@ -51,23 +51,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cancelar Pagamento</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />    <link rel="stylesheet" href="../css/principal.css" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
     <link rel="stylesheet" href="../css/AdmFuncionarios.css" />
+    <link rel="stylesheet" href="../css/responsivo.css" />
+    <link rel="stylesheet" href="../css/Vendas.css" />
     <script src="../js/mascara.js" defer></script>
-    <style>
-        .desabilitado{
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="funcionario">
             <div class="funci">
                 <img src="../img/Logo-Pethop-250px.png" alt="" />
-                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem vindo a mais um dia de trabalho!</p>
+                <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
                 <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
@@ -76,9 +74,10 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="#" class="desabilitado">Menu</a></li>
-                    <li><a href="#" class="desabilitado">Caixa</a></li>
-                    <li><a href="#" class="desabilitado">Serviço</a></li>
+                    <li><a href="Secretaria.php" class="desabilitado"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="SecretariaVendas.php" class="desabilitado"><span class="icons"><img src="../img/compra.png" alt=""></span>Caixa</a></li>
+                    <li><a href="SecretariaServiços.php" class="desabilitado"><span class="icons"><img src="../img/servicos.png" alt=""></span>Serviço</a></li>
+                    <li><a href="SecretariaProdutos.php" class="desabilitado"><span class="icons"><img src="../img/produtos.png" alt=""></span>Estoque</a></li>
                 </ul>
             </nav>
         </div>
@@ -93,32 +92,33 @@
                 <?php else: ?>
 
                 <form method="POST" action="">
+                    <?php if (!empty($erro)): ?>
+                        <strong><p style="color: #CD0000;"><?php echo $erro; ?></p></strong>
+                    <?php endif; ?>
+                    
                     <div class="campo">
                         <p for="cpf"><strong>Login:</strong></p>
-                        <input type="text" 
-                        name="cpf" 
-                        id="cpf" 
-                        maxlength=14 
-                        autocomplete=off
-                        placeholder="Informe o CPF do Adm"
-                        required>
+                        <input 
+                            type="text" 
+                            name="cpf" 
+                            id="cpf" 
+                            maxlength=14 
+                            autocomplete=off
+                            placeholder="Informe o CPF do Adm"
+                            required>
                     </div>
                     <div class="campo">
                         <p for="senha"><strong>Senha:</strong></p>
-                        <input type="password" 
-                        name="senha" 
-                        id="senha" 
-                        placeholder="Informe a senha do Adm"
-                        required>
+                        <input 
+                            type="password" 
+                            name="senha" 
+                            id="senha" 
+                            placeholder="Informe a senha do Adm"
+                            required>
                     </div>
-
-                    <?php if (!empty($erro)): ?>
-                        <p style="color:red;"><?php echo $erro; ?></p>
-                    <?php endif; ?>
 
                     <div class="botoes">
                         <button type="button" onclick="window.history.back();" class="voltar" id="volt">Voltar</button>
-
                         <button type="submit" id="cade">Cancelar Pagamento</button>
                     </div>
                 </form>

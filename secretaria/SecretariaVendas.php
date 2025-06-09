@@ -2,30 +2,31 @@
 session_start();
 include('../funcoes/conexao.php');
 
-// Verifica se o usuário é uma secretaria
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+// ! Verifica se o usuário é uma secretaria
+if ($_SESSION['tipo_usuario'] !== 'secretaria') {
     header("Location: ../entrada/Entrar.php");
     exit();
 }
 
 $nomeFuncionario = $_SESSION['usuario'];
 
-// Inicializa o carrinho na sessão se não existir
+// ! Inicializa o carrinho na sessão
 if (!isset($_SESSION['carrinho'])) {
     $_SESSION['carrinho'] = [];
 }
 
 $erro = '';
 $mensagem = '';
+$classeMensagem = '';
 $valorTotal = 0.0;
 $mostrarCpf = false;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST['adicionar'])) {
-        // Lógica de adicionar produto mantida como original
         $codigoProduto = trim($_POST['codigo_produto']);
         if ($codigoProduto === '') {
             $erro = "Por favor, digite o código do produto.";
+            $classeMensagem = 'erro';
         } else {
             if (strpos($codigoProduto, 'x') !== false) {
                 list($idProduto, $quantidade) = explode('x', $codigoProduto);
@@ -33,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $quantidade = (int)trim($quantidade);
                 if ($quantidade <= 0) {
                     $erro = "A quantidade deve ser maior que zero.";
+                    $classeMensagem = 'erro';
                 } else {
                     $sql = "SELECT id_produto, nome_produto, preco, estoque FROM produto WHERE id_produto = ?";
                     $stmt = $conn->prepare($sql);
@@ -47,8 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 if ($novaQuantidade <= $produto['estoque']) {
                                     $_SESSION['carrinho'][$key]['quantidade'] = $novaQuantidade;
                                     $mensagem = "Produto adicionado ao carrinho.";
+                                    $classeMensagem = 'sucesso';
                                 } else {
                                     $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
+                                    $classeMensagem = 'erro';
                                 }
                                 $produtoEncontrado = true;
                                 break;
@@ -63,12 +67,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                     'quantidade' => $quantidade
                                 ];
                                 $mensagem = "Produto adicionado ao carrinho.";
+                                $classeMensagem = 'sucesso';
                             } else {
                                 $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
+                                $classeMensagem = 'erro';
                             }
                         }
                     } else {
                         $erro = "Produto não encontrado para o código informado.";
+                        $classeMensagem = 'erro';
                     }
                     $stmt->close();
                 }
@@ -86,8 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             if ($item['quantidade'] + 1 <= $produto['estoque']) {
                                 $_SESSION['carrinho'][$key]['quantidade']++;
                                 $mensagem = "Produto adicionado ao carrinho.";
+                                $classeMensagem = 'sucesso';
                             } else {
                                 $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
+                                $classeMensagem = 'erro';
                             }
                             $produtoEncontrado = true;
                             break;
@@ -102,12 +111,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                 'quantidade' => 1
                             ];
                             $mensagem = "Produto adicionado ao carrinho.";
+                            $classeMensagem = 'sucesso';
                         } else {
                             $erro = "Produto fora de estoque.";
+                            $classeMensagem = 'erro';
                         }
                     }
                 } else {
                     $erro = "Produto não encontrado para o código informado.";
+                    $classeMensagem = 'erro';
                 }
                 $stmt->close();
             }
@@ -119,11 +131,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 unset($_SESSION['carrinho'][$key]);
                 $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);
                 $mensagem = "Produto removido do carrinho.";
+                $classeMensagem = 'sucesso';
                 break;
             }
         }
     } elseif (isset($_POST['cancelar'])) {
-        // Limpa carrinho e redireciona
+        // ! Limpa carrinho e redireciona
         $_SESSION['carrinho'] = [];
         header("Location: Secretaria.php");
         exit();
@@ -132,6 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } elseif (isset($_POST['finalizar'])) {
         if (count($_SESSION['carrinho']) == 0) {
             $erro = "Carrinho vazio, não é possível finalizar a compra.";
+            $classeMensagem = 'erro';
         } else {
             $cpfCliente = trim($_POST['cpf_cliente']);
             if ($cpfCliente === '') {
@@ -167,7 +181,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     header("Location: SecretariaPagamento.php");
                     exit();
                 } else {
-                    $erro = "Cliente com CPF informado não encontrado.";
+                    $erro = "CPF informado não encontrado.";
+                    $classeMensagem = 'erro';
                     $mostrarCpf = true;
                 }
                 $stmt->close();
@@ -181,12 +196,13 @@ foreach ($_SESSION['carrinho'] as $item) {
     $valorTotal += $item['preco'] * $item['quantidade'];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Produtos</title>
+    <title>Caixa</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
@@ -215,7 +231,7 @@ foreach ($_SESSION['carrinho'] as $item) {
                 <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
                 <li><a href="SecretariaVendas.php"><span class="icons"><img src="../img/compra.png" alt=""></span>Caixa</a></li>
                 <li><a href="SecretariaServiços.php"><span class="icons"><img src="../img/servicos.png" alt=""></span>Serviço</a></li>
-                <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Produtos</a></li>
+                <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Estoque</a></li>
             </ul>
         </nav>
     </div>
@@ -241,17 +257,6 @@ foreach ($_SESSION['carrinho'] as $item) {
                     </div>
                 </div>
             </form>
-            
-            <?php if ($mensagem): ?>
-                <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
-                    <?php echo htmlspecialchars($mensagem); ?>
-                </div>
-            <?php endif; ?>
-            <?php if ($erro): ?>
-                <div class="mensagem-erro">
-                    <?php echo htmlspecialchars($erro); ?>
-                </div>
-            <?php endif; ?>
 
             <form method="POST" action="" aria-label="Carrinho de compras" id="formCarrinho">
                 <div class="compras">
@@ -308,6 +313,16 @@ foreach ($_SESSION['carrinho'] as $item) {
                     </div>
                 </div>
 
+                <?php if ($mensagem): ?>
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
+                        <?php echo htmlspecialchars($mensagem); ?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($erro): ?>
+                    <div class="mensagem-erro">
+                        <?php echo htmlspecialchars($erro); ?>
+                    </div>
+                <?php endif; ?>
                 <div class="botoes" style="margin-top: 15px; display: flex; gap: 10px;">
                     <button type="button" class="voltar" onclick="confirmarCancelamento(event);">Cancelar Compra</button>
 
@@ -317,6 +332,7 @@ foreach ($_SESSION['carrinho'] as $item) {
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
 </div>

@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um adm
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin'){
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
@@ -138,7 +138,7 @@
                                         autocomplete=off 
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
-                                        style="color: #6c6b6b; cursor: not-allowed;"
+                                        style="color: #4d4848; cursor: not-allowed;"
                                     >
                                     <input
                                         type="text"
@@ -148,7 +148,7 @@
                                         autocomplete=off 
                                         value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
                                         disabled
-                                        style="color: #6c6b6b; cursor: not-allowed;"
+                                        style="color: #4d4848; cursor: not-allowed;"
                                     >
                                 </div>
 
@@ -161,7 +161,7 @@
                                         autocomplete=off 
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         disabled
-                                        style="color: #6c6b6b; cursor: not-allowed;"
+                                        style="color: #4d4848; cursor: not-allowed;"
                                     >
                                     <input
                                         type="number"

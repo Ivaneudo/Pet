@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {   
-        header("Location: ../entrada/Entrar.php");
+    // Verifica se o usuário é um admin
+    if ($_SESSION['tipo_usuario'] !== 'admin') {   
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
         exit();
     }
 
@@ -13,29 +13,42 @@
 
     $cpfPesquisado = '';
 
+    // Verifica se o formulário de pesquisa foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) { 
         $cpfPesquisado = trim($_POST['cpf']);
 
-        // Consulta para buscar o funcionário pelo CPF nas três tabelas
-        $sql = "SELECT cpf, nome, 'administrador' AS cargo FROM adm WHERE cpf = ? 
-                UNION 
-                SELECT cpf, nome, 'repositor' AS cargo FROM repositor WHERE cpf = ? 
-                UNION 
-                SELECT cpf, nome, 'secretaria' AS cargo FROM secretaria WHERE cpf = ? 
-                LIMIT 1";
+        // Se o campo de pesquisa estiver vazio, busca todos os funcionários
+        if ($cpfPesquisado === '') {
+            $sql = "SELECT cpf, nome, 'Administrador' AS cargo FROM adm 
+                    UNION 
+                    SELECT cpf, nome, 'Repositor' AS cargo FROM repositor 
+                    UNION 
+                    SELECT cpf, nome, 'Secretaria' AS cargo FROM secretaria 
+                    ORDER BY nome ASC";
+        } else {
+            // Consulta para buscar o funcionário pelo CPF nas três tabelas
+            $sql = "SELECT cpf, nome, 'administrador' AS cargo FROM adm WHERE cpf = ? 
+                    UNION 
+                    SELECT cpf, nome, 'repositor' AS cargo FROM repositor WHERE cpf = ? 
+                    UNION 
+                    SELECT cpf, nome, 'secretaria' AS cargo FROM secretaria WHERE cpf = ? 
+                    LIMIT 1";
+        }
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $cpfPesquisado, $cpfPesquisado, $cpfPesquisado);
+        if ($cpfPesquisado !== '') {
+            $stmt->bind_param("sss", $cpfPesquisado, $cpfPesquisado, $cpfPesquisado);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
-    }
-    else {
+    } else {
         // Consulta para mostrar todos os funcionários
         $sql = "SELECT cpf, nome, 'Administrador' AS cargo FROM adm 
-            UNION 
-            SELECT cpf, nome, 'Repositor' AS cargo FROM repositor 
-            UNION 
-            SELECT cpf, nome, 'Secretaria' AS cargo FROM secretaria 
-            ORDER BY nome ASC";
+                UNION 
+                SELECT cpf, nome, 'Repositor' AS cargo FROM repositor 
+                UNION 
+                SELECT cpf, nome, 'Secretaria' AS cargo FROM secretaria 
+                ORDER BY nome ASC";
         $result = $conn->query($sql);
     }
 
@@ -86,13 +99,14 @@
                     <div class="pesquisa">
                         <div class="campo">
                             <input
-                            type="text"
-                            name="cpf"
-                            id="cpf"
-                            placeholder="Digite o CPF do funcionário: "
-                            autocomplete="off"
-                            maxlength=14
-                            value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                                type="text"
+                                name="cpf"
+                                id="cpf"
+                                placeholder="Digite o CPF do funcionário: "
+                                autocomplete="off"
+                                maxlength=14
+                                value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                                
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>

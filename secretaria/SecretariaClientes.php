@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é uma secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-        header("Location: ../entrada/Entrar.php");
+    // Verifica se o usuário é um admin
+    if ($_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
         exit();
     }
 
@@ -13,11 +13,24 @@
 
     $cpfPesquisado = '';
 
+    // Verifica se o formulário de pesquisa foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
         $cpfPesquisado = trim($_POST['cpf']);
-        // Redireciona para a tela de edição de cliente
-        header("Location: SecretariaEditarCliente.php?cpf=" . urlencode($cpfPesquisado));
-        exit();
+
+        // Se o campo de pesquisa estiver vazio, busca todos os clientes
+        if ($cpfPesquisado === '') {
+            $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
+        } else {
+            // Consulta para buscar o cliente pelo CPF
+            $sql = "SELECT cpf, nome FROM cliente WHERE cpf = ?";
+        }
+
+        $stmt = $conn->prepare($sql);
+        if ($cpfPesquisado !== '') {
+            $stmt->bind_param("s", $cpfPesquisado);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
     } else {
         // Consulta para mostrar todos os clientes
         $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
@@ -75,6 +88,7 @@
                             id="cpf"
                             placeholder="Digite o cpf do cliente: "
                             autocomplete="off"
+                            maxlength="14"
                             value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
                             
                             <button type="submit" style="background: none; border: none; cursor: pointer;">

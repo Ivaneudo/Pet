@@ -2,45 +2,42 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um adm
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for adm
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
-    // Captura o nome do funcionário da sessão
     $nomeFuncionario = $_SESSION['usuario'];
 
-    // Inicializa variáveis
     $mensagem = '';
-    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
+    $classeMensagem = '';
 
-    // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Captura os dados do formulário
+        // ! Guarda os dados do formulário
         $codigoProduto = trim($_POST['codigo']);
         $nomeProduto = trim($_POST['nome']);
-        $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
+        $precoProduto = floatval(str_replace(',', '.', $_POST['preco']));
         $estoqueProduto = intval($_POST['estoque']);
-        $tamanhoProduto = trim($_POST['tamanho']); // Captura o tamanho do produto
+        $tamanhoProduto = trim($_POST['tamanho']);
 
-        // Verifica se todos os campos estão preenchidos
+        // ! Verifica se todos os campos estão preenchidos
         if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
-            // Insere o novo produto no banco de dados
+            // ! Insere o novo produto no banco de dados
             $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?, ?)";
             $stmtInsert = $conn->prepare($sqlInsert);
             $stmtInsert->bind_param("isdis", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
 
             if ($stmtInsert->execute()) {
                 $mensagem = "Produto cadastrado com sucesso!";
-                $classeMensagem = 'sucesso'; // Define a classe de sucesso
+                $classeMensagem = 'sucesso';
             } else {
                 $mensagem = "Erro ao cadastrar o produto.";
-                $classeMensagem = 'erro'; // Define a classe de erro
+                $classeMensagem = 'erro';
             }
         } else {
             $mensagem = "Por favor, preencha todos os campos corretamente.";
-            $classeMensagem = 'erro'; // Define a classe de erro
+            $classeMensagem = 'erro';
         }
     }
 ?>
@@ -94,11 +91,14 @@
                         <div class="colunas">
                             <div class="coluna">
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="codigo"
                                     class="NomeCliente"
                                     placeholder="Código: "
-                                    autocomplete=off 
+                                    autocomplete=off
+                                    max="999"
+                                    min="1"
+                                    maxlength="3"
                                     required
                                 >
                                 <input

@@ -189,7 +189,7 @@ table {
     box-shadow:
     0 2px 8px rgba(90, 121, 154, 0.15),
     inset 0 0 0 1px rgba(229, 232, 235, 0.8);
-    background-color: rgba(255 255 255 / 0.6);
+    background-color: #f2f2f2e2;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     width: 100%;
@@ -201,10 +201,10 @@ table thead {
 }
 
 table thead th {
-    padding: 14px 16px;
+    padding: 14px 25px;
     text-align: left;
     border-right: 1px solid rgba(255, 255, 255, 0.3);
-    }
+}
     
 table thead th:last-child {
     border-right: none;
@@ -219,7 +219,7 @@ tbody tr:nth-child(even) {
 }
 
 tbody td {
-    padding: 14px 16px;
+    padding: 6px 45px;
     border-right: 1px solid var(--CinzaClarinho);
 }
 

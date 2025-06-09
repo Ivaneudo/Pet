@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php");
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin'){
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
@@ -102,9 +102,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Adm.php">Menu</a></li>
-                    <li><a href="AdmPet.php">Pets</a></li>
-                    <li><a href="AdmCadastroPet.php">Cadastrar Pet</a></li>
+                    <li><a href="Adm.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="AdmPet.php"><span class="icons"><img src="../img/pets.png" alt=""></span>Pets</a></li>
+                    <li><a href="AdmCadastroPet.php"><span class="icons"><img src="../img/paw.png" alt=""></span>Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>

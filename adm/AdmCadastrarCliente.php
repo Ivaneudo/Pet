@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verificação de admin
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php");
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
@@ -13,18 +13,16 @@
     $classeMensagem = '';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Sanitização dos dados (mantendo a formatação do CPF)
         $clienteNome = trim($_POST['nome'] ?? '');
         $clienteCpf = trim($_POST['cpf'] ?? '');
         $clienteTelefone = trim($_POST['Telefone'] ?? '');
         $clienteEmail = trim($_POST['email'] ?? '');
 
-        // Validações básicas
         if (empty($clienteNome) || empty($clienteCpf) || empty($clienteTelefone) || empty($clienteEmail)) {
             $mensagem = "Por favor, preencha todos os campos obrigatórios.";
             $classeMensagem = 'erro';
         } else {
-            // Verificação do CPF apenas na tabela cliente
+            // Verifica se o cliente ja esta cadastrado
             $sqlCheckCpf = "SELECT COUNT(*) as total FROM cliente WHERE cpf = ?";
             
             $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
@@ -89,7 +87,7 @@
                 <ul>
                     <li><a href="Adm.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
                     <li><a href="AdmClientes.php"><span class="icons"><img src="../img/clientes.png" alt=""></span>Clientes</a></li>
-                    <li><a href="AdmCadastrarCliente.php"><span class="icons"><img src="../img/novo-funci.png" alt=""></span>Cadastrar Cliente</a></li>
+                    <li><a href="AdmCadastrarCliente.php"><span class="icons"><img src="../img/cadastrar.png" alt=""></span>Cadastrar Cliente</a></li>
                     <li><a href="AdmEditarCliente.php"><span class="icons"><img src="../img/editarPessoa.png" alt=""></span>Editar Cliente</a></li>
                 </ul>
             </nav>

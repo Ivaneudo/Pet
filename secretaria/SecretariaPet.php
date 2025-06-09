@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php'); // Inclua a conexão com o banco
 
     // Verifica se o usuário é uma secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
         header("Location: ../entrada/Entrar.php"); // Redireciona se não for secretaria
         exit();
     }
@@ -11,28 +11,41 @@
     // Captura o nome do funcionário da sessão
     $nomeFuncionario = $_SESSION['usuario'];
 
-    // Inicializa a variável para armazenar o resultado da pesquisa
-    $result = null;
+    // Inicializa a variável para o CPF pesquisado
+    $cpfPesquisado = '';
 
-    // Verifica se o formulário foi enviado
+    // Verifica se o formulário de pesquisa foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
         $cpfPesquisado = trim($_POST['cpf']);
 
-        // Consulta para buscar os pets do dono com o CPF informado
-        $sql = "
-            SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
-            FROM pet p
-            JOIN cliente c ON p.cpf_dono = c.cpf
-            WHERE p.cpf_dono = ?
-            ORDER BY c.nome ASC
-        ";
+        // Se o campo de pesquisa estiver vazio, busca todos os pets
+        if ($cpfPesquisado === '') {
+            $sql = "
+                SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
+                FROM pet p
+                JOIN cliente c ON p.cpf_dono = c.cpf
+                ORDER BY c.nome, p.nome_pet ASC
+            ";
+        } else {
+            // Consulta para buscar os pets do dono com o CPF informado
+            $sql = "
+                SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
+                FROM pet p
+                JOIN cliente c ON p.cpf_dono = c.cpf
+                WHERE p.cpf_dono = ?
+                ORDER BY c.nome ASC
+            ";
+        }
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $cpfPesquisado);
+        if ($cpfPesquisado !== '') {
+            $stmt->bind_param("s", $cpfPesquisado);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
     } else {
-        // Consulta para buscar todos os pets se nenhum CPF for pesquisado
+        // Consulta para mostrar todos os pets
         $sql = "
             SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
             FROM pet p

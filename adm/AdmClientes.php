@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php");
+    // Verifica se o usuário é um admin
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
+        header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
         exit();
     }
 
@@ -13,11 +13,24 @@
 
     $cpfPesquisado = '';
 
+    // Verifica se o formulário de pesquisa foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
         $cpfPesquisado = trim($_POST['cpf']);
-        // Redireciona para a tela de edição de cliente
-        header("Location: AdmEditarCliente.php?cpf=" . urlencode($cpfPesquisado));
-        exit();
+
+        // Se o campo de pesquisa estiver vazio, busca todos os clientes
+        if ($cpfPesquisado === '') {
+            $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
+        } else {
+            // Consulta para buscar o cliente pelo CPF
+            $sql = "SELECT cpf, nome FROM cliente WHERE cpf = ?";
+        }
+
+        $stmt = $conn->prepare($sql);
+        if ($cpfPesquisado !== '') {
+            $stmt->bind_param("s", $cpfPesquisado);
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
     } else {
         // Consulta para mostrar todos os clientes
         $sql = "SELECT cpf, nome FROM cliente ORDER BY nome ASC";
@@ -59,7 +72,7 @@
                 <ul>
                     <li><a href="Adm.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
                     <li><a href="AdmClientes.php"><span class="icons"><img src="../img/clientes.png" alt=""></span>Clientes</a></li>
-                    <li><a href="AdmCadastrarCliente.php"><span class="icons"><img src="../img/novo-funci.png" alt=""></span>Cadastrar Cliente</a></li>
+                    <li><a href="AdmCadastrarCliente.php"><span class="icons"><img src="../img/cadastrar.png" alt=""></span>Cadastrar Cliente</a></li>
                     <li><a href="AdmEditarCliente.php"><span class="icons"><img src="../img/editarPessoa.png" alt=""></span>Editar Cliente</a></li>
                 </ul>
             </nav>
@@ -70,12 +83,14 @@
                     <div class="pesquisa">
                         <div class="campo">
                             <input
-                            type="text"
-                            name="cpf"
-                            id="cpf"
-                            placeholder="Digite o cpf do cliente: "
-                            autocomplete="off"
-                            value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                                type="text"
+                                name="cpf"
+                                id="cpf"
+                                placeholder="Digite o CPF do cliente: "
+                                autocomplete="off"
+                                maxlength="14"
+                                value="<?php echo htmlspecialchars($cpfPesquisado); ?>">
+                                
                             <button type="submit" style="background: none; border: none; cursor: pointer;">
                                 <img src="../img/search-svgrepo-com.svg" alt="">
                             </button>
@@ -95,12 +110,8 @@
                             <?php if ($result->num_rows > 0): ?>
                                 <?php while($row = $result->fetch_assoc()): ?>
                                     <tr>
-                                        <td>
-                                            <?php echo htmlspecialchars($row['cpf']); ?>
-                                        </td>
-                                        <td class="ver">
-                                            <?php echo htmlspecialchars($row['nome']); ?>
-                                        </td>
+                                        <td><?php echo htmlspecialchars($row['cpf']); ?></td>
+                                        <td class="ver"><?php echo htmlspecialchars($row['nome']); ?></td>
                                         <td class="demitir">
                                             <a href="#" onclick="confirmarExclusao('<?php echo $row['cpf']; ?>', 'AdmClientes.php')">
                                                 <img src="../img/lata-de-lixo.png" alt="Remover">

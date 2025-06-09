@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verifica se o usuário é um repositor
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+    if ($_SESSION['tipo_usuario'] !== 'repositor'){
         header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
         exit();
     }
@@ -77,9 +77,9 @@
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/repositor.css" />
-    <link rel="stylesheet" href="../css/Vendas.css">
     <link rel="stylesheet" href="../css/responsivo.css">
     <link rel="stylesheet" href="../css/mensagem.css">
+    <link rel="stylesheet" href="../css/Vendas.css">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const codigoProduto = "<?php echo $codigoProduto; ?>";

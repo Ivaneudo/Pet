@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verificação de secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    if ($_SESSION['tipo_usuario'] !== 'secretaria') {
         header("Location: ../entrada/Entrar.php");
         exit();
     }

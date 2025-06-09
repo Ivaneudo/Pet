@@ -1,108 +1,108 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// Verifica se o usuário é uma secretaria
-if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
-
-// Verifica se existem dados de pagamento na sessão
-if (!isset($_SESSION['dados_pagamento'])) {
-    header("Location: SecretariaVendas.php");
-    exit();
-}
-
-// Recupera os dados da sessão
-$dadosPagamento = $_SESSION['dados_pagamento'];
-$valorCompraTotal = $dadosPagamento['valor_total']; // Valor total da compra
-$cpfCliente = $dadosPagamento['cpf_cliente']; // CPF do cliente (pode ser null)
-$carrinho = $dadosPagamento['carrinho']; // Carrinho de compras (array de produtos)
-
-// Captura o nome do funcionário da sessão
-$nomeFuncionario = $_SESSION['usuario'];
-
-// Consulta para obter o ID da secretaria
-$sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
-$stmtSecretaria = $conn->prepare($sqlSecretaria);
-if (!$stmtSecretaria) {
-    die("Erro na preparação da consulta da secretaria: " . $conn->error);
-}
-$stmtSecretaria->bind_param("s", $nomeFuncionario);
-$stmtSecretaria->execute();
-$resultSecretaria = $stmtSecretaria->get_result();
-$secretaria = $resultSecretaria->fetch_assoc();
-$stmtSecretaria->close();
-
-$secretariaId = $secretaria['secretaria_id'];
-
-// Inicializa o nome do cliente
-$clienteNome = 'Cliente não informado'; // Valor padrão
-
-// Consulta para obter nome do cliente, se CPF informado
-if (!empty($cpfCliente)) {
-    $sqlCliente = "SELECT nome FROM cliente WHERE cpf = ?";
-    $stmtCliente = $conn->prepare($sqlCliente);
-    if (!$stmtCliente) {
-        die("Erro na preparação da consulta do cliente: " . $conn->error);
-    }
-    $stmtCliente->bind_param("s", $cpfCliente);
-    $stmtCliente->execute();
-    $resultCliente = $stmtCliente->get_result();
-    if ($resultCliente && $resultCliente->num_rows > 0) {
-        $clienteData = $resultCliente->fetch_assoc();
-        $clienteNome = $clienteData['nome'];
-    }
-    $stmtCliente->close();
-}
-
-$erro = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $formaPagamento = $_POST['cartao'] ?? '';
-    if (empty($formaPagamento)) {
-        $erro = "Por favor, selecione a forma de pagamento.";
-    } else {
-        // Para cada produto no carrinho, inserir uma linha na tabela vendas com a data da venda (CURDATE())
-        $sqlInsert = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento, id_produto, quant_produto, data_venda) VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
-        $stmtInsert = $conn->prepare($sqlInsert);
-        if (!$stmtInsert) {
-            die("Erro na preparação da inserção das vendas: " . $conn->error);
-        }
-
-        foreach ($carrinho as $item) {
-            $valorCompraItem = $item['preco'] * $item['quantidade'];
-            $cpfParaInsert = empty($cpfCliente) ? null : $cpfCliente;
-            $stmtInsert->bind_param("isdsii", $secretariaId, $cpfParaInsert, $valorCompraItem, $formaPagamento, $item['id_produto'], $item['quantidade']);
-            if (!$stmtInsert->execute()) {
-                die("Erro na execução da inserção da venda: " . $stmtInsert->error);
-            }
-
-            // Atualiza o estoque para o produto
-            $sqlAtualizaEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
-            $stmtEstoque = $conn->prepare($sqlAtualizaEstoque);
-            if (!$stmtEstoque) {
-                die("Erro na preparação da atualização do estoque: " . $conn->error);
-            }
-            $stmtEstoque->bind_param("ii", $item['quantidade'], $item['id_produto']);
-            if (!$stmtEstoque->execute()) {
-                die("Erro na execução da atualização do estoque: " . $stmtEstoque->error);
-            }
-            $stmtEstoque->close();
-        }
-
-        $stmtInsert->close();
-
-        // Limpa os dados de pagamento da sessão após finalizar
-        unset($_SESSION['dados_pagamento']);
-        unset($_SESSION['carrinho']);
-
-        // Redireciona para a página de sucesso
-        header("Location: sucesso.php");
+    // Verifica se o usuário é uma secretaria
+    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
+        header("Location: ../entrada/Entrar.php");
         exit();
     }
-}
+
+    // Verifica se existem dados de pagamento na sessão
+    if (!isset($_SESSION['dados_pagamento'])) {
+        header("Location: SecretariaVendas.php");
+        exit();
+    }
+
+    // Recupera os dados da sessão
+    $dadosPagamento = $_SESSION['dados_pagamento'];
+    $valorCompraTotal = $dadosPagamento['valor_total']; // Valor total da compra
+    $cpfCliente = $dadosPagamento['cpf_cliente']; // CPF do cliente (pode ser null)
+    $carrinho = $dadosPagamento['carrinho']; // Carrinho de compras (array de produtos)
+
+    // Captura o nome do funcionário da sessão
+    $nomeFuncionario = $_SESSION['usuario'];
+
+    // Consulta para obter o ID da secretaria
+    $sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
+    $stmtSecretaria = $conn->prepare($sqlSecretaria);
+    if (!$stmtSecretaria) {
+        die("Erro na preparação da consulta da secretaria: " . $conn->error);
+    }
+    $stmtSecretaria->bind_param("s", $nomeFuncionario);
+    $stmtSecretaria->execute();
+    $resultSecretaria = $stmtSecretaria->get_result();
+    $secretaria = $resultSecretaria->fetch_assoc();
+    $stmtSecretaria->close();
+
+    $secretariaId = $secretaria['secretaria_id'];
+
+    // Inicializa o nome do cliente
+    $clienteNome = 'Cliente não informado'; // Valor padrão
+
+    // Consulta para obter nome do cliente, se CPF informado
+    if (!empty($cpfCliente)) {
+        $sqlCliente = "SELECT nome FROM cliente WHERE cpf = ?";
+        $stmtCliente = $conn->prepare($sqlCliente);
+        if (!$stmtCliente) {
+            die("Erro na preparação da consulta do cliente: " . $conn->error);
+        }
+        $stmtCliente->bind_param("s", $cpfCliente);
+        $stmtCliente->execute();
+        $resultCliente = $stmtCliente->get_result();
+        if ($resultCliente && $resultCliente->num_rows > 0) {
+            $clienteData = $resultCliente->fetch_assoc();
+            $clienteNome = $clienteData['nome'];
+        }
+        $stmtCliente->close();
+    }
+
+    $erro = '';
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $formaPagamento = $_POST['cartao'] ?? '';
+        if (empty($formaPagamento)) {
+            $erro = "Por favor, selecione a forma de pagamento.";
+        } else {
+            // Para cada produto no carrinho, inserir uma linha na tabela vendas com a data da venda (CURDATE())
+            $sqlInsert = "INSERT INTO vendas (secretaria_id, cpf_cliente, valor_compra, forma_de_pagamento, id_produto, quant_produto, data_venda) VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
+            $stmtInsert = $conn->prepare($sqlInsert);
+            if (!$stmtInsert) {
+                die("Erro na preparação da inserção das vendas: " . $conn->error);
+            }
+
+            foreach ($carrinho as $item) {
+                $valorCompraItem = $item['preco'] * $item['quantidade'];
+                $cpfParaInsert = empty($cpfCliente) ? null : $cpfCliente;
+                $stmtInsert->bind_param("isdsii", $secretariaId, $cpfParaInsert, $valorCompraItem, $formaPagamento, $item['id_produto'], $item['quantidade']);
+                if (!$stmtInsert->execute()) {
+                    die("Erro na execução da inserção da venda: " . $stmtInsert->error);
+                }
+
+                // Atualiza o estoque para o produto
+                $sqlAtualizaEstoque = "UPDATE produto SET estoque = estoque - ? WHERE id_produto = ?";
+                $stmtEstoque = $conn->prepare($sqlAtualizaEstoque);
+                if (!$stmtEstoque) {
+                    die("Erro na preparação da atualização do estoque: " . $conn->error);
+                }
+                $stmtEstoque->bind_param("ii", $item['quantidade'], $item['id_produto']);
+                if (!$stmtEstoque->execute()) {
+                    die("Erro na execução da atualização do estoque: " . $stmtEstoque->error);
+                }
+                $stmtEstoque->close();
+            }
+
+            $stmtInsert->close();
+
+            // Limpa os dados de pagamento da sessão após finalizar
+            unset($_SESSION['dados_pagamento']);
+            unset($_SESSION['carrinho']);
+
+            // Redireciona para a página de sucesso
+            header("Location: sucesso.php");
+            exit();
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -133,9 +133,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="#" class="desabilitado">Menu</a></li>
-                    <li><a href="#" class="desabilitado">Caixa</a></li>
-                    <li><a href="#" class="desabilitado">Serviço</a></li>
+                    <li><a href="Secretaria.php" class="desabilitado"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="SecretariaVendas.php" class="desabilitado"><span class="icons"><img src="../img/compra.png" alt=""></span>Caixa</a></li>
+                    <li><a href="SecretariaServiços.php" class="desabilitado"><span class="icons"><img src="../img/servicos.png" alt=""></span>Serviço</a></li>
+                    <li><a href="SecretariaProdutos.php" class="desabilitado"><span class="icons"><img src="../img/produtos.png" alt=""></span>Estoque</a></li>
                 </ul>
             </nav>
         </div>

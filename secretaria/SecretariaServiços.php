@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verifica se o usuário é uma secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
         header("Location: ../entrada/Entrar.php");
         exit();
     }
@@ -105,7 +105,7 @@
                     <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
                     <li><a href="SecretariaVendas.php"><span class="icons"><img src="../img/compra.png" alt=""></span>Caixa</a></li>
                     <li><a href="SecretariaServiços.php"><span class="icons"><img src="../img/servicos.png" alt=""></span>Serviço</a></li>
-                    <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Produtos</a></li>
+                    <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Estoque</a></li>
                 </ul>
             </nav>
         </div>
@@ -119,6 +119,7 @@
                                 name="cpf"
                                 placeholder="CPF do dono"
                                 id="cpf"
+                                autocomplete=off
                                 maxlength="14"
                                 value="<?php echo htmlspecialchars($cpfPesquisado); ?>"
                                 required

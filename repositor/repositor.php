@@ -2,7 +2,7 @@
     session_start();
 
     // Verifica se o usuário é um repositor
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+    if ($_SESSION['tipo_usuario'] !== 'repositor'){
         header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
         exit();
     }

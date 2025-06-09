@@ -1,9 +1,9 @@
 <?php
     session_start();
-    include('../funcoes/conexao.php'); // Inclua a conexão com o banco
+    include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+    // Verifica se o usuário é um admin
+    if ($_SESSION['tipo_usuario'] !== 'admin') {
         header("Location: ../entrada/Entrar.php"); // Redireciona se não for admin
         exit();
     }
@@ -11,28 +11,41 @@
     // Captura o nome do funcionário da sessão
     $nomeFuncionario = $_SESSION['usuario'];
 
-    // Inicializa a variável para armazenar o resultado da pesquisa
-    $result = null;
+    // Inicializa a variável para o CPF pesquisado
+    $cpfPesquisado = '';
 
-    // Verifica se o formulário foi enviado
+    // Verifica se o formulário de pesquisa foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cpf'])) {
         $cpfPesquisado = trim($_POST['cpf']);
 
-        // Consulta para buscar os pets do dono com o CPF informado
-        $sql = "
-            SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
-            FROM pet p
-            JOIN cliente c ON p.cpf_dono = c.cpf
-            WHERE p.cpf_dono = ?
-            ORDER BY c.nome ASC
-        ";
+        // Se o campo de pesquisa estiver vazio, busca todos os pets
+        if ($cpfPesquisado === '') {
+            $sql = "
+                SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
+                FROM pet p
+                JOIN cliente c ON p.cpf_dono = c.cpf
+                ORDER BY c.nome, p.nome_pet ASC
+            ";
+        } else {
+            // Consulta para buscar os pets do dono com o CPF informado
+            $sql = "
+                SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
+                FROM pet p
+                JOIN cliente c ON p.cpf_dono = c.cpf
+                WHERE p.cpf_dono = ?
+                ORDER BY c.nome ASC
+            ";
+        }
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $cpfPesquisado);
+        if ($cpfPesquisado !== '') {
+            $stmt->bind_param("s", $cpfPesquisado);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
         $stmt->close();
     } else {
-        // Consulta para buscar todos os pets se nenhum CPF for pesquisado
+        // Consulta para mostrar todos os pets
         $sql = "
             SELECT p.id_pet, p.nome_pet, p.raca, p.especie, c.nome AS dono_nome, p.cpf_dono
             FROM pet p
@@ -79,72 +92,71 @@
                     <li><a href="AdmPet.php"><span class="icons"><img src="../img/pets.png" alt=""></span>Pets</a></li>
                     <li><a href="AdmCadastroPet.php"><span class="icons"><img src="../img/paw.png" alt=""></span>Cadastrar Pet</a></li>
                 </ul>
-                </nav>
-                </div>
-                <div class="estoque">
-                    <div class="esto">
-                        <form method="POST" action="">
-                            <div class="pesquisa">
-                                <div class="campo">
-                                    <input type="text" name="cpf" id="cpf" placeholder="Digite o CPF do dono: " maxlength="14" autocomplete="off" value="<?php echo isset($cpfPesquisado) ? htmlspecialchars($cpfPesquisado) : ''; ?>"/>
-                                    
-                                    <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                        <img src="../img/search-svgrepo-com.svg" alt="Buscar">
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="produtos">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Dono</th>
-                                        <th>Pet</th>
-                                        <th>Espécie</th>
-                                        <th>Raça</th>
-                                        <th>Editar</th>
-                                        <th>Remover</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if ($result->num_rows > 0): ?>
-                                        <?php while($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['dono_nome']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['nome_pet']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['especie']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['raca']); ?>
-                                            </td>
-                                            <td>
-                                                <a href="AdmEditarPet.php?id_pet=<?php echo urlencode($row['id_pet']); ?>" style="color: #40005C;">
-                                                    <img src="../img/editar.png" alt="">
-                                                </a>
-                                            </td>
-                                            <td class="demitir">
-                                                <a href="javascript:void(0);" onclick="confirmarExclusao('<?php echo htmlspecialchars($row['cpf_dono']); ?>', '<?php echo $row['id_pet']; ?>', '<?php echo htmlspecialchars($row['nome_pet']); ?>')">
-                                                    <img src="../img/lata-de-lixo.png" alt="Remover">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="6" style="text-align:center;">Nenhum pet encontrado.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+            </nav>
+        </div>
+        <div class="estoque">
+            <div class="esto">
+                <form method="POST" action="">
+                    <div class="pesquisa">
+                        <div class="campo">
+                            <input 
+                                type="text" 
+                                name="cpf" 
+                                id="cpf" 
+                                placeholder="Digite o CPF do dono: " 
+                                maxlength="14" 
+                                autocomplete="off" 
+                                value="<?php echo htmlspecialchars($cpfPesquisado); ?>"/>
+                            
+                            <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                <img src="../img/search-svgrepo-com.svg" alt="Buscar">
+                            </button>
+                        </div>
                     </div>
+                </form>
+
+                <div class="produtos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dono</th>
+                                <th>Pet</th>
+                                <th>Espécie</th>
+                                <th>Raça</th>
+                                <th>Editar</th>
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($result->num_rows > 0): ?>
+                                <?php while($row = $result->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($row['dono_nome']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['nome_pet']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['especie']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['raca']); ?></td>
+                                    <td>
+                                        <a href="AdmEditarPet.php?id_pet=<?php echo urlencode($row['id_pet']); ?>" style="color: #40005C;">
+                                            <img src="../img/editar.png" alt="">
+                                        </a>
+                                    </td>
+                                    <td class="demitir">
+                                        <a href="javascript:void(0);" onclick="confirmarExclusao('<?php echo htmlspecialchars($row['cpf_dono']); ?>', '<?php echo $row['id_pet']; ?>', '<?php echo htmlspecialchars($row['nome_pet']); ?>')">
+                                            <img src="../img/lata-de-lixo.png" alt="Remover">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="6" style="text-align:center;">Nenhum pet encontrado.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>

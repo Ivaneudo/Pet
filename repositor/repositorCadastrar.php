@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verifica se o usuário é um repositor
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'repositor') {
+    if ($_SESSION['tipo_usuario'] !== 'repositor') {
         header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
         exit();
     }
@@ -80,11 +80,14 @@
                         <div class="colunas">
                             <div class="coluna">
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="codigo"
                                     class="NomeCliente"
-                                    placeholder="Código do produto: "
-                                    autocomplete=off 
+                                    placeholder="Código: "
+                                    autocomplete=off
+                                    max="999"
+                                    min="1"
+                                    maxlength="3"
                                     required
                                 >
                                 <input

@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
         header("Location: ../entrada/Entrar.php");
         exit();
     }
@@ -103,7 +103,15 @@
                 <form method="POST" action="">
                     <div class="pesquisa-cliente">
                         <label for="cpfCliente">Pesquisar CPF do Cliente:</label>
-                        <input type="text" name="cpfCliente" id="cpf" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" autocomplete=off required>
+                        <input 
+                            type="text" 
+                            name="cpfCliente" 
+                            id="cpf" 
+                            placeholder="Digite o CPF do cliente" 
+                            maxlength="14" 
+                            autocomplete=off 
+                            value="<?php echo htmlspecialchars($cpfCliente); ?>" 
+                            required>
                         <button type="submit" name="pesquisar">Pesquisar</button>
                     </div>
                 </form>
@@ -197,7 +205,7 @@
                                 </div>
 
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     name="peso" 
                                     class="peso" 
                                     placeholder="Peso" 

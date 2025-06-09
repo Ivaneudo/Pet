@@ -3,7 +3,7 @@
     include('../funcoes/conexao.php');
 
     // Verifica se o usuário é um secretaria
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'secretaria') {
+    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
         header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
         exit();
     }
@@ -18,10 +18,18 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_produto'])) {
         $idProdutoPesquisado = trim($_POST['id_produto']);
 
-        // Consulta para buscar o produto pelo ID
-        $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        // Se o campo de pesquisa estiver vazio, busca todos os produtos
+        if ($idProdutoPesquisado === '') {
+            $sql = "SELECT id_produto, nome_produto, estoque FROM produto";
+        } else {
+            // Consulta para buscar o produto pelo ID
+            $sql = "SELECT id_produto, nome_produto, estoque FROM produto WHERE id_produto = ? LIMIT 1";
+        }
+
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $idProdutoPesquisado);
+        if ($idProdutoPesquisado !== '') {
+            $stmt->bind_param("i", $idProdutoPesquisado);
+        }
         $stmt->execute();
         $result = $stmt->get_result();
     } else {
@@ -64,7 +72,7 @@
                     <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
                     <li><a href="SecretariaVendas.php"><span class="icons"><img src="../img/compra.png" alt=""></span>Caixa</a></li>
                     <li><a href="SecretariaServiços.php"><span class="icons"><img src="../img/servicos.png" alt=""></span>Serviço</a></li>
-                    <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Produtos</a></li>
+                    <li><a href="SecretariaProdutos.php"><span class="icons"><img src="../img/produtos.png" alt=""></span>Estoque</a></li>
                 </ul>
             </nav>
         </div>

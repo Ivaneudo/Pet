@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php");
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'admin'){
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
@@ -105,6 +105,7 @@
     <title>Histórico de Vendas</title>
     <link rel="stylesheet" href="../css/repositor.css">
     <link rel="stylesheet" href="../css/admVendas.css">
+    <link rel="stylesheet" href="../css/responsivo.css">
 </head>
 <body>
     <div class="container">
