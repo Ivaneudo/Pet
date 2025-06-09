@@ -66,7 +66,7 @@ if ($result === false) {
                 <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt="imagem de sair"></a>
             </div>
         </div>
-        <div class="estoque">
+        <div class="estoque" id="repositor">
             <div class="esto">
                 <form method="POST" action="" class='formnovo'>
                     <div class="pesquisa">

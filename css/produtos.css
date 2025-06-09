@@ -64,7 +64,7 @@
 
 #Cpf {
     margin-top: 1rem;
-    margin-left: 19rem;
+    margin-left: 23.1rem
 }
 
 .campo img {
@@ -114,7 +114,7 @@ table thead th {
     padding: 10px 14px;
     text-align: left;
     border-right: 1px solid rgba(255, 255, 255, 0.3);
-    }
+}
     
 table thead th:last-child {
     border-right: none;

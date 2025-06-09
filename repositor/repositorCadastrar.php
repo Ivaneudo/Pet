@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="cadastrar">
-            <div class="cadastro">
+            <div class="cadastro" id="repositor">
 
                 <?php if ($mensagem): ?>
                     <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">

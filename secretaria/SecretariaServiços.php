@@ -134,7 +134,6 @@
 
                 <form method="POST" action="" id="formServico" style="margin-top:15px;">
                     <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfPesquisado); ?>" />
-                    <div class="dadosPet">
                         <table>
                             <thead>
                                 <tr>
@@ -163,7 +162,6 @@
                                 <?php endif; ?>
                             </tbody>
                         </table>
-                    </div>
 
                     <?php if ($result && $result->num_rows > 0): ?>
                     <div class="Servico" style="margin-top: 15px;">
