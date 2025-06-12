@@ -102,7 +102,7 @@
                 <a href="../funcoes/logout.php"><p>sair</p></a>
             </div>
         </div>
-        <div class="cadastrar">
+        <div class="cadastrar" id="repositor">
             <div class="cadastro">
                 <?php if ($mensagem): ?>
                     <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">

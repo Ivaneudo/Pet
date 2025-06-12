@@ -203,7 +203,7 @@ foreach ($_SESSION['carrinho'] as $item) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Caixa</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/produtos.css" />
@@ -249,10 +249,10 @@ foreach ($_SESSION['carrinho'] as $item) {
                             pattern="^\d+(x\d+)?$"
                             required
                             autocomplete="off"
-                        />
-                        
-                        <button type="submit" name="adicionar" aria-label="Adicionar produto" style="background:none; border:none; cursor:pointer;">
-                            <img src="../img/search-svgrepo-com.svg" alt="Adicionar" style="width:24px; height:24px;" />
+                            />
+                            
+                            <button type="submit" name="adicionar" aria-label="Adicionar produto" style="background:none; border:none; cursor:pointer;">
+                                <img src="../img/search-svgrepo-com.svg" alt="Adicionar" style="width:24px; height:24px;" />
                         </button>
                     </div>
                 </div>
@@ -260,6 +260,16 @@ foreach ($_SESSION['carrinho'] as $item) {
 
             <form method="POST" action="" aria-label="Carrinho de compras" id="formCarrinho">
                 <div class="compras">
+                    <?php if ($mensagem): ?>
+                        <div class="mensagem-<?php echo $classeMensagem; ?>" style="margin-top: 1rem;">
+                            <?php echo htmlspecialchars($mensagem); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($erro): ?>
+                        <div class="mensagem-erro" style="margin-top: 1rem;">
+                            <?php echo htmlspecialchars($erro); ?>
+                        </div>
+                    <?php endif; ?>
                     <table>
                         <thead>
                             <tr>
@@ -312,17 +322,6 @@ foreach ($_SESSION['carrinho'] as $item) {
                         />
                     </div>
                 </div>
-
-                <?php if ($mensagem): ?>
-                    <div class="mensagem-<?php echo $classeMensagem; ?>">
-                        <?php echo htmlspecialchars($mensagem); ?>
-                    </div>
-                <?php endif; ?>
-                <?php if ($erro): ?>
-                    <div class="mensagem-erro">
-                        <?php echo htmlspecialchars($erro); ?>
-                    </div>
-                <?php endif; ?>
                 <div class="botoes" style="margin-top: 15px; display: flex; gap: 10px;">
                     <button type="button" class="voltar" onclick="confirmarCancelamento(event);">Cancelar Compra</button>
 

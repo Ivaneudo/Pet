@@ -136,9 +136,7 @@ ul {
     display: flex;
     justify-content: center;
     width: 100vw;
-    margin-top: 1.5rem;
     align-items: center;
-    margin-top: 20px;
 }
 
 .esto {
@@ -237,8 +235,11 @@ table th {
     flex-direction: column;
     justify-content: center;
     width: 100vw;
-    margin-top: 1.5rem;
     align-items: center;
+}
+
+#repositor{
+    margin-top: 2rem;
 }
 
 .cadastrar p {
@@ -306,10 +307,6 @@ select, input:focus {
     height: 18px;
 }
 
-/* .peso {
-    margin-top: 1.8rem;
-}
- */
 /* TODO: estilização dos botôes */
 .botoes {
     display: flex;
@@ -322,6 +319,7 @@ button {
     width: 100px;
     height: 50px;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(163, 98, 24, 0.6);
 }
 
 button img {
@@ -330,6 +328,7 @@ button img {
 
 button:hover {
     background-color: var(--LaranjaHover);
+    box-shadow: 0 6px 15px rgba(168, 81, 9, 0.8);
 }
 
 .voltar {

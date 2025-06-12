@@ -57,8 +57,10 @@ button {
     background-color: var(--Laranja);
     font-size: 1.2em;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(163, 98, 24, 0.6);
 }
 
 button:hover {
     background-color: var(--LaranjaHover);
+    box-shadow: 0 6px 15px rgba(168, 81, 9, 0.8);
 }

@@ -31,16 +31,16 @@ body {
 }
 
 .av-container {
-    width: 85%;           /* Diminuído de 90% para 85% */
-    max-width: 850px;     /* Diminuído de 960px para 850px */
+    width: 85%;
+    max-width: 850px;
     background: var(--EfeitoVidro);
     border-radius: 16px;
-    padding: 25px 30px;   /* Diminuído de 30px 35px para 25px 30px */
+    padding: 25px 30px;
     margin: 40px auto;
+    margin-top: 0;
     box-shadow: 0 8px 24px rgba(86, 145, 207, 0.4);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(229, 232, 235, 0.6);
 }
 
 .container p {

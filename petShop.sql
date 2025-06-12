@@ -113,5 +113,3 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 select * from servico;
 
 select * from vendas;
-
-DROP TABLE vendas;
