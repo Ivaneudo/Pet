@@ -92,75 +92,74 @@
                     <li><a href="SecretariaPet.php"><span class="icons"><img src="../img/pets.png" alt=""></span>Pets</a></li>
                     <li><a href="SecretariaCadastroPet.php"><span class="icons"><img src="../img/paw.png" alt=""></span>Cadastrar Pet</a></li>
                 </ul>
-                </nav>
-                </div>
-                <div class="estoque">
-                    <div class="esto">
-                        <form method="POST" action="">
-                            <div class="pesquisa">
-                                <div class="campo">
-                                    <input 
+            </nav>
+        </div>
+        <div class="estoque">
+            <div class="esto">
+                <form method="POST" action="">
+                    <div class="pesquisa">
+                        <div class="campo">
+                            <input 
                                         type="text" 
                                         name="cpf" id="cpf" 
                                         placeholder="Digite o CPF do dono: " 
                                         maxlength="14" 
                                         autocomplete="off" 
                                         value="<?php echo isset($cpfPesquisado) ? htmlspecialchars($cpfPesquisado) : ''; ?>"/>
-                                    <button type="submit" style="background: none; border: none; cursor: pointer;">
-                                        <img src="../img/search-svgrepo-com.svg" alt="Buscar">
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <div class="produtos">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Dono</th>
-                                        <th>Pet</th>
-                                        <th>Espécie</th>
-                                        <th>Raça</th>
-                                        <th>Editar</th>
-                                        <th>Remover</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if ($result->num_rows > 0): ?>
-                                        <?php while($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['dono_nome']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['nome_pet']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['especie']); ?>
-                                            </td>
-                                            <td>
-                                                <?php echo htmlspecialchars($row['raca']); ?>
-                                            </td>
-                                            <td>
-                                                <a href="SecretariaEditarPet.php?id_pet=<?php echo urlencode($row['id_pet']); ?>" style="color: #40005C;">
-                                                    <img src="../img/editar.png" alt="">
-                                                </a>
-                                            </td>
-                                            <td class="demitir">
-                                                <a href="javascript:void(0);" onclick="confirmarExclusao('<?php echo htmlspecialchars($row['cpf_dono']); ?>', '<?php echo $row['id_pet']; ?>', '<?php echo htmlspecialchars($row['nome_pet']); ?>')">
-                                                    <img src="../img/lata-de-lixo.png" alt="Remover">
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
-                                    <tr>
-                                        <td colspan="6" style="text-align:center;">Nenhum pet encontrado.</td>
-                                    </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                            <button type="submit" style="background: none; border: none; cursor: pointer;">
+                                <img src="../img/search-svgrepo-com.svg" alt="Buscar">
+                            </button>
+                        </div>
                     </div>
+                </form>
+
+                <div class="produtos">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Dono</th>
+                                <th>Pet</th>
+                                <th>Espécie</th>
+                                <th>Raça</th>
+                                <th>Editar</th>
+                                <th>Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($result->num_rows > 0): ?>
+                            <?php while($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td>
+                                    <?php echo htmlspecialchars($row['dono_nome']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($row['nome_pet']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($row['especie']); ?>
+                                </td>
+                                <td>
+                                    <?php echo htmlspecialchars($row['raca']); ?>
+                                </td>
+                                <td>
+                                    <a href="SecretariaEditarPet.php?id_pet=<?php echo urlencode($row['id_pet']); ?>" style="color: #40005C;">
+                                        <img src="../img/editar.png" alt="">
+                                    </a>
+                                </td>
+                                <td class="demitir">
+                                    <a href="javascript:void(0);" onclick="confirmarExclusao('<?php echo htmlspecialchars($row['cpf_dono']); ?>', '<?php echo $row['id_pet']; ?>', '<?php echo htmlspecialchars($row['nome_pet']); ?>')">
+                                        <img src="../img/lata-de-lixo.png" alt="Remover">
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php endwhile; ?>
+                            <?php else: ?>
+                            <tr>
+                                <td colspan="6" style="text-align:center;">Nenhum pet encontrado.</td>
+                            </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

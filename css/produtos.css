@@ -111,8 +111,8 @@ table thead {
 }
 
 table thead th {
-    padding: 10px 14px;
-    text-align: left;
+    padding: 14px 25px;
+    text-align: center;
     border-right: 1px solid rgba(255, 255, 255, 0.3);
 }
     
@@ -152,7 +152,7 @@ table th {
     margin-top: 1rem;
 }
 
-button {
+.botoes button {
     background-color: var(--Laranja);
     font-size: 1em;
     width: 100px;
@@ -161,16 +161,16 @@ button {
     box-shadow: 0 4px 10px rgba(163, 98, 24, 0.6);
 }
 
-button:hover {
+.botoes button:hover {
     background-color: var(--LaranjaHover);
     box-shadow: 0 6px 15px rgba(168, 81, 9, 0.8);
 }
 
-.voltar {
+.botoes .voltar {
     background-color: var(--CinzaClarinho);
     width: 150px;
 }
 
-.voltar:hover {
+.botoes .voltar:hover {
     background-color: var(--Cinza);
 }

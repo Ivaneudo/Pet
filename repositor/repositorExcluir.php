@@ -193,7 +193,7 @@
                             </div>
                             <div>
                                 <button id="cade" type="submit" name="subtrair">
-                                    <img src="../img/lata-de-lixo.png" alt="">
+                                    <img src="../img/lata-de-lixo-preta.png" alt="">
                                 </button>
                             </div>
                         </div>
