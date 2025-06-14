@@ -263,6 +263,11 @@ table th {
 .coluna {
     display: flex;
     flex-direction: column;
+    text-align: start;
+}
+
+.coluna label {
+    font-weight: bold;
 }
 
 /* TODO: estilizando os input */
@@ -274,6 +279,10 @@ input, select{
     border-bottom: 1px solid black;
     margin-bottom: 2rem;
     color: #000;
+}
+
+input::placeholder {
+    color: black;
 }
 
 select, input:focus {
