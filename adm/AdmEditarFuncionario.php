@@ -169,7 +169,6 @@
                                     id="senha" 
                                     placeholder="Digite a senha do funcionário: " 
                                     autocomplete="off" 
-                                    required
                                 />
 
                                 <label for="cpf">CPF:</label>

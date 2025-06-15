@@ -44,10 +44,9 @@
                 if ($stmtUpdateCliente->execute()) {
                     $_SESSION['message'] = "Informações atualizadas com sucesso!";
                     $classeMensagem = 'sucesso';
-                    // Atualiza os dados locais para mostrar as alterações
-                    $cliente['nome'] = $nome;
-                    $cliente['telefone'] = $telefone;
-                    $cliente['email'] = $email;
+                    // Limpa as informações do cliente após a atualização
+                    $cpfCliente = '';
+                    $cliente = null; // Limpa o cliente
                 } else {
                     $mensagem = "Erro ao atualizar cliente: " . $stmtUpdateCliente->error;
                     $classeMensagem = 'erro';
@@ -167,7 +166,6 @@
                                     maxlength="14" 
                                     autocomplete="off" 
                                     value="<?php echo htmlspecialchars($cliente['telefone'] ?? ''); ?>" 
-                                    required
                                 >
                             </div>
                             <div class="coluna">
@@ -198,7 +196,7 @@
                         <div class="botoes">
                             <div>
                                 <a href="SecretariaClientes.php" style="text-decoration:none;">
-                                    <button type="button" class="voltar" >Voltar</button>
+                                    <button type="button" class="voltar">Voltar</button>
                                 </a>
                             </div>
                             <div>
