@@ -99,17 +99,19 @@ INSERT INTO pet(nome_pet, idade, especie, cpf_dono, sexo, peso, raca) VALUES
 ('Careca', 7, 'Gato', '999.999.999-99', 'intersexo', '6', 'Sphynx');
 
 INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
-(001, 'Ração Premium Adulto', 50, 30.00, '10kg'),
-(002, 'Ração Sabor Frango Filhote', 30, 35.00, '3kg'),
-(003, 'Coleira Ajustável Colorida', 30, 10.00, 'M'),
-(004, 'Areia Higiênica', 20, 55.00, '5kg'),
-(005, 'Brinquedo Mordedor Osso', 15, 20.00, 'p'),
-(006, 'Caminha Pelúcia Luxo', 10, 60.00, 'G'),
-(007, 'Shampoo Neutro', 15, 25.00, '500ml'),
-(008, 'Pote Duplo para Ração e Água', 68, 27.90, 'Único'),
-(009, 'Ração Grain Free', 28, 29.90, '7kg'),
-(010, 'Arranhador com Sisal', 23, 69.90, '90cm');
+('Ração Premium Adulto', 50, 30.00, '10kg'),
+('Ração Sabor Frango Filhote', 30, 35.00, '3kg'),
+('Coleira Ajustável Colorida', 30, 10.00, 'M'),
+('Areia Higiênica', 20, 55.00, '5kg'),
+('Brinquedo Mordedor Osso', 15, 20.00, 'p'),
+('Caminha Pelúcia Luxo', 10, 60.00, 'G'),
+('Shampoo Neutro', 15, 25.00, '500ml'),
+('Pote Duplo para Ração e Água', 68, 27.90, 'Único'),
+('Ração Grain Free', 28, 29.90, '7kg'),
+('Arranhador com Sisal', 23, 69.90, '90cm');
 
 select * from servico;
 
 select * from vendas;
+
+ALTER TABLE produto CHANGE id_produto id_produto INT AUTO_INCREMENT;
