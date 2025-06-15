@@ -132,6 +132,7 @@
                             <div class="colunas">
 
                                 <div class="coluna">
+                                    <label for="codigo">Código:</label>
                                     <input
                                         type="number"
                                         name="codigo"
@@ -145,6 +146,7 @@
                                         readonly
                                         style="color: #4d4848; cursor: not-allowed;"
                                     >
+                                    <label for="preco">Preço:</label>
                                     <input
                                         type="text"
                                         id="preco"
@@ -156,6 +158,7 @@
                                 </div>
 
                                 <div class="coluna">
+                                    <label for="nome">Nome do Produto:</label>
                                     <input
                                         type="text"
                                         name="nome"
@@ -165,6 +168,7 @@
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         required
                                     >
+                                    <label for="estoque">Estoque</label>
                                     <input
                                         type="number"
                                         name="estoque"

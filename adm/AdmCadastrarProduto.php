@@ -91,17 +91,6 @@
                         <div class="colunas">
                             <div class="coluna">
                                 <input
-                                    type="number"
-                                    name="codigo"
-                                    class="NomeCliente"
-                                    placeholder="Código: "
-                                    autocomplete=off
-                                    max="999"
-                                    min="1"
-                                    maxlength="3"
-                                    required
-                                >
-                                <input
                                     type="text"
                                     name="preco"
                                     id="cpf"

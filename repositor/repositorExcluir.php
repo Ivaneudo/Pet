@@ -138,6 +138,7 @@
                             <p>Subtrair Estoque:</p>
                             <div class="colunas">
                                 <div class="coluna">
+                                    <label for="codigo">Código:</label>
                                     <input
                                         type="number"
                                         name="codigo"
@@ -150,18 +151,22 @@
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly
                                     >
+                                    <label for="estoque">Estoque</label>
                                     <input
                                         type="number"
-                                        id="preco"
-                                        name="preco"
-                                        placeholder="Preço do Produto: "
-                                        autocomplete=off
-                                        value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
-                                        disabled
+                                        name="estoque"
+                                        class="Email"
+                                        placeholder="Quantidade para subtrair:"
+                                        autocomplete=off 
+                                        value=""
+                                        min="1"
+                                        max="<?php echo htmlspecialchars($estoqueProduto); ?>"
+                                        required
                                     >
                                 </div>
 
                                 <div class="coluna">
+                                    <label for="nome">Nome do Produto:</label>
                                     <input
                                         type="text"
                                         name="nome"
@@ -171,6 +176,8 @@
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         disabled
                                     >
+                                    
+                                    <label for="subtrair">Subtrair</label>
                                     <input
                                         type="number"
                                         name="estoque"
@@ -193,7 +200,7 @@
                             </div>
                             <div>
                                 <button id="cade" type="submit" name="subtrair">
-                                    <img src="../img/lata-de-lixo.png" alt="">
+                                    <img src="../img/lata-de-lixo-preta.png" alt="">
                                 </button>
                             </div>
                         </div>
