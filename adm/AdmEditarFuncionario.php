@@ -55,17 +55,18 @@
             $nome = trim($_POST['nome']);
             $telefone = trim($_POST['telefone']);
             $email = trim($_POST['email']);
+            $senha = trim($_POST['senha']);
             $cargo = $funcionario['cargo']; // O cargo é inalterável
 
             // Atualiza os dados do funcionário na tabela correspondente
-            $sqlUpdate = "UPDATE $cargo SET nome = ?, telefone = ?, email = ? WHERE cpf = ?";
+            $sqlUpdate = "UPDATE $cargo SET nome = ?, telefone = ?, email = ?, senha = ? WHERE cpf = ?";
             $stmtUpdate = $conn->prepare($sqlUpdate);
             
             if ($stmtUpdate === false) {
                 die("Erro ao preparar a atualização: " . $conn->error);
             }
 
-            $stmtUpdate->bind_param("ssss", $nome, $telefone, $email, $cpfFuncionario);
+            $stmtUpdate->bind_param("sssss", $nome, $telefone, $email, $senha, $cpfFuncionario);
 
             if ($stmtUpdate->execute()) {
                 $mensagem = "Funcionário atualizado com sucesso!";
@@ -129,6 +130,7 @@
 
                 <form method="POST" action="">
                     <div class="pesquisa-funcionario">
+                        <h3>Editar Funcionário:</h3>
                         <label for="cpf">Pesquisar CPF do Funcionário:</label>
                         <input
                             type="text"
@@ -136,7 +138,7 @@
                             id="cpf"
                             maxlength="14"
                             placeholder="Digite o CPF do funcionário"
-                            autocomplete=off 
+                            autocomplete="off" 
                             value="<?php echo htmlspecialchars($cpfFuncionario); ?>"
                             required
                         />
@@ -146,40 +148,76 @@
 
                 <?php if ($funcionario): ?>
                     <form method="POST" action="">
-                        <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfFuncionario); ?>" autocomplete=off>
+                        <input type="hidden" name="cpf" value="<?php echo htmlspecialchars($cpfFuncionario); ?>" autocomplete="off">
 
-                        <p><strong>Editar Funcionário:</strong></p>
                         <div class="colunas">
                             <div class="coluna">
+                                <label for="nome">Nome:</label>
                                 <input
                                     type="text"
                                     name="nome"
                                     placeholder="Nome do funcionário"
-                                    autocomplete=off 
+                                    autocomplete="off" 
                                     value="<?php echo htmlspecialchars($funcionario['nome']); ?>"
                                     required
                                 />
+                                
+                                <label for="senha">Senha:</label>
+                                <input 
+                                    type="password" 
+                                    name="senha" 
+                                    id="senha" 
+                                    placeholder="Digite a senha do funcionário: " 
+                                    autocomplete="off" 
+                                    required
+                                />
+
+                                <label for="cpf">CPF:</label>
+                                <input 
+                                    type="text" 
+                                    name="cpf" 
+                                    id="cpf" 
+                                    placeholder="CPF do funcionário" 
+                                    value="<?php echo htmlspecialchars($funcionario['cpf']); ?>" 
+                                    maxlength="14" 
+                                    autocomplete="off" 
+                                    readonly
+                                    style="color: #6c6b6b; cursor: not-allowed;"
+                                    required 
+                                />
+                            </div>
+
+                            <div class="coluna">
+                                <label for="email">E-mail:</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="E-mail"
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($funcionario['email']); ?>"
+                                    required
+                                />
+
+                                <label for="telefone">Telefone:</label>
                                 <input
                                     type="text"
                                     name="telefone"
                                     maxlength="14"
                                     placeholder="Telefone"
                                     class="Telefone"
-                                    autocomplete=off 
+                                    autocomplete="off" 
                                     value="<?php echo htmlspecialchars($funcionario['telefone']); ?>"
                                     required
                                 />
-                            </div>
-                            <div class="coluna">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="E-mail"
-                                    autocomplete=off 
-                                    value="<?php echo htmlspecialchars($funcionario['email']); ?>"
-                                    required
-                                />
-                                <input type="text" value="<?php echo ucfirst(htmlspecialchars($funcionario['cargo'])); ?>" disabled style="color: #6c6b6b; cursor: not-allowed;">
+
+                                <label for="cargo">Cargo do funcionário:</label>
+                                <input 
+                                    type="text"
+                                    name="cargo"
+                                    value="<?php echo ucfirst(htmlspecialchars($funcionario['cargo'])); ?>" 
+                                    disabled 
+                                    style="color: #6c6b6b; cursor: not-allowed;"
+                                >
                             </div>
                         </div>
 

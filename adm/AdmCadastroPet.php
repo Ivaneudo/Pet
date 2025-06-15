@@ -105,9 +105,20 @@
         <div class="cadastrar">
             <div class="cadastro">
                 <form method="POST" action="">
-                    <div class="pesquisa-cliente">
+                    <div class="pesquisa-clientes">
+                        <h3>Cadastrar pet:</h3>
                         <label for="cpfCliente">Pesquisar CPF do Cliente:</label>
-                        <input type="text" name="cpfCliente" id="cpf" maxlength="14" placeholder="Digite o CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" required>
+                        <input 
+                            type="text" 
+                            name="cpfCliente" 
+                            id="cpf" 
+                            placeholder="Digite o CPF do cliente" 
+                            value="<?php echo htmlspecialchars($cpfCliente); ?>" 
+                            maxlength="14"
+                            autocomplete=off
+                            required
+                        >
+
                         <button type="submit" name="pesquisar">Pesquisar</button>
                     </div>
                 </form>
@@ -120,12 +131,11 @@
 
                 <?php if ($cliente): ?>
                     <form method="POST" action="">
-                        <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" autocomplete=off>
+                        <p style="margin-bottom: 0.5rem;">Dados do dono:</p>
                         <div class="coluna">
-                            <p><strong>Cliente:</strong> <?php echo htmlspecialchars($cliente['nome']); ?></p>
-                        </div>
-                        <div class="coluna">
-                            <p><strong>Email:</strong> <?php echo htmlspecialchars($cliente['email']); ?></p>
+                            <p style="margin-bottom: 0.3rem; margin-top: 0.5rem;"><strong>Cliente:</strong> <?php echo htmlspecialchars($cliente['nome']); ?></p>
+
+                            <p style="margin-top: 0.5rem; margin-bottom: 2rem;"><strong>Email:</strong> <?php echo htmlspecialchars($cliente['email']); ?></p>
                         </div>
 
                         <p>Dados do Pet</p>
@@ -152,6 +162,7 @@
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
+                                <label for="nomePet">Nome do pet:</label>
                                 <input 
                                     type="text" 
                                     name="nomePet" 
@@ -160,6 +171,7 @@
                                     autocomplete=off 
                                     required>
 
+                                <label for="idade">Idade:</label>
                                 <input 
                                     type="number" 
                                     name="idade" 
@@ -203,6 +215,7 @@
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
+                                <label for="peso">Peso:</label>
                                 <input 
                                     type="number" 
                                     name="peso" 
@@ -213,6 +226,7 @@
                                     pattern="^\d{1,3}(,\d{1,2})?$" 
                                     required>
 
+                                <label for="raca">Raça:</label>
                                 <input 
                                     type="text" 
                                     name="raca" 

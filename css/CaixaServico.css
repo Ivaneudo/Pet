@@ -118,11 +118,14 @@ table td, th {
 
 .botoes .voltar {
     background-color: var(--CinzaClarinho);
+    box-shadow: 0 4px 10px rgba(35, 35, 35, 0.492);
     width: 150px;
 }
 
 .botoes .voltar:hover {
     background-color: var(--Cinza);
+    box-shadow: 0 4px 10px rgba(35, 35, 35, 0.913);
+    color: #d2d0d0;
 }
 
 table {

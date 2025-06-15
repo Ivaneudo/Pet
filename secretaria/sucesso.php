@@ -1,7 +1,7 @@
 <?php
     session_start();
 
-    // Opcional: verificar se o usuário está logado como secretaria
+    // Verifica se o usuário está logado como secretaria
     if ($_SESSION['tipo_usuario'] !== 'secretaria'){
         header("Location: ../entrada/Entrar.php");
         exit();

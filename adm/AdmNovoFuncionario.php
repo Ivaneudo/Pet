@@ -133,9 +133,10 @@
 
                 <form action="" method="POST">
                     <div class="cliente">
-                        <p>Novo Funcionário:</p>
+                        <h3 style="margin-bottom: 2.3rem">Cadastrar Funcionário:</h3>
                         <div class="colunas">
                             <div class="coluna">
+                                <label for="nome">Nome:</label>
                                 <input 
                                     type="text" 
                                     name="nome" 
@@ -145,6 +146,7 @@
                                     autocomplete="off" 
                                     required />
 
+                                <label for="cpf">CPF:</label>
                                 <input 
                                     type="text" 
                                     name="cpf" 
@@ -155,15 +157,17 @@
                                     autocomplete="off" 
                                     required />
 
+                                <label for="senha">Senha:</label>
                                 <input 
                                     type="password" 
                                     name="senha" 
                                     id="senha" 
                                     placeholder="Digite a senha do funcionário: " 
                                     autocomplete="off" 
-                                    required />
+                                    required >
                             </div>
                             <div class="coluna">
+                                <label for="telefone">Telefone:</label>
                                 <input 
                                 type="text" 
                                 name="telefone" 
@@ -174,6 +178,7 @@
                                 autocomplete="off" 
                                 required />
 
+                                <label for="email">E-mail:</label>
                                 <input 
                                 type="email" 
                                 name="email" 
@@ -183,6 +188,7 @@
                                 autocomplete="off" 
                                 required />
 
+                                <label for="cargo">Cargo do Funcionário:</label>
                                 <select name="cargo" required>
                                     <option value="" disabled <?php echo !isset($cargo) ? 'selected' : ''; ?>>Cargo do Funcionário</option>
 

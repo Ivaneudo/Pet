@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verificação de secretaria
+    // ! Verifica qual o cargo do funcionário logado
     if ($_SESSION['tipo_usuario'] !== 'secretaria') {
-        header("Location: ../entrada/Entrar.php");
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for secretaria
         exit();
     }
 
@@ -13,30 +13,20 @@
     $classeMensagem = '';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Sanitização dos dados (mantendo a formatação do CPF)
         $clienteNome = trim($_POST['nome'] ?? '');
         $clienteCpf = trim($_POST['cpf'] ?? '');
         $clienteTelefone = trim($_POST['Telefone'] ?? '');
         $clienteEmail = trim($_POST['email'] ?? '');
 
-        // Validações básicas
         if (empty($clienteNome) || empty($clienteCpf) || empty($clienteTelefone) || empty($clienteEmail)) {
             $mensagem = "Por favor, preencha todos os campos obrigatórios.";
             $classeMensagem = 'erro';
         } else {
-            // Verificação do CPF (com formatação)
-            $sqlCheckCpf = "SELECT COUNT(*) as total FROM (
-                            SELECT cpf FROM adm WHERE cpf = ?
-                            UNION ALL
-                            SELECT cpf FROM cliente WHERE cpf = ?
-                            UNION ALL
-                            SELECT cpf FROM secretaria WHERE cpf = ?
-                            UNION ALL
-                            SELECT cpf FROM repositor WHERE cpf = ?
-                            ) as cpf_unico";
+            // Verifica se o cliente ja esta cadastrado
+            $sqlCheckCpf = "SELECT COUNT(*) as total FROM cliente WHERE cpf = ?";
             
             $stmtCheckCpf = $conn->prepare($sqlCheckCpf);
-            $stmtCheckCpf->bind_param("ssss", $clienteCpf, $clienteCpf, $clienteCpf, $clienteCpf);
+            $stmtCheckCpf->bind_param("s", $clienteCpf);
             $stmtCheckCpf->execute();
             $result = $stmtCheckCpf->get_result();
             $row = $result->fetch_assoc();
@@ -44,7 +34,7 @@
             $stmtCheckCpf->close();
 
             if ($totalCpfCount > 0) {
-                $mensagem = "Este usuário já existe.";
+                $mensagem = "Este cliente já existe.";
                 $classeMensagem = 'erro';
             } else {
                 // Insere com CPF formatado
@@ -111,18 +101,20 @@
                 <?php endif; ?>
                 <form method="POST" action="">
                     <div class="cliente">
-                        <p>Cliente:</p>
+                        <h3 style="margin-bottom: 2.3rem">Cadastrar cliente:</h3>
                         <div class="colunas">
                             <div class="coluna">
+                                <label for="nome">Nome:</label>
                                 <input 
                                     type="text" 
                                     name="nome" 
                                     class="NomeCliente" 
-                                    placeholder="Nome do cliente: " 
+                                    placeholder="Digite o nome do cliente: " 
                                     autocomplete=off 
                                     value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
                                     required>
 
+                                <label for="cpf">CPF:</label>
                                 <input 
                                     type="text" 
                                     id="cpf" 
@@ -134,6 +126,8 @@
                                     required>
                             </div>
                             <div class="coluna">
+
+                                <label for="Telefone">Telefone:</label>
                                 <input 
                                     type="text" 
                                     name="Telefone" 
@@ -144,6 +138,7 @@
                                     value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
                                     required>
 
+                                <label for="email">E-mail:</label>
                                 <input 
                                     type="email" 
                                     name="email" 

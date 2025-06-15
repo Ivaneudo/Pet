@@ -2,41 +2,41 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um repositor
+    // ! Verifica qual o cargo do funcionário logado
     if ($_SESSION['tipo_usuario'] !== 'repositor') {
-        header("Location: ../entrada/Entrar.php"); // Redireciona se não for repositor
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
         exit();
     }
 
-    // Captura o nome do funcionário da sessão
     $nomeFuncionario = $_SESSION['usuario'];
 
-    // Inicializa variáveis
     $mensagem = '';
+    $classeMensagem = '';
 
-    // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Captura os dados do formulário
-        $codigoProduto = trim($_POST['codigo']);
+        // ! Guarda os dados do formulário
         $nomeProduto = trim($_POST['nome']);
-        $precoProduto = floatval(str_replace(',', '.', $_POST['preco'])); // Converte para float
+        $precoProduto = floatval(str_replace(',', '.', $_POST['preco']));
         $estoqueProduto = intval($_POST['estoque']);
-        $tamanhoProduto = trim($_POST['tamanho']); // Captura o tamanho do produto
+        $tamanhoProduto = trim($_POST['tamanho']);
 
-        // Verifica se todos os campos estão preenchidos
-        if (!empty($codigoProduto) && !empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
-            // Insere o novo produto no banco de dados
-            $sqlInsert = "INSERT INTO produto (id_produto, nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?, ?)";
+        // ! Verifica se todos os campos estão preenchidos
+        if (!empty($nomeProduto) && $precoProduto >= 0 && $estoqueProduto >= 0 && !empty($tamanhoProduto)) {
+            // ! Insere o novo produto no banco de dados
+            $sqlInsert = "INSERT INTO produto (nome_produto, preco, estoque, tamanho) VALUES (?, ?, ?, ?)";
             $stmtInsert = $conn->prepare($sqlInsert);
-            $stmtInsert->bind_param("isdis", $codigoProduto, $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
+            $stmtInsert->bind_param("sdis", $nomeProduto, $precoProduto, $estoqueProduto, $tamanhoProduto);
 
             if ($stmtInsert->execute()) {
                 $mensagem = "Produto cadastrado com sucesso!";
+                $classeMensagem = 'sucesso';
             } else {
                 $mensagem = "Erro ao cadastrar o produto.";
+                $classeMensagem = 'erro';
             }
         } else {
             $mensagem = "Por favor, preencha todos os campos corretamente.";
+            $classeMensagem = 'erro';
         }
     }
 ?>
@@ -50,7 +50,6 @@
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/principal.css">
     <link rel="stylesheet" href="../css/repositor.css">
-    <link rel="stylesheet" href="../css/Vendas.css">
     <link rel="stylesheet" href="../css/responsivo.css">
     <link rel="stylesheet" href="../css/mensagem.css">
 </head>
@@ -69,60 +68,55 @@
             <div class="cadastro" id="repositor">
 
                 <?php if ($mensagem): ?>
-                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>
 
                 <form method="POST" action="">
                     <div class="cliente">
-                        <p>Cadastrar Produtos:</p>
+                        <h3 style="margin-bottom: 2.3rem;">Cadastrar Produtos:</h3>
                         <div class="colunas">
                             <div class="coluna">
-                                <input
-                                    type="number"
-                                    name="codigo"
-                                    class="NomeCliente"
-                                    placeholder="Código: "
-                                    autocomplete=off
-                                    max="999"
-                                    min="1"
-                                    maxlength="3"
-                                    required
-                                >
-                                <input
-                                    type="text"
-                                    name="preco"
-                                    id="cpf"
-                                    placeholder="Preço do produto:"
-                                    autocomplete=off 
-                                    required
-                                >
-                                <input
-                                    type="text"
-                                    name="tamanho"
-                                    class="Tamanho"
-                                    placeholder="Tamanho do produto: "
-                                    autocomplete=off 
-                                    required
-                                >
-                            </div>
-                            <div class="coluna">
+                                <label for="nome">Nome do Produto:</label>
                                 <input
                                     type="text"
                                     name="nome"
                                     class="Telefone"
-                                    placeholder="Nome do produto: "
-                                    autocomplete=off 
+                                    placeholder="Nome do produto"
+                                    autocomplete="off" 
                                     required
                                 >
+
+                                <label for="preco">Preço:</label>
+                                <input
+                                    type="text"
+                                    name="preco"
+                                    id="preco"
+                                    placeholder="Preço"
+                                    autocomplete="off" 
+                                    required
+                                >
+                            </div>
+                            <div class="coluna">
+                                <label for="tamanho">Tamanho:</label>
+                                <input
+                                    type="text"
+                                    name="tamanho"
+                                    class="Tamanho"
+                                    placeholder="Tamanho do produto"
+                                    autocomplete="off" 
+                                    required
+                                >
+
+                                <label for="estoque">Estoque:</label>
                                 <input
                                     type="number"
                                     name="estoque"
                                     class="Email"
-                                    placeholder="Estoque: "
-                                    autocomplete=off 
-                                    min="0"
+                                    placeholder="Estoque"
+                                    min="1"
+                                    autocomplete="off" 
                                     required
                                 >
                             </div>

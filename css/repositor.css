@@ -342,10 +342,13 @@ button:hover {
 
 .voltar {
     background-color: var(--CinzaClarinho);
+    box-shadow: 0 4px 10px rgba(35, 35, 35, 0.492);
 }
 
 .voltar:hover {
     background-color: var(--Cinza);
+    box-shadow: 0 4px 10px rgba(35, 35, 35, 0.913);
+    color: #d2d0d0;
 }
 
 /* Estilo para a div voltarSome */
@@ -357,4 +360,15 @@ button:hover {
 /* Classe para esconder o botão voltar */
 .voltarSome.hidden {
     display: none;
+}
+
+h3{
+    text-align: start;
+    margin-bottom: 0.3rem;
+    margin-top: 0.3rem;
+    color: var(--Cinza);
+}
+
+.pesquisa-produto{
+    margin-bottom: 23.5px;
 }

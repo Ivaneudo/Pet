@@ -101,9 +101,10 @@
                 <?php endif; ?>
                 <form method="POST" action="">
                     <div class="cliente">
-                        <p>Cliente:</p>
+                        <h3 style="margin-bottom: 2.3rem">Cadastrar cliente:</h3>
                         <div class="colunas">
                             <div class="coluna">
+                                <label for="nome">Nome:</label>
                                 <input 
                                     type="text" 
                                     name="nome" 
@@ -113,6 +114,7 @@
                                     value="<?php echo htmlspecialchars($clienteNome ?? ''); ?>" 
                                     required>
 
+                                <label for="cpf">CPF:</label>
                                 <input 
                                     type="text" 
                                     id="cpf" 
@@ -124,6 +126,8 @@
                                     required>
                             </div>
                             <div class="coluna">
+
+                                <label for="Telefone">Telefone:</label>
                                 <input 
                                     type="text" 
                                     name="Telefone" 
@@ -134,6 +138,7 @@
                                     value="<?php echo htmlspecialchars($clienteTelefone ?? ''); ?>" 
                                     required>
 
+                                <label for="email">E-mail:</label>
                                 <input 
                                     type="email" 
                                     name="email" 

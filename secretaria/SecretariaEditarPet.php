@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é uma secretaria
+    // ! Verifica qual o cargo do funcionário logado
     if ($_SESSION['tipo_usuario'] !== 'secretaria'){
-        header("Location: ../entrada/Entrar.php");
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for secretaria
         exit();
     }
 
@@ -12,6 +12,7 @@
 
     $pet = null;
     $mensagem = '';
+    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
 
     if (isset($_GET['id_pet'])) {
         $idPet = $_GET['id_pet'];
@@ -26,6 +27,7 @@
             $pet = $result->fetch_assoc();
         } else {
             $mensagem = "Pet não encontrado.";
+            $classeMensagem = 'erro'; // Define a classe de erro
         }
     }
 
@@ -45,8 +47,10 @@
 
         if ($stmtUpdate->execute()) {
             $mensagem = "Pet atualizado com sucesso!";
+            $classeMensagem = 'sucesso'; // Define a classe de sucesso
         } else {
             $mensagem = "Erro ao atualizar pet: " . $stmtUpdate->error;
+            $classeMensagem = 'erro'; // Define a classe de erro
         }
     }
 
@@ -64,6 +68,7 @@
             $nomeDono = $dono['nome'];
         } else {
             $mensagem = "Dono não encontrado.";
+            $classeMensagem = 'erro'; // Define a classe de erro
         }
     }
 ?>
@@ -74,7 +79,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Editar Pet</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/caixaCadastro.css" />
@@ -97,9 +102,9 @@
         <div class="navbar">
             <nav>
                 <ul>
-                    <li><a href="Secretaria.php">Menu</a></li>
-                    <li><a href="SecretariaPet.php">Pets</a></li>
-                    <li><a href="SecretariaCadastroPet.php">Cadastrar Pet</a></li>
+                    <li><a href="Secretaria.php"><span class="icons"><img src="../img/menu.png" alt=""></span>Menu</a></li>
+                    <li><a href="SecretariaPet.php"><span class="icons"><img src="../img/pets.png" alt=""></span>Pets</a></li>
+                    <li><a href="SecretariaCadastroPet.php"><span class="icons"><img src="../img/paw.png" alt=""></span>Cadastrar Pet</a></li>
                 </ul>
             </nav>
         </div>
@@ -107,7 +112,7 @@
         <div class="cadastrar">
             <div class="cadastro">
                 <?php if ($mensagem): ?>
-                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>
@@ -115,8 +120,11 @@
                 <?php if ($pet): ?>
                     <form method="POST" action="">
                         <input type="hidden" name="id_pet" value="<?php echo htmlspecialchars($pet['id_pet']); ?>">
+
+                        <h3>Editar Pet:</h3>
+
                         <div class="coluna">
-                            <p><strong>Dono(a):</strong> <?php echo htmlspecialchars($nomeDono); ?></p>
+                            <p style="margin-top: 2rem;"><strong>Dono(a):</strong> <?php echo htmlspecialchars($nomeDono); ?></p> 
                         </div>
 
                         <p>Dados do Pet</p>
@@ -145,6 +153,7 @@
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
+                                <label for="nomePet">Nome do pet:</label>
                                 <input 
                                     type="text" 
                                     name="nomePet" 
@@ -154,6 +163,7 @@
                                     autocomplete=off 
                                     required>
 
+                                <label for="idade">Idade:</label>
                                 <input 
                                     type="number" 
                                     name="idade" 
@@ -198,17 +208,19 @@
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
+                                <label for="peso">Peso:</label>
                                 <input 
                                     type="number" 
                                     name="peso" 
                                     class="peso" 
-                                    placeholder="Peso" 
+                                    placeholder="Peso"
                                     autocomplete=off 
-                                    min="0"
                                     pattern="^\d{1,3}(,\d{1,2})?$" 
+                                    min="0"
                                     value="<?php echo htmlspecialchars(str_replace('.', ',', $pet['peso'])); ?>" 
                                     required>
 
+                                <label for="raca">Raça:</label>
                                 <input 
                                     type="text" 
                                     name="raca" 
@@ -222,7 +234,7 @@
 
                         <div class="botoes">
                             <div>
-                                <a href="AdmPet.php">
+                                <a href="SecretariaPet.php">
                                     <button type="button" class="voltar" id="volt">Voltar</button>
                                 </a>
                             </div>

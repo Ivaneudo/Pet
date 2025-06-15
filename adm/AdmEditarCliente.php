@@ -2,36 +2,34 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // ! Verifica qual o cargo do funcionário logado
+    // Verifica qual o cargo do funcionário logado
     if ($_SESSION['tipo_usuario'] !== 'admin') {
-        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for admin
+        header("Location: ../entrada/Entrar.php");
         exit();
     }
 
-    // Captura o nome do funcionário da sessão
     $nomeFuncionario = $_SESSION['usuario'];
-
-    // Inicializa variáveis
     $cpfCliente = '';
     $cliente = null;
     $mensagem = '';
-    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
+    $classeMensagem = '';
 
     // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Se o CPF do cliente foi enviado
-        if (isset($_POST['cpf']) && !empty(trim($_POST['cpf']))) {
+        // Se o botão de buscar foi clicado
+        if (isset($_POST['buscar']) && isset($_POST['cpf']) && !empty(trim($_POST['cpf']))) {
             $cpfCliente = trim($_POST['cpf']);
             $cliente = buscarCliente($conn, $cpfCliente);
 
             if (!$cliente) {
                 $mensagem = "Cliente não encontrado.";
-                $classeMensagem = 'erro'; // Define a classe de erro
+                $classeMensagem = 'erro';
             }
         }
 
         // Se o botão de modificar foi clicado
-        if (isset($_POST['modificar']) && $cliente) {
+        if (isset($_POST['modificar']) && isset($_POST['cpfCliente'])) {
+            $cpfCliente = trim($_POST['cpfCliente']);
             $nome = trim($_POST['nome']);
             $telefone = trim($_POST['telefone']);
             $email = trim($_POST['email']);
@@ -39,24 +37,30 @@
             // Atualiza os dados do cliente
             $sqlUpdateCliente = "UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE cpf = ?";
             $stmtUpdateCliente = $conn->prepare($sqlUpdateCliente);
-            $stmtUpdateCliente->bind_param("ssss", $nome, $telefone, $email, $cpfCliente);
             
-            if ($stmtUpdateCliente->execute()) {
-                // Armazena mensagem na sessão para exibir após redirecionamento
-                $_SESSION['message'] = "Informações atualizadas com sucesso!";
-                $classeMensagem = 'sucesso'; // Define a classe de sucesso
-                // Limpa os campos após a atualização
-                $cpfCliente = '';
-                $cliente = null;
+            if ($stmtUpdateCliente) {
+                $stmtUpdateCliente->bind_param("ssss", $nome, $telefone, $email, $cpfCliente);
+                
+                if ($stmtUpdateCliente->execute()) {
+                    $_SESSION['message'] = "Informações atualizadas com sucesso!";
+                    $classeMensagem = 'sucesso';
+                    // Atualiza os dados locais para mostrar as alterações
+                    $cliente['nome'] = $nome;
+                    $cliente['telefone'] = $telefone;
+                    $cliente['email'] = $email;
+                } else {
+                    $mensagem = "Erro ao atualizar cliente: " . $stmtUpdateCliente->error;
+                    $classeMensagem = 'erro';
+                }
             } else {
-                die("Erro ao atualizar cliente: " . $stmtUpdateCliente->error);
+                $mensagem = "Erro na preparação da consulta: " . $conn->error;
+                $classeMensagem = 'erro';
             }
         }
     }
 
-    // Função para buscar dados do cliente
     function buscarCliente($conn, $cpfCliente) {
-        $sql = "SELECT * FROM cliente WHERE cpf = ?";
+        $sql = "SELECT nome, telefone, email, cpf FROM cliente WHERE cpf = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $cpfCliente);
         $stmt->execute();
@@ -68,11 +72,10 @@
         return null;
     }
 
-    // Mensagem de sucesso armazenada na sessão
     if (isset($_SESSION['message'])) {
         $mensagem = $_SESSION['message'];
-        $classeMensagem = 'sucesso'; // Define a classe de sucesso
-        unset($_SESSION['message']); // Limpa a mensagem após exibi-la
+        $classeMensagem = 'sucesso';
+        unset($_SESSION['message']);
     }
 ?>
 
@@ -122,6 +125,7 @@
 
                 <form method="POST" action="">
                     <div class="pesquisa-cliente">
+                        <h3>Editar Cliente:</h3>
                         <label for="cpf">Pesquisar CPF do Cliente:</label>
                         <input
                             type="text"
@@ -141,21 +145,53 @@
                     <form method="POST" action="">
                         <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" />
 
-                        <p><strong>Editar Cliente:</strong></p>
                         <div class="colunas">
                             <div class="coluna">
-                                <p><strong>CPF:</strong></p>
-                                <input type="text" name="cpf_display" class="CPFCliente" placeholder="CPF do cliente" value="<?php echo htmlspecialchars($cpfCliente); ?>" disabled style="color: #6c6b6b; cursor: not-allowed;">
+                                <label for="nome">Nome:</label>
+                                <input 
+                                    type="text" 
+                                    name="nome" 
+                                    class="NomeCliente" 
+                                    placeholder="Nome do cliente" 
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($cliente['nome']); ?>" 
+                                    required
+                                >
                                 
-                                <p><strong>Telefone:</strong></p>
-                                <input type="text" name="telefone" class="Telefone" maxlength="14" placeholder="Telefone do cliente" autocomplete="off" value="<?php echo htmlspecialchars($cliente['telefone']); ?>" required>
+                                <label for="telefone">Telefone:</label>
+                                <input 
+                                    type="text" 
+                                    name="telefone" 
+                                    class="Telefone" 
+                                    placeholder="Telefone do cliente" 
+                                    maxlength="14" 
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($cliente['telefone'] ?? ''); ?>" 
+                                    required
+                                >
                             </div>
                             <div class="coluna">
-                                <p><strong>Nome:</strong></p>
-                                <input type="text" name="nome" class="NomeCliente" placeholder="Nome do cliente" autocomplete="off" value="<?php echo htmlspecialchars($cliente['nome']); ?>" required>
-                                
-                                <p><strong>E-mail:</strong></p>
-                                <input type="email" name="email" class="Email" placeholder="E-mail do cliente" autocomplete="off" value="<?php echo htmlspecialchars($cliente['email']); ?>" required>
+                                <label for="cpf">CPF:</label>
+                                <input 
+                                    type="text" 
+                                    name="cpf" 
+                                    class="CPFCliente" 
+                                    placeholder="CPF do cliente" 
+                                    value="<?php echo htmlspecialchars($cpfCliente); ?>" 
+                                    style="color: #6c6b6b; cursor: not-allowed;"
+                                    disabled 
+                                >
+
+                                <label for="email">E-mail:</label>
+                                <input 
+                                    type="email" 
+                                    name="email" 
+                                    class="Email" 
+                                    placeholder="E-mail do cliente" 
+                                    autocomplete="off" 
+                                    value="<?php echo htmlspecialchars($cliente['email']); ?>" 
+                                    required
+                                >
                             </div>
                         </div>
 

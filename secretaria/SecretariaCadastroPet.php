@@ -2,9 +2,9 @@
     session_start();
     include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é um administrador
-    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
-        header("Location: ../entrada/Entrar.php");
+    // ! Verifica qual o cargo do funcionário logado
+    if ($_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php"); // ! Redireciona se não for secretaria
         exit();
     }
 
@@ -15,6 +15,7 @@
     $cpfCliente = '';
     $cliente = null;
     $mensagem = '';
+    $classeMensagem = ''; // Adiciona a variável para a classe da mensagem
 
     // Se o formulário foi enviado
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -33,6 +34,7 @@
                 $cliente = $result->fetch_assoc();
             } else {
                 $mensagem = "Cliente não encontrado.";
+                $classeMensagem = 'erro'; // Define a classe de erro
             }
         }
 
@@ -52,11 +54,13 @@
 
             if ($stmtInsert->execute()) {
                 $mensagem = "Pet cadastrado com sucesso!";
+                $classeMensagem = 'sucesso'; // Define a classe de sucesso
                 // Não redireciona para manter a mensagem após cadastro
                 // Limpa os dados do formulário para novo cadastro
                 $cliente = $cliente; // Mantém o cliente para mostrar o formulário novamente
             } else {
                 $mensagem = "Erro ao cadastrar pet: " . $stmtInsert->error;
+                $classeMensagem = 'erro'; // Define a classe de erro
             }
         }
     }
@@ -67,7 +71,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cadastro de Pets</title>
+    <title>Cadastrar Pets</title>
     <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
@@ -101,35 +105,37 @@
         <div class="cadastrar">
             <div class="cadastro">
                 <form method="POST" action="">
-                    <div class="pesquisa-cliente">
+                    <div class="pesquisa-clientes">
+                        <h3>Cadastrar pet:</h3>
                         <label for="cpfCliente">Pesquisar CPF do Cliente:</label>
                         <input 
                             type="text" 
                             name="cpfCliente" 
                             id="cpf" 
                             placeholder="Digite o CPF do cliente" 
-                            maxlength="14" 
-                            autocomplete=off 
                             value="<?php echo htmlspecialchars($cpfCliente); ?>" 
-                            required>
+                            maxlength="14"
+                            autocomplete=off
+                            required
+                        >
+
                         <button type="submit" name="pesquisar">Pesquisar</button>
                     </div>
                 </form>
 
                 <?php if ($mensagem): ?>
-                    <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
+                    <div class="mensagem-<?php echo $classeMensagem; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>
 
                 <?php if ($cliente): ?>
                     <form method="POST" action="">
-                        <input type="hidden" name="cpfCliente" value="<?php echo htmlspecialchars($cpfCliente); ?>">
+                        <p style="margin-bottom: 0.5rem;">Dados do dono:</p>
                         <div class="coluna">
-                            <p><strong>Cliente:</strong> <?php echo htmlspecialchars($cliente['nome']); ?></p>
-                        </div>
-                        <div class="coluna">
-                            <p><strong>Email:</strong> <?php echo htmlspecialchars($cliente['email']); ?></p>
+                            <p style="margin-bottom: 0.3rem; margin-top: 0.5rem;"><strong>Cliente:</strong> <?php echo htmlspecialchars($cliente['nome']); ?></p>
+
+                            <p style="margin-top: 0.5rem; margin-bottom: 2rem;"><strong>Email:</strong> <?php echo htmlspecialchars($cliente['email']); ?></p>
                         </div>
 
                         <p>Dados do Pet</p>
@@ -156,6 +162,7 @@
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
+                                <label for="nomePet">Nome do pet:</label>
                                 <input 
                                     type="text" 
                                     name="nomePet" 
@@ -164,24 +171,26 @@
                                     autocomplete=off 
                                     required>
 
+                                <label for="idade">Idade:</label>
                                 <input 
                                     type="number" 
                                     name="idade" 
                                     class="idade" 
                                     placeholder="Idade do animal" 
                                     autocomplete=off 
-                                    min="0"
-                                    required>
+                                    required 
+                                    min="0">
                             </div>
 
                             <div class="coluna">
                                 <div class="AnimalTipo">
-                                    <input
+                                    <input 
                                         type="radio" 
                                         class="tipo" 
                                         name="sexo" 
                                         value="macho" 
                                         id="sexoMacho" 
+                                        autocomplete=off 
                                         required>
                                     <label for="sexoMacho">M</label>
                                     
@@ -191,6 +200,7 @@
                                         name="sexo" 
                                         value="femea" 
                                         id="sexoFemea" 
+                                        autocomplete=off 
                                         required>
                                     <label for="sexoFemea">F</label>
 
@@ -200,10 +210,12 @@
                                         name="sexo" 
                                         value="intersexo" 
                                         id="sexoIntersexo" 
+                                        autocomplete=off 
                                         required>
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
+                                <label for="peso">Peso:</label>
                                 <input 
                                     type="number" 
                                     name="peso" 
@@ -214,6 +226,7 @@
                                     pattern="^\d{1,3}(,\d{1,2})?$" 
                                     required>
 
+                                <label for="raca">Raça:</label>
                                 <input 
                                     type="text" 
                                     name="raca" 

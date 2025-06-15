@@ -120,8 +120,11 @@
                 <?php if ($pet): ?>
                     <form method="POST" action="">
                         <input type="hidden" name="id_pet" value="<?php echo htmlspecialchars($pet['id_pet']); ?>">
+
+                        <h3>Editar Pet:</h3>
+
                         <div class="coluna">
-                            <p><strong>Dono(a):</strong> <?php echo htmlspecialchars($nomeDono); ?></p>
+                            <p style="margin-top: 2rem;"><strong>Dono(a):</strong> <?php echo htmlspecialchars($nomeDono); ?></p> 
                         </div>
 
                         <p>Dados do Pet</p>
@@ -150,6 +153,7 @@
                                     <label for="cachorro">Cachorro</label>
                                 </div>
 
+                                <label for="nomePet">Nome do pet:</label>
                                 <input 
                                     type="text" 
                                     name="nomePet" 
@@ -159,6 +163,7 @@
                                     autocomplete=off 
                                     required>
 
+                                <label for="idade">Idade:</label>
                                 <input 
                                     type="number" 
                                     name="idade" 
@@ -203,6 +208,7 @@
                                     <label for="sexoIntersexo">I</label>
                                 </div>
 
+                                <label for="peso">Peso:</label>
                                 <input 
                                     type="number" 
                                     name="peso" 
@@ -214,6 +220,7 @@
                                     value="<?php echo htmlspecialchars(str_replace('.', ',', $pet['peso'])); ?>" 
                                     required>
 
+                                <label for="raca">Raça:</label>
                                 <input 
                                     type="text" 
                                     name="raca" 

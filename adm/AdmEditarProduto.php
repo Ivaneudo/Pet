@@ -108,9 +108,10 @@
                     <div class="mensagem-<?php echo strpos($mensagem, 'sucesso') !== false ? 'sucesso' : 'erro'; ?>">
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
-                <?php endif; ?>
-
+                    <?php endif; ?>
+                    
                 <form method="POST" action="">
+                    <h3>Editar Produtos:</h3>
                     <div class="pesquisa-produto">
                         <label for="codigo">Pesquisar ID do Produto:</label>
                         <input
@@ -120,6 +121,7 @@
                             placeholder="Digite o ID do produto"
                             value="<?php echo htmlspecialchars($codigoProduto); ?>"
                             required
+                            autocomplete=off
                         >
                         <button type="submit">Buscar</button>
                     </div>
@@ -128,7 +130,6 @@
                 <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
                     <form method="POST" action="">
                         <div class="cliente">
-                            <p>Editar Produtos:</p>
                             <div class="colunas">
 
                                 <div class="coluna">
@@ -168,7 +169,7 @@
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         required
                                     >
-                                    <label for="estoque">Estoque</label>
+                                    <label for="estoque">Estoque:</label>
                                     <input
                                         type="number"
                                         name="estoque"

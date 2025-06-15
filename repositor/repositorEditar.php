@@ -109,9 +109,10 @@
                         <?php echo htmlspecialchars($mensagem); ?>
                     </div>
                 <?php endif; ?>
-
+                
                 <form method="POST" action="">
                     <div class="pesquisa-produto">
+                        <h3>Editar Produto:</h3>
                         <label for="codigo">Pesquisar ID do Produto:</label>
                         <input
                             type="text"
@@ -134,10 +135,11 @@
                 <?php if (!empty($codigoProduto) && !empty($nomeProduto)): ?>
                     <form method="POST" action="">
                         <div class="cliente">
-                            <p>Editar Produtos:</p>
                             <div class="colunas">
 
                                 <div class="coluna">
+
+                                    <label for="codigo">Código do produto:</label>
                                     <input
                                         type="number"
                                         name="codigo"
@@ -149,6 +151,8 @@
                                         maxlength="3"
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
                                         readonly>
+
+                                    <label for="preco">Preço:</label>
                                     <input
                                         type="number"
                                         id="preco"
@@ -161,6 +165,8 @@
                                 </div>
 
                                 <div class="coluna">
+
+                                    <label for="nome">Nome do produto:</label>
                                     <input
                                         type="text"
                                         name="nome"
@@ -170,6 +176,8 @@
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         required
                                     >
+
+                                    <label for="estoque">Estoque:</label>
                                     <input
                                         type="number"
                                         name="estoque"

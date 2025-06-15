@@ -1,41 +1,86 @@
 <?php
-session_start();
-include('../funcoes/conexao.php');
+    session_start();
+    include('../funcoes/conexao.php');
 
-// ! Verifica se o usuário é uma secretaria
-if ($_SESSION['tipo_usuario'] !== 'secretaria') {
-    header("Location: ../entrada/Entrar.php");
-    exit();
-}
+    // ! Verifica se o usuário é uma secretaria
+    if ($_SESSION['tipo_usuario'] !== 'secretaria') {
+        header("Location: ../entrada/Entrar.php");
+        exit();
+    }
 
-$nomeFuncionario = $_SESSION['usuario'];
+    $nomeFuncionario = $_SESSION['usuario'];
 
-// ! Inicializa o carrinho na sessão
-if (!isset($_SESSION['carrinho'])) {
-    $_SESSION['carrinho'] = [];
-}
+    // ! Inicializa o carrinho na sessão
+    if (!isset($_SESSION['carrinho'])) {
+        $_SESSION['carrinho'] = [];
+    }
 
-$erro = '';
-$mensagem = '';
-$classeMensagem = '';
-$valorTotal = 0.0;
-$mostrarCpf = false;
+    $erro = '';
+    $mensagem = '';
+    $classeMensagem = '';
+    $valorTotal = 0.0;
+    $mostrarCpf = false;
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST['adicionar'])) {
-        $codigoProduto = trim($_POST['codigo_produto']);
-        if ($codigoProduto === '') {
-            $erro = "Por favor, digite o código do produto.";
-            $classeMensagem = 'erro';
-        } else {
-            if (strpos($codigoProduto, 'x') !== false) {
-                list($idProduto, $quantidade) = explode('x', $codigoProduto);
-                $idProduto = trim($idProduto);
-                $quantidade = (int)trim($quantidade);
-                if ($quantidade <= 0) {
-                    $erro = "A quantidade deve ser maior que zero.";
-                    $classeMensagem = 'erro';
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        if (isset($_POST['adicionar'])) {
+            $codigoProduto = trim($_POST['codigo_produto']);
+            if ($codigoProduto === '') {
+                $erro = "Por favor, digite o código do produto.";
+                $classeMensagem = 'erro';
+            } else {
+                if (strpos($codigoProduto, 'x') !== false) {
+                    list($idProduto, $quantidade) = explode('x', $codigoProduto);
+                    $idProduto = trim($idProduto);
+                    $quantidade = (int)trim($quantidade);
+                    if ($quantidade <= 0) {
+                        $erro = "A quantidade deve ser maior que zero.";
+                        $classeMensagem = 'erro';
+                    } else {
+                        $sql = "SELECT id_produto, nome_produto, preco, estoque FROM produto WHERE id_produto = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $idProduto);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        if ($produto = $result->fetch_assoc()) {
+                            $produtoEncontrado = false;
+                            foreach ($_SESSION['carrinho'] as $key => $item) {
+                                if ($item['id_produto'] == $produto['id_produto']) {
+                                    $novaQuantidade = $item['quantidade'] + $quantidade;
+                                    if ($novaQuantidade <= $produto['estoque']) {
+                                        $_SESSION['carrinho'][$key]['quantidade'] = $novaQuantidade;
+                                        $mensagem = "Produto adicionado ao carrinho.";
+                                        $classeMensagem = 'sucesso';
+                                    } else {
+                                        $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
+                                        $classeMensagem = 'erro';
+                                    }
+                                    $produtoEncontrado = true;
+                                    break;
+                                }
+                            }
+                            if (!$produtoEncontrado) {
+                                if ($quantidade <= $produto['estoque']) {
+                                    $_SESSION['carrinho'][] = [
+                                        'id_produto' => $produto['id_produto'],
+                                        'nome_produto' => $produto['nome_produto'],
+                                        'preco' => $produto['preco'],
+                                        'quantidade' => $quantidade
+                                    ];
+                                    $mensagem = "Produto adicionado ao carrinho.";
+                                    $classeMensagem = 'sucesso';
+                                } else {
+                                    $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
+                                    $classeMensagem = 'erro';
+                                }
+                            }
+                        } else {
+                            $erro = "Produto não encontrado para o código informado.";
+                            $classeMensagem = 'erro';
+                        }
+                        $stmt->close();
+                    }
                 } else {
+                    $idProduto = (int)$codigoProduto;
                     $sql = "SELECT id_produto, nome_produto, preco, estoque FROM produto WHERE id_produto = ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $idProduto);
@@ -45,9 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         $produtoEncontrado = false;
                         foreach ($_SESSION['carrinho'] as $key => $item) {
                             if ($item['id_produto'] == $produto['id_produto']) {
-                                $novaQuantidade = $item['quantidade'] + $quantidade;
-                                if ($novaQuantidade <= $produto['estoque']) {
-                                    $_SESSION['carrinho'][$key]['quantidade'] = $novaQuantidade;
+                                if ($item['quantidade'] + 1 <= $produto['estoque']) {
+                                    $_SESSION['carrinho'][$key]['quantidade']++;
                                     $mensagem = "Produto adicionado ao carrinho.";
                                     $classeMensagem = 'sucesso';
                                 } else {
@@ -59,17 +103,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                             }
                         }
                         if (!$produtoEncontrado) {
-                            if ($quantidade <= $produto['estoque']) {
+                            if ($produto['estoque'] > 0) {
                                 $_SESSION['carrinho'][] = [
                                     'id_produto' => $produto['id_produto'],
                                     'nome_produto' => $produto['nome_produto'],
                                     'preco' => $produto['preco'],
-                                    'quantidade' => $quantidade
+                                    'quantidade' => 1
                                 ];
                                 $mensagem = "Produto adicionado ao carrinho.";
                                 $classeMensagem = 'sucesso';
                             } else {
-                                $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
+                                $erro = "Produto fora de estoque.";
                                 $classeMensagem = 'erro';
                             }
                         }
@@ -79,99 +123,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     }
                     $stmt->close();
                 }
-            } else {
-                $idProduto = (int)$codigoProduto;
-                $sql = "SELECT id_produto, nome_produto, preco, estoque FROM produto WHERE id_produto = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $idProduto);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($produto = $result->fetch_assoc()) {
-                    $produtoEncontrado = false;
-                    foreach ($_SESSION['carrinho'] as $key => $item) {
-                        if ($item['id_produto'] == $produto['id_produto']) {
-                            if ($item['quantidade'] + 1 <= $produto['estoque']) {
-                                $_SESSION['carrinho'][$key]['quantidade']++;
-                                $mensagem = "Produto adicionado ao carrinho.";
-                                $classeMensagem = 'sucesso';
-                            } else {
-                                $erro = "Estoque insuficiente para o produto: " . htmlspecialchars($produto['nome_produto']);
-                                $classeMensagem = 'erro';
-                            }
-                            $produtoEncontrado = true;
-                            break;
-                        }
-                    }
-                    if (!$produtoEncontrado) {
-                        if ($produto['estoque'] > 0) {
-                            $_SESSION['carrinho'][] = [
-                                'id_produto' => $produto['id_produto'],
-                                'nome_produto' => $produto['nome_produto'],
-                                'preco' => $produto['preco'],
-                                'quantidade' => 1
-                            ];
-                            $mensagem = "Produto adicionado ao carrinho.";
-                            $classeMensagem = 'sucesso';
-                        } else {
-                            $erro = "Produto fora de estoque.";
-                            $classeMensagem = 'erro';
-                        }
-                    }
-                } else {
-                    $erro = "Produto não encontrado para o código informado.";
-                    $classeMensagem = 'erro';
-                }
-                $stmt->close();
             }
-        }
-    } elseif (isset($_POST['excluir'])) {
-        $idExcluir = $_POST['id_produto_excluir'];
-        foreach ($_SESSION['carrinho'] as $key => $item) {
-            if ($item['id_produto'] == $idExcluir) {
-                unset($_SESSION['carrinho'][$key]);
-                $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);
-                $mensagem = "Produto removido do carrinho.";
-                $classeMensagem = 'sucesso';
-                break;
-            }
-        }
-    } elseif (isset($_POST['cancelar'])) {
-        // ! Limpa carrinho e redireciona
-        $_SESSION['carrinho'] = [];
-        header("Location: Secretaria.php");
-        exit();
-    } elseif (isset($_POST['pontuar'])) {
-        $mostrarCpf = true;
-    } elseif (isset($_POST['finalizar'])) {
-        if (count($_SESSION['carrinho']) == 0) {
-            $erro = "Carrinho vazio, não é possível finalizar a compra.";
-            $classeMensagem = 'erro';
-        } else {
-            $cpfCliente = trim($_POST['cpf_cliente']);
-            if ($cpfCliente === '') {
-                $_SESSION['dados_pagamento'] = [
-                    'carrinho' => $_SESSION['carrinho'],
-                    'valor_total' => 0,
-                    'cpf_cliente' => null
-                ];
-                $total = 0;
-                foreach ($_SESSION['carrinho'] as $item) {
-                    $total += $item['preco'] * $item['quantidade'];
+        } elseif (isset($_POST['excluir'])) {
+            $idExcluir = $_POST['id_produto_excluir'];
+            foreach ($_SESSION['carrinho'] as $key => $item) {
+                if ($item['id_produto'] == $idExcluir) {
+                    unset($_SESSION['carrinho'][$key]);
+                    $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);
+                    $mensagem = "Produto removido do carrinho.";
+                    $classeMensagem = 'sucesso';
+                    break;
                 }
-                $_SESSION['dados_pagamento']['valor_total'] = $total;
-                header("Location: SecretariaPagamento.php");
-                exit();
+            }
+        } elseif (isset($_POST['cancelar'])) {
+            // ! Limpa carrinho e redireciona
+            $_SESSION['carrinho'] = [];
+            header("Location: Secretaria.php");
+            exit();
+        } elseif (isset($_POST['pontuar'])) {
+            $mostrarCpf = true;
+        } elseif (isset($_POST['finalizar'])) {
+            if (count($_SESSION['carrinho']) == 0) {
+                $erro = "Carrinho vazio, não é possível finalizar a compra.";
+                $classeMensagem = 'erro';
             } else {
-                $sql = "SELECT id_cliente FROM cliente WHERE cpf = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("s", $cpfCliente);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                if ($cliente = $result->fetch_assoc()) {
+                $cpfCliente = trim($_POST['cpf_cliente']);
+                if ($cpfCliente === '') {
                     $_SESSION['dados_pagamento'] = [
                         'carrinho' => $_SESSION['carrinho'],
                         'valor_total' => 0,
-                        'cpf_cliente' => $cpfCliente
+                        'cpf_cliente' => null
                     ];
                     $total = 0;
                     foreach ($_SESSION['carrinho'] as $item) {
@@ -181,20 +162,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     header("Location: SecretariaPagamento.php");
                     exit();
                 } else {
-                    $erro = "CPF informado não encontrado.";
-                    $classeMensagem = 'erro';
-                    $mostrarCpf = true;
+                    $sql = "SELECT id_cliente FROM cliente WHERE cpf = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("s", $cpfCliente);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    if ($cliente = $result->fetch_assoc()) {
+                        $_SESSION['dados_pagamento'] = [
+                            'carrinho' => $_SESSION['carrinho'],
+                            'valor_total' => 0,
+                            'cpf_cliente' => $cpfCliente
+                        ];
+                        $total = 0;
+                        foreach ($_SESSION['carrinho'] as $item) {
+                            $total += $item['preco'] * $item['quantidade'];
+                        }
+                        $_SESSION['dados_pagamento']['valor_total'] = $total;
+                        header("Location: SecretariaPagamento.php");
+                        exit();
+                    } else {
+                        $erro = "CPF informado não encontrado.";
+                        $classeMensagem = 'erro';
+                        $mostrarCpf = true;
+                    }
+                    $stmt->close();
                 }
-                $stmt->close();
             }
         }
     }
-}
 
-$valorTotal = 0.0;
-foreach ($_SESSION['carrinho'] as $item) {
-    $valorTotal += $item['preco'] * $item['quantidade'];
-}
+    $valorTotal = 0.0;
+    foreach ($_SESSION['carrinho'] as $item) {
+        $valorTotal += $item['preco'] * $item['quantidade'];
+    }
 ?>
 
 <!DOCTYPE html>
