@@ -53,7 +53,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="SecretariaServiços.php">
+                        <a href="SecretariaVendas.php">
                             <div class="icone">
                                 <img src="../img/caixa.png" alt="caixa">
                                 <p>Serviços</p>

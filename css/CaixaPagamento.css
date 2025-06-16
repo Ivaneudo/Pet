@@ -115,3 +115,92 @@ button:hover {
     box-shadow: 0 4px 10px rgba(35, 35, 35, 0.913);
     color: #d2d0d0;
 }
+
+.active-link {
+    text-decoration: none;
+    position: relative;
+    color: black;
+}
+
+.active-link::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: black;
+    transform: translateX(-50%) scaleX(1);
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+}
+.active-link:hover::after {
+    transform: translateX(-50%) scaleX(1.2); /* Aumenta para os dois lados no hover */
+}
+
+/* Link "Cartão" com sublinhado animado do centro para as laterais */
+.hover-underline {
+    text-decoration: none;
+    position: relative;
+    color: #4f4f4f;
+}
+.hover-underline::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: rgb(9, 9, 165);
+    transition: width 0.3s ease, left 0.3s ease;
+    transform-origin: center center;
+}
+.hover-underline:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Link "Cartão" sublinhado permanentemente com animação no hover */
+.active-link {
+    text-decoration: none;
+    position: relative;
+    color: black;
+}
+.active-link::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: black;
+    transform: translateX(-50%) scaleX(1);
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+}
+.active-link:hover::after {
+    transform: translateX(-50%) scaleX(1.2); /* Aumenta para os dois lados no hover */
+    background: rgb(9, 9, 165);
+}
+
+/* Link "Dinheiro" com sublinhado animado do centro para as laterais */
+.hover-underline {
+    text-decoration: none;
+    position: relative;
+    color: #4f4f4f;
+}
+.hover-underline::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: rgb(9, 9, 165);
+    transition: width 0.3s ease, left 0.3s ease;
+    transform-origin: center center;
+}
+.hover-underline:hover::after {
+    width: 100%;
+    left: 0;
+}

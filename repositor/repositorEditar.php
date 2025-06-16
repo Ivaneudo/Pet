@@ -95,11 +95,11 @@
     <div class="container">
         <div class="funcionario">
             <div class="funci">
-                <img src="../img/Logo-Pethop-250px.png" alt="" />
+                <img src="../img/Logo-Pethop-250px.png" alt="Logo Pethop" />
                 <p>Olá <span id="colaborador"><?php echo htmlspecialchars($nomeFuncionario); ?></span>, bem-vindo a mais um dia de trabalho!</p>
             </div>
             <div class="sair">
-                <a href="../funcoes/logout.php"><p>sair</p></a>
+                <a href="../funcoes/logout.php"><img src="../img/sair.svg" alt=""></a>
             </div>
         </div>
         <div class="cadastrar" id="repositor">
@@ -119,7 +119,7 @@
                             name="codigo"
                             id="codigo"
                             placeholder="Digite o ID do produto"
-                            autocomplete=off 
+                            autocomplete="off"
                             value="<?php echo htmlspecialchars($codigoProduto); ?>"
                             required>
                         <button type="submit">Buscar</button>
@@ -145,12 +145,13 @@
                                         name="codigo"
                                         class="NomeCliente"
                                         placeholder="Código do Produto: "
-                                        autocomplete=off
+                                        autocomplete="off"
                                         min="1"
                                         max="999"
                                         maxlength="3"
+                                        disabled
                                         value="<?php echo htmlspecialchars($codigoProduto); ?>"
-                                        readonly>
+                                        style="color: #6c6b6b; cursor: not-allowed;">
 
                                     <label for="preco">Preço:</label>
                                     <input
@@ -158,9 +159,10 @@
                                         id="preco"
                                         name="preco"
                                         placeholder="Preço do produto: "
-                                        autocomplete=off
+                                        autocomplete="off"
                                         min="0"
-                                        value="<?php echo htmlspecialchars(number_format($precoProduto ?? 0, 2, ',', '.')); ?>"
+                                        step="0.01"
+                                        value="<?php echo htmlspecialchars($precoProduto); ?>"
                                         required>
                                 </div>
 
@@ -172,7 +174,7 @@
                                         name="nome"
                                         class="Telefone"
                                         placeholder="Nome do produto: "
-                                        autocomplete=off 
+                                        autocomplete="off"
                                         value="<?php echo htmlspecialchars($nomeProduto); ?>"
                                         required
                                     >
@@ -183,7 +185,7 @@
                                         name="estoque"
                                         class="Email"
                                         placeholder="Estoque: "
-                                        autocomplete=off 
+                                        autocomplete="off"
                                         min="0"
                                         value="<?php echo htmlspecialchars($estoqueProduto); ?>"
                                         required
@@ -210,3 +212,4 @@
     </div>
 </body>
 </html>
+

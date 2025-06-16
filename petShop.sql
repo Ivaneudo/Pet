@@ -35,7 +35,7 @@ CREATE TABLE secretaria (
 );
 
 CREATE TABLE produto (
-    id_produto INT PRIMARY KEY,
+    id_produto INT PRIMARY KEY AUTO_INCREMENT,
     nome_produto VARCHAR(150),
     estoque INT,
     preco DECIMAL(10, 2) NOT NULL,
@@ -98,7 +98,7 @@ INSERT INTO pet(nome_pet, idade, especie, cpf_dono, sexo, peso, raca) VALUES
 ("Kelly", 2, "Cachorro", "124.421.142-12", "femea", 8.2, "Poodle"),
 ('Careca', 7, 'Gato', '999.999.999-99', 'intersexo', '6', 'Sphynx');
 
-INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
+INSERT INTO produto (nome_produto, estoque, preco, tamanho) VALUES
 ('Ração Premium Adulto', 50, 30.00, '10kg'),
 ('Ração Sabor Frango Filhote', 30, 35.00, '3kg'),
 ('Coleira Ajustável Colorida', 30, 10.00, 'M'),
@@ -113,5 +113,3 @@ INSERT INTO produto (id_produto, nome_produto, estoque, preco, tamanho) VALUES
 select * from servico;
 
 select * from vendas;
-
-ALTER TABLE produto CHANGE id_produto id_produto INT AUTO_INCREMENT;

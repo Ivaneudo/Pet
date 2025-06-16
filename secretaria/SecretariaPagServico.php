@@ -1,79 +1,79 @@
 <?php
-    session_start();
-    include('../funcoes/conexao.php');
+session_start();
+include('../funcoes/conexao.php');
 
-    // Verifica se o usuário é uma secretaria
-    if ($_SESSION['tipo_usuario'] !== 'secretaria'){
-        header("Location: ../entrada/Entrar.php");
-        exit();
-    }
+// Verifica se o usuário é uma secretaria
+if ($_SESSION['tipo_usuario'] !== 'secretaria'){
+    header("Location: ../entrada/Entrar.php");
+    exit();
+}
 
-    // Verifica se existem dados de pagamento na sessão
-    if (!isset($_SESSION['dados_pagamento'])) {
-        header("Location: SecretariaServiços.php");
-        exit();
-    }
+// Verifica se existem dados de pagamento na sessão
+if (!isset($_SESSION['dados_pagamento'])) {
+    header("Location: SecretariaServiços.php");
+    exit();
+}
 
-    // Recupera os dados da sessão
-    $dadosPagamento = $_SESSION['dados_pagamento'];
-    $valorCompra = $dadosPagamento['valor'];
-    $cpfCliente = $dadosPagamento['cpf'];
-    $petsSelecionados = $dadosPagamento['pets'];
-    $servico = $dadosPagamento['servico'];
+// Recupera os dados da sessão
+$dadosPagamento = $_SESSION['dados_pagamento'];
+$valorCompra = $dadosPagamento['valor'];
+$cpfCliente = $dadosPagamento['cpf'];
+$petsSelecionados = $dadosPagamento['pets'];
+$servico = $dadosPagamento['servico'];
 
-    // Captura o nome do funcionário da sessão
-    $nomeFuncionario = $_SESSION['usuario'];
+// Captura o nome do funcionário da sessão
+$nomeFuncionario = $_SESSION['usuario'];
 
-    // Consulta para obter o nome do cliente
-    $sqlCliente = "SELECT nome FROM cliente WHERE cpf = ?";
-    $stmtCliente = $conn->prepare($sqlCliente);
-    $stmtCliente->bind_param("s", $cpfCliente);
-    $stmtCliente->execute();
-    $resultCliente = $stmtCliente->get_result();
-    $cliente = $resultCliente->fetch_assoc();
-    $stmtCliente->close();
+// Consulta para obter o nome do cliente
+$sqlCliente = "SELECT nome FROM cliente WHERE cpf = ?";
+$stmtCliente = $conn->prepare($sqlCliente);
+$stmtCliente->bind_param("s", $cpfCliente);
+$stmtCliente->execute();
+$resultCliente = $stmtCliente->get_result();
+$cliente = $resultCliente->fetch_assoc();
+$stmtCliente->close();
 
-    // Consulta para obter informações dos pets
-    $petsInfo = [];
+// Consulta para obter informações dos pets
+$petsInfo = [];
+foreach ($petsSelecionados as $idPet) {
+    $sqlPet = "SELECT nome_pet, especie FROM pet WHERE id_pet = ?";
+    $stmtPet = $conn->prepare($sqlPet);
+    $stmtPet->bind_param("i", $idPet);
+    $stmtPet->execute();
+    $resultPet = $stmtPet->get_result();
+    $petsInfo[] = $resultPet->fetch_assoc();
+    $stmtPet->close();
+}
+
+// Lógica para processar o POST após o envio do formulário
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $formaPagamento = $_POST['cartao']; // 'Crédito' ou 'Débito'
+    $valorPago = $_POST['valor']; // valor total da compra
+
+    // Consulta para obter o ID da secretaria
+    $sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
+    $stmtSecretaria = $conn->prepare($sqlSecretaria);
+    $stmtSecretaria->bind_param("s", $nomeFuncionario);
+    $stmtSecretaria->execute();
+    $resultSecretaria = $stmtSecretaria->get_result();
+    $secretaria = $resultSecretaria->fetch_assoc();
+    $stmtSecretaria->close();
+
+    $secretariaId = $secretaria['secretaria_id'];
+
+    // Insere os dados na tabela servico
     foreach ($petsSelecionados as $idPet) {
-        $sqlPet = "SELECT nome_pet, especie FROM pet WHERE id_pet = ?";
-        $stmtPet = $conn->prepare($sqlPet);
-        $stmtPet->bind_param("i", $idPet);
-        $stmtPet->execute();
-        $resultPet = $stmtPet->get_result();
-        $petsInfo[] = $resultPet->fetch_assoc();
-        $stmtPet->close();
+        $sqlServico = "INSERT INTO servico (secretaria_id, id_pet, servico, valor_servico, forma_de_pagamento) VALUES (?, ?, ?, ?, ?)";
+        $stmtServico = $conn->prepare($sqlServico);
+        $stmtServico->bind_param("iisss", $secretariaId, $idPet, $servico, $valorPago, $formaPagamento);
+        $stmtServico->execute();
+        $stmtServico->close();
     }
 
-    // Lógica para processar o POST após o envio do formulário
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $formaPagamento = $_POST['cartao']; // 'Crédito' ou 'Débito'
-        $valorPago = $_POST['valor']; // valor total da compra
-
-        // Consulta para obter o ID da secretaria
-        $sqlSecretaria = "SELECT secretaria_id FROM secretaria WHERE nome = ?";
-        $stmtSecretaria = $conn->prepare($sqlSecretaria);
-        $stmtSecretaria->bind_param("s", $nomeFuncionario);
-        $stmtSecretaria->execute();
-        $resultSecretaria = $stmtSecretaria->get_result();
-        $secretaria = $resultSecretaria->fetch_assoc();
-        $stmtSecretaria->close();
-
-        $secretariaId = $secretaria['secretaria_id'];
-
-        // Insere os dados na tabela servico
-        foreach ($petsSelecionados as $idPet) {
-            $sqlServico = "INSERT INTO servico (secretaria_id, id_pet, servico, valor_servico, forma_de_pagamento) VALUES (?, ?, ?, ?, ?)";
-            $stmtServico = $conn->prepare($sqlServico);
-            $stmtServico->bind_param("iisss", $secretariaId, $idPet, $servico, $valorPago, $formaPagamento);
-            $stmtServico->execute();
-            $stmtServico->close();
-        }
-
-        // Após inserir, pode redirecionar para página de sucesso
-        header("Location: sucesso.php");
-        exit();
-    }
+    // Após inserir, pode redirecionar para página de sucesso
+    header("Location: sucesso.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +82,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pagamento</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
@@ -137,8 +137,8 @@
                 
                 <div class="CardDin">
                     <nav>
-                        <a href="#" id="selec">Cartão</a>
-                        <a href="SecretariaPagServicoDinheiro.php">Dinheiro</a>
+                        <a href="#" id="selec" class="active-link">Cartão</a>
+                        <a href="SecretariaPagServicoDinheiro.php" class="hover-underline">Dinheiro</a>
                     </nav>
                 </div>
                 

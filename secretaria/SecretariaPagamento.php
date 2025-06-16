@@ -111,7 +111,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pagamento</title>
-    <link rel="shortcut icon" href="../img/Logo-Pethop-250px.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="../img/Logo-Pethop-250px .ico" type="image/x-icon" />
     <link rel="stylesheet" href="../css/principal.css" />
     <link rel="stylesheet" href="../css/caixa.css" />
     <link rel="stylesheet" href="../css/CaixaPagamento.css" />
@@ -149,8 +149,8 @@
                 </div>
                 <div class="CardDin">
                     <nav>
-                        <a href="#" id="selec">Cartão</a>
-                        <a href="SecretariaPagamentoDinheiro.php">Dinheiro</a>
+                        <a href="#" id="selec" class="active-link">Cartão</a>
+                        <a href="SecretariaPagamentoDinheiro.php" class="hover-underline">Dinheiro</a>
                     </nav>
                 </div>
                 <?php if (!empty($erro)): ?>
